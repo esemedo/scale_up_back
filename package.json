@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.ts",
   "scripts": {
-    "dev": "nodemon --watch src -e js,ts --exec \"ts-node src/server.ts\"",
+    "dev": "nodemon --legacy-watch --watch src -e js,ts --exec \"ts-node src/server.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
