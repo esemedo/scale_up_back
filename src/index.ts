@@ -4,6 +4,7 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import helloRoutes from './routes/helloRoutes'
+import dei from './routes/deiRoutes'
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
@@ -35,5 +36,6 @@ app.use(keycloak.middleware())
 app.use(createUserIfNotExistsMiddleware)
 
 app.use('/api', helloRoutes)
+app.use('/dei', dei)
 
 export { app }
