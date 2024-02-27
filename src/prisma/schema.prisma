@@ -161,7 +161,7 @@ model Contract {
   hoursVolume Int
   total Float
   status Int
-  isVerified Boolean
+  isVerified Boolean @default(false)
   startDate DateTime
   endDate DateTime
   signatory User @relation(fields: [signatoryId], references: [id])
@@ -175,7 +175,7 @@ model LegalFile {
   name String
   file String
   type Int
-  isVerified Boolean
+  isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   user User @relation(fields: [uploaderId], references: [id])
   contributor Contributor @relation(fields: [contributorId], references: [id])
