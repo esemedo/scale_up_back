@@ -17,6 +17,7 @@ model User {
   legalFiles LegalFile[]
   offers Offer[]
   notifications NotificationSettings[]
+  companies Company[]
 }
 
 model Absence {
@@ -37,16 +38,25 @@ model Dei {
   status Boolean
   sashaStatus Int
   purchaseOrder PurchaseOrder[]
+  need Need @relation(fields: [idNeed], references: [id])
+  bill Bill @relation(fields: [idBill], references: [id])
 }
 
 model Subject {
   id Int @id @default(autoincrement())
   name String
   level String
-  category String
+  categoryId Int
   syllabus Syllabus[]
   needs Need[]
   hourlyRates HourlyRate[]
+  category Category @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id Int @id @default(autoincrement())
+  name String
+  subjects Subject[]
 }
 
 model Promotion {
@@ -66,6 +76,7 @@ model Company {
   mail String
   contributorList Contributor[]
   createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Contributor {
@@ -120,6 +131,7 @@ model Need {
   subject Subject? @relation(fields: [idSubject], references: [id])
   promotion Promotion? @relation(fields: [idPromotion], references: [id])
   contributor Contributor? @relation(fields: [idContributor], references: [id])
+  dei Dei[]
 }
 
 model School {
@@ -131,10 +143,13 @@ model School {
 model Bill {
   id Int @id @default(autoincrement())
   contractId Int
+  quotationId Int
   total Float
   status Int
   validity Boolean
-  contract Contract @relation(fields: [contractId], references: [id])
+  contract Contract? @relation(fields: [contractId], references: [id])
+  quotation Quotation? @relation(fields: [quotationId], references: [id])
+  dei Dei[]
 }
 
 model Contract {
@@ -144,6 +159,7 @@ model Contract {
   hoursVolume Int
   total Float
   status Int
+  isVerified Boolean
   startDate DateTime
   endDate DateTime
   signatory User @relation(fields: [signatoryId], references: [id])
@@ -157,6 +173,7 @@ model LegalFile {
   name String
   file String
   type Int
+  isVerified Boolean
   createdAt DateTime @default(now())
   user User @relation(fields: [uploaderId], references: [id])
   contributor Contributor @relation(fields: [contributorId], references: [id])
@@ -186,6 +203,7 @@ model Quotation {
   contributorId Int
   contributor Contributor @relation(fields: [contributorId], references: [id])
   offer Offer @relation(fields: [offerId], references: [id])
+  bills Bill[]
   purchaseOrder PurchaseOrder[]
   date DateTime
 }
