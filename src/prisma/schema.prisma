@@ -118,6 +118,7 @@ model Offer {
   hourlyPrice Float
   user User @relation(fields: [authorId], references: [id])
   quotations Quotation[]
+  needs Need @relation(fields: [needId], references: [id])
   contributor Contributor @relation(fields: [contributorId], references: [id])
 }
 
@@ -131,6 +132,7 @@ model Need {
   subject Subject? @relation(fields: [idSubject], references: [id])
   promotion Promotion? @relation(fields: [idPromotion], references: [id])
   contributor Contributor? @relation(fields: [idContributor], references: [id])
+  offers Offer[]
   dei Dei[]
 }
 
