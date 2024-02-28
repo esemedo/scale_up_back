@@ -20,5 +20,6 @@ docker compose -f docker/docker-compose-dev.yml up
 
 ```bash
 docker exec -it docker-api-1 sh
+npx prisma migrate dev
 npx prisma studio
 ```
