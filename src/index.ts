@@ -34,6 +34,6 @@ app.use(morgan('tiny'))
 app.use(keycloak.middleware())
 app.use(createUserIfNotExistsMiddleware)
 
-app.use('/api', keycloak.protect(), helloRoutes)
+app.use('/api', helloRoutes)
 
 export { app }
