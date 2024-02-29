@@ -12,4 +12,21 @@ const getAllDEI = async (req: Request, res: Response) => {
     }
 };
 
-export { getAllDEI };
+const updateStatusDEI = async (req: Request, res: Response) => {
+    try {
+        const {id} = req.body
+       await prisma.dei.update({
+            where: {
+              id,
+            },
+            data: {
+              status: true,
+            },
+          })
+        res.json({message: "Task updated !"});
+
+    } catch (error) {
+        res.status(500).json({ error: 'Could not update DEI status ' });
+    }
+};
+export { getAllDEI, updateStatusDEI };

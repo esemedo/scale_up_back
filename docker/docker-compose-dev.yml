@@ -22,7 +22,8 @@ services:
       DATABASE_URL: ${DATABASE_URL}
     ports:
       - "5432:5432"
-
+    volumes:
+      - pgdata:/var/lib/postgresql/data
   adminer:
     image: adminer
     restart: always
