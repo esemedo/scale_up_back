@@ -1,9 +1,10 @@
 import { Router } from 'express'
 
-import { getAllDEI } from '../controllers/DeiController'
+import { getAllDEI, updateStatusDEI } from '../controllers/DeiController'
 
 const router = Router()
 
 router.get('/', getAllDEI)
+router.patch('/', updateStatusDEI)
 
 export default router
