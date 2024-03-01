@@ -5,8 +5,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import helloRoutes from './routes/helloRoutes'
 import subjectRoutes from './routes/SubjectRoutes'
-import categoryRoutes from './routes/CategoryRoutes'
-import exportRoutes from './routes/exportRoutes'
+import promotionRoutes from './routes/PromotionRoutes'
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
@@ -37,8 +36,8 @@ app.use(morgan("tiny"));
 app.use(keycloak.middleware());
 app.use(createUserIfNotExistsMiddleware);
 
+app.use('/api', helloRoutes)
 app.use('/api/subject', subjectRoutes)
-app.use('/api/category', categoryRoutes)
-app.use('/api/administrative', exportRoutes)
+app.use('/api/promotion', promotionRoutes)
 
 export { app };
