@@ -51,6 +51,7 @@ model Subject {
   syllabus Syllabus[]
   needs Need[]
   hourlyRates HourlyRate[]
+  Promotion Promotion[]
   category Category @relation(fields: [categoryId], references: [id])
 }
 
@@ -66,6 +67,7 @@ model Promotion {
   name String
   managerId Int
   manager User @relation(fields: [managerId], references: [id])
+  Subject Subject[]
   needs Need[]
 }
 
