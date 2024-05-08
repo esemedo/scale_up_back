@@ -41,6 +41,6 @@ app.use(createUserIfNotExistsMiddleware);
 app.use("/api", helloRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
-app.use('/dei', dei)
+app.use('/api/dei', dei)
 
 export { app };
