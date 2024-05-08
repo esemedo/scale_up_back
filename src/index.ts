@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import http from 'http';
 dotenv.config()
 import express from 'express'
 import cors from 'cors'
@@ -28,7 +29,8 @@ export const keycloak = new Keycloak({}, kcConfig)
 
 export const prisma = new PrismaClient()
 
-const app = express()
+const app = express();
+const server = http.createServer(app);
 
 app.use(helmet())
 app.use(cors())
@@ -42,4 +44,4 @@ app.use('/api/subject', subjectRoutes)
 app.use('/api/promotion', promotionRoutes)
 app.use('/api/needs', needsRoutes)
 
-export { app }
+export { server };
