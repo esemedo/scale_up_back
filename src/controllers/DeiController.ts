@@ -31,7 +31,7 @@ const updateStatusDEI = async (req: Request, res: Response) => {
         const {id} = req.params
         const {status} = req.body
 
-       const updated = await prisma.dei.update({
+        await prisma.dei.update({
             where: {
               id: parseInt(id),
             },
@@ -39,7 +39,6 @@ const updateStatusDEI = async (req: Request, res: Response) => {
               status: Boolean(status),
             },
           })
-          console.log(updated);
           
         res.json({message: "Task updated !"});
 
@@ -53,7 +52,7 @@ const updateStatusSacha = async (req: Request, res: Response) => {
       const {id} = req.params
       const { sachaStatus} = req.body
 
-     const updated = await prisma.dei.update({
+      await prisma.dei.update({
           where: {
             id: parseInt(id),
           },
@@ -61,7 +60,7 @@ const updateStatusSacha = async (req: Request, res: Response) => {
             sashaStatus: sachaStatus
           },
         })
-        console.log(updated);
+        
         
       res.json({message: "SACHA Status updated !"});
 
@@ -75,7 +74,7 @@ const updatePriority = async (req: Request, res: Response) => {
       const {id} = req.params
       const { priority} = req.body
 
-     const updated = await prisma.dei.update({
+     await prisma.dei.update({
           where: {
             id: parseInt(id),
           },
@@ -83,7 +82,6 @@ const updatePriority = async (req: Request, res: Response) => {
             priority: priority
           },
         })
-        console.log(updated);
         
       res.json({message: "Priotity updated !"});
 
