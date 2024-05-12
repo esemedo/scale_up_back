@@ -5,6 +5,7 @@ import helmet from "helmet";
 import categoryRoutes from "./routes/CategoryRoutes";
 import helloRoutes from "./routes/helloRoutes";
 import subjectRoutes from "./routes/SubjectRoutes";
+import updateDeleteNeedDraftRoutes from"./routes/UpdateDeleteNeedDraftRoutes";
 dotenv.config();
 
 import { PrismaClient } from "@prisma/client";
@@ -40,5 +41,9 @@ app.use(createUserIfNotExistsMiddleware);
 app.use("/api", helloRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/needs", updateDeleteNeedDraftRoutes);
+
+
+
 
 export { app };
