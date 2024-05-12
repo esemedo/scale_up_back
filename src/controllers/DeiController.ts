@@ -5,11 +5,24 @@ const prisma = new PrismaClient();
 
 const getAllDEI = async (req: Request, res: Response) => {
     try {
+      //temporaire
+      req.userId = 1
       const {priority } = req.query
-      let whereClause = {}
+      let whereClause ={ AND:[{"sashaStatus":{not:1}}, {need: {
+            promotion:{
+              users:{
+                some: {
+                  userId: req.userId
+                }
+              }
+            }
+          } 
+        }]
+      }
       const parsedPriority = parseInt(String(priority))
       if (priority && !isNaN(parsedPriority)){
-        whereClause = {priority: parsedPriority}}
+        whereClause["priority"] = parsedPriority
+      }
         const deiEntries = await prisma.dei.findMany({
           where:whereClause,
           orderBy: [
@@ -49,20 +62,35 @@ const updateStatusDEI = async (req: Request, res: Response) => {
 
 const updateStatusSacha = async (req: Request, res: Response) => {
   try {
+    const ID_CONTROLEUR = 2
       const {id} = req.params
-      const { sachaStatus} = req.body
-
+      const {sachaStatus} = req.body
+      let data = {
+        sashaStatus: sachaStatus
+      }
       await prisma.dei.update({
           where: {
             id: parseInt(id),
           },
-          data: {
-            sashaStatus: sachaStatus
-          },
+          data ,
         })
         
         
-      res.json({message: "SACHA Status updated !"});
+      if(sachaStatus ===1){
+          await prisma.notification.create({
+            data: {
+              userId: ID_CONTROLEUR,
+              title: "Demande d'achat saisi sur SACHA", 
+              text: "La demande a été saisi sur SACHA. Veuillez associé le bon de commande.",
+              category:1,
+              status:0,
+              dueDate: new Date()
+            },
+          })
+      return res.json({message: "Tâche envoyé au controleur de gestion !"});
+
+      }
+      res.json({message: "Statut SACHA mis à jour !"});
 
   } catch (error) {
       res.status(500).json({ error: 'Could not update SACHA status ' });
