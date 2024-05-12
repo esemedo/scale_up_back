@@ -11,7 +11,6 @@ model User {
   id   Int     @id @default(autoincrement())
   uuid String  @unique
   absences Absence[]
-  promotions Promotion[]
   syllabus Syllabus[]
   contracts Contract[]
   legalFiles LegalFile[]
@@ -19,6 +18,7 @@ model User {
   notificationSettings NotificationSettings[]
   companies Company[]
   notifications Notification[]
+  promotions UserPerPromotion[]
 }
 
 model Absence {
@@ -65,11 +65,17 @@ model Promotion {
   id Int @id @default(autoincrement())
   schoolYear Int
   name String
-  managerId Int
-  manager User @relation(fields: [managerId], references: [id])
+  users UserPerPromotion[]
   needs Need[]
 }
 
+model UserPerPromotion {
+  userId Int
+  user User @relation(fields: [userId], references: [id])
+  promotionId Int
+  promotion Promotion @relation(fields: [promotionId], references: [id])
+  @@id([userId, promotionId])
+}
 model Company {
   id Int @id @default(autoincrement())
   userId Int
@@ -232,7 +238,7 @@ model PurchaseOrder{
 }
 
 model Notification {
-  id Int @id @default(autoincrement())
+  id Int @id @unique @default(autoincrement())
   userId Int
   title String
   text String
