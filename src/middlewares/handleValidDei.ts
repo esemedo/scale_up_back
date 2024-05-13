@@ -1,7 +1,7 @@
-import { query } from "express-validator";
+import { param, query } from "express-validator";
 
 function validId(nameParams){
-    query(nameParams).notEmpty().isNumeric().toInt()
+    return [param(nameParams).notEmpty().isNumeric().toInt()]
 } 
 
 export {validId}

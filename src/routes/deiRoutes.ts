@@ -7,7 +7,7 @@ import { handleValidationErrors } from '../middlewares/handleValidator'
 const router = Router()
 
 router.get('/', getAllDEI)
-router.patch('/:id/status', validId, handleValidationErrors, updateStatusDEI)
+router.patch('/:id/status', validId('id'), handleValidationErrors, updateStatusDEI)
 router.patch('/:id/sachaStatus', updateStatusSacha)
 router.patch('/:id/priority', updatePriority)
 
