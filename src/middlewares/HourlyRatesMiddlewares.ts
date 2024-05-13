@@ -22,13 +22,14 @@ export const addHourlyRate = async (req: Request, res: Response) => {
 
 export const getAllHourlyRates = async (req: Request, res: Response) => {
   try {
-    await prisma.hourlyRate.findMany();
-    res.status(200).json({ message: "Hourly rates fetched successfully" });
+    const hourlyRates = await prisma.hourlyRate.findMany();
+    res.status(200).json({ hourlyRates, message: "Hourly rates fetched successfully" });
   } catch (error) {
-    console.error("Error fetching hourly rates:");
+    console.error("Error fetching hourly rates:", error);
     res.status(500).json({ message: "Failed to fetch hourly rates" });
   }
 };
+
 
 export const getHourlyRateById = async (req: Request, res: Response) => {
   try {
@@ -120,10 +121,10 @@ export const deleteHourlyRate = async (req: Request, res: Response) => {
 export const getAllSubjectsNames = async (req: Request, res: Response) => {
   try {
     const subjects = await prisma.Subject.findMany();
-    subjects.map(({ id, name }) => ({ id, name }));
-    res.status(200).json({ message: "Subjects fetched successfully" });
+    const formattedSubjects = subjects.map(({ id, name }) => ({ id, name }));
+    res.status(200).json({ subjects: formattedSubjects, message: "Subjects fetched successfully" });
   } catch (error) {
-    console.error("Error fetching subjects:");
+    console.error("Error fetching subjects:", error);
     res.status(500).json({ message: "Failed to fetch subjects" });
   }
 };
