@@ -25,16 +25,16 @@ import { PrismaClient } from '@prisma/client'
 import { createUserIfNotExistsMiddleware } from './middlewares/createUserIfNotExistsMiddleware'
 
 const kcConfig = {
-    clientId: process.env.KC_CLIENT_ID,
-    bearerOnly: true,
-    serverUrl: process.env.KC_URL,
-    'ssl-required': 'external',
-    secret: process.env.KC_SECRET,
-    realm: process.env.KC_REALM,
-    'auth-server-url': process.env.KC_URL,
-    'confidential-port': 0,
-    resource: process.env.KC_CLIENT_ID
-}
+  clientId: process.env.KC_CLIENT_ID,
+  bearerOnly: true,
+  serverUrl: process.env.KC_URL,
+  "ssl-required": "external",
+  secret: process.env.KC_SECRET,
+  realm: process.env.KC_REALM,
+  "auth-server-url": process.env.KC_URL,
+  "confidential-port": 0,
+  resource: process.env.KC_CLIENT_ID,
+};
 
 //export const keycloak = new Keycloak({}, kcConfig)
 
@@ -66,4 +66,4 @@ app.use('/api/quotations', quotationRoutes)
 app.use('/api/schools', schoolRoutes)
 app.use('/api/syllabus', syllabusRoutes)
 
-export { app }
+export { app };

@@ -235,6 +235,7 @@ model PurchaseOrder{
   quotationId Int
   description String
   quotation Quotation @relation(fields: [quotationId], references: [id])
+  contract Contract[]
   dei Dei @relation(fields: [deiId], references: [id])
 }
 
