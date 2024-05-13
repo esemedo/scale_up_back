@@ -11,6 +11,7 @@ import { PrismaClient } from "@prisma/client";
 import Keycloak from "keycloak-connect";
 import morgan from "morgan";
 import { createUserIfNotExistsMiddleware } from "./middlewares/createUserIfNotExistsMiddleware";
+import KcAdminClient from '@keycloak/keycloak-admin-client'
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -23,6 +24,18 @@ const kcConfig = {
   "confidential-port": 0,
   resource: process.env.KC_CLIENT_ID,
 };
+
+export const kcAdminClient = new KcAdminClient({
+  baseUrl: process.env.KC_URL,
+  realmName: process.env.KC_REALM
+})
+
+await kcAdminClient.auth({
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: 'client_credentials',
+  clientId: process.env.KC_CLIENT_ID
+})
 
 export const keycloak = new Keycloak({}, kcConfig);
 

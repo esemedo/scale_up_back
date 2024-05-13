@@ -1,9 +1,10 @@
 import { Router } from "express";
 
-import { getHello } from "../controllers/HelloController";
+import { getCompany, getHello } from "../controllers/HelloController";
 
 const router = Router();
 
 router.get("/", getHello);
+router.get("/users", getCompany)
 
 export default router;
