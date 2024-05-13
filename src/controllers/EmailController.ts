@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'; // ou tout autre framework que vous utilisez pour votre API back
+import { Request, Response } from 'express'; 
 import { SendEmailDto,sendEmail } from './../lib/mail.utils';
 async function sendRouteEmail(req: Request, res: Response) {
     const params: SendEmailDto = req.body;
