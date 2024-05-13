@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 
 async function createAbsence(req: Request, res: Response) {
   // id user en attendant keycloak  
-  req.userId = 1
     const { startDate, endDate, reason } = req.body;
 
     try {
@@ -23,7 +22,6 @@ async function createAbsence(req: Request, res: Response) {
     }
   }
 async function getAbsences(req: Request, res: Response) {
-    req.userId = 1
     try {
       const absence = await prisma.absence.findMany({
         where: {

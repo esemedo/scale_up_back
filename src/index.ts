@@ -43,6 +43,6 @@ app.use("/api", helloRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
 app.use('/api/dei',keycloak.protect(), dei)
-app.use('/api/absence', absence)
+app.use('/api/absence',keycloak.protect(), absence)
 
 export { app };
