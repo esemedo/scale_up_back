@@ -18,7 +18,6 @@ export const addHourlyRate = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Hourly rate created successfully" });
   } catch (error) {
     console.error("Error creating hourly rate");
-    console.error(error);
     res.status(500).json({ message: "Failed to create hourly rate" });
   }
 };
