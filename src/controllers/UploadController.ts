@@ -86,6 +86,27 @@ export const getSyllabus = async (req: Request, res: Response) => {
     res.download(subject.syllabus[0].file);
 }
 
+export const getTemplatePTF = async (req: Request, res: Response) => {
+    const offer = await prisma.offer.findUnique({
+        where: {
+          id: 1,
+        }
+      })
+    res.download(offer.ptf);
+}
+
+export const getTemplateSyllabus = async (req: Request, res: Response) => {
+    const subject = await prisma.subject.findUnique({
+        where: {
+           id: 1
+        },
+        select: {
+            syllabus: true,
+        }
+      })
+    res.download(subject.syllabus[0].file);
+}
+
 
 export const getSubjects = async (req: Request, res: Response) => {
     try {
