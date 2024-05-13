@@ -126,14 +126,13 @@ model Offer {
 
 model Need {
   id Int @id @default(autoincrement())
-  idSubject Int
+  subject Subject[]
   idPromotion Int
   status Int
   idContributor Int
   hoursVolume Int
   startSchoolYear Int
   endSchoolYear Int
-  subject Subject? @relation(fields: [idSubject], references: [id])
   promotion Promotion? @relation(fields: [idPromotion], references: [id])
   contributor Contributor? @relation(fields: [idContributor], references: [id])
   offers Offer[]

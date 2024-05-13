@@ -35,3 +35,14 @@ export const getNeedsByYear = async (req: Request, res: Response) => {
     })
     res.status(200).json(needs)
 }
+
+export const createNeed = async (req: Request, res: Response) => {
+    let need = req.body
+    let newNeed = await prisma.need.create({
+        data: need
+    }).catch((error) => {
+        console.error('Error creating need:', error)
+        res.status(500).json({ error: 'Error creating need' })
+    })
+    res.status(201).json(newNeed)
+}
