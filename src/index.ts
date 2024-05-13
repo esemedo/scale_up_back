@@ -37,6 +37,7 @@ export const prisma = new PrismaClient();
 
 const app = express();
 
+
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
   bearerOnly: true,
@@ -54,19 +55,13 @@ export const kcAdminClient = new KcAdminClient({
   realmName: process.env.KC_REALM,
 });
 
-await kcAdminClient.auth({
-  username: process.env.KC_CLIENT_ID,
-  clientSecret: process.env.KC_CLIENT_SECRET,
-  grantType: "client_credentials",
-  clientId: process.env.KC_CLIENT_ID,
-});
-
 const kcAdminClientCredentials = {
-  username: process.env.KC_CLIENT_ID,
-  clientSecret: process.env.KC_CLIENT_SECRET,
-  grantType: "client_credentials",
-  clientId: process.env.KC_CLIENT_ID,
+    username: process.env.KC_CLIENT_ID,
+    clientSecret: process.env.KC_CLIENT_SECRET,
+    grantType: "client_credentials",
+    clientId: process.env.KC_CLIENT_ID,
 } as Credentials;
+
 await kcAdminClient.auth(kcAdminClientCredentials);
 
 setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000);
