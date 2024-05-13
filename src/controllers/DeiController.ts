@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 const getAllDEI = async (req: Request, res: Response) => {
     try {
       //temporaire
-      req.userId = 1
       const {priority } = req.query
       let whereClause ={ AND:[{"sashaStatus":{not:1}}, {need: {
             promotion:{

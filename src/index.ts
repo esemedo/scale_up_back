@@ -42,7 +42,7 @@ app.use(createUserIfNotExistsMiddleware);
 app.use("/api", helloRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
-app.use('/api/dei', dei)
+app.use('/api/dei',keycloak.protect(), dei)
 app.use('/api/absence', absence)
 
 export { app };
