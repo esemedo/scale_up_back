@@ -36,21 +36,18 @@ const kcConfig = {
     resource: process.env.KC_CLIENT_ID
 }
 
-export const keycloak = new Keycloak({}, kcConfig)
-
-export const prisma = new PrismaClient()
+//export const keycloak = new Keycloak({}, kcConfig)
 
 const app = express()
 
 export const prisma = new PrismaClient()
 
-
 app.use(helmet())
 app.use(cors())
 app.use(express.json())
 app.use(morgan('tiny'))
-app.use(keycloak.middleware())
-app.use(createUserIfNotExistsMiddleware)
+//app.use(keycloak.middleware())
+//app.use(createUserIfNotExistsMiddleware)
 
 app.use('/api/needs', needsRoutes)
 app.use('/api/promotions', promotionRoutes)
