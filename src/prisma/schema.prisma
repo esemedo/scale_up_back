@@ -7,12 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model test {
-  id Int @id @default(autoincrement())
-  test String
-}
-
-
 model User {
   id   Int     @id @default(autoincrement())
   uuid String  @unique
@@ -22,8 +16,9 @@ model User {
   contracts Contract[]
   legalFiles LegalFile[]
   offers Offer[]
-  notifications NotificationSettings[]
+  notificationSettings NotificationSettings[]
   companies Company[]
+  notifications Notification[]
 }
 
 model Absence {
@@ -200,7 +195,6 @@ model HourlyRate {
   level String
   subjectId Int
   rate Float
-  realrate Float?
   subject Subject @relation(fields: [subjectId], references: [id])
 }
 
@@ -234,4 +228,16 @@ model PurchaseOrder{
   description String
   quotation Quotation @relation(fields: [quotationId], references: [id])
   dei Dei @relation(fields: [deiId], references: [id])
+}
+
+model Notification {
+  id Int @id @default(autoincrement())
+  userId Int
+  title String
+  text String
+  category Int
+  status Int
+  dueDate DateTime
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
 }

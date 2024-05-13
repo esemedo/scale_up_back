@@ -1,5 +1,5 @@
-import { Request, Response } from 'express'
+import { Request, Response } from "express";
 
 export const getHello = (req: Request, res: Response) => {
-    res.status(200).json({ message: 'Hello World!' })
-}
+  res.status(200).json({ message: "Hello World!" });
+};
