@@ -1,15 +1,15 @@
 import { Router } from 'express'
-import { getPromotions, getPromotionById } from '../controllers/PromotionController'
+import { getSubjects, getSubjectsByCategory } from '../controllers/SubjectController' // add en cas ou : addSubjectToPromotion
 import { prisma } from '../index'
 
 const router = Router()
 
-router.get('/', getPromotions)
-router.get('/:promotionId', getPromotionById)
+router.get('/', getSubjects)
+router.get('/:subjectByID', getSubjectsByCategory)
 
-router.get('/api/promotions', async (req, res) => {
-  const promotions = await prisma.promotion.findMany();
-  res.json(promotions);
+router.get('/api/subjects', async (req, res) => {
+  const subjects = await prisma.subject.findMany();
+  res.json(subjects);
 });
 
 export default router

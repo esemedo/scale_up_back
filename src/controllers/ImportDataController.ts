@@ -11,7 +11,6 @@ export const importData = async (req, res) => {
         data = await new Promise((resolve) => {
             Papa.parse(file.path, {
                 header: true,
-                download: true,
                 skipEmptyLines: true,
                 complete: (results) => {
                     resolve(results.data)
