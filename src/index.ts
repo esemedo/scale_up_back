@@ -36,7 +36,19 @@ const kcConfig = {
   resource: process.env.KC_CLIENT_ID,
 };
 
-export const keycloak = new Keycloak({}, kcConfig)
+export const kcAdminClient = new KcAdminClient({
+  baseUrl: process.env.KC_URL,
+  realmName: process.env.KC_REALM
+})
+
+await kcAdminClient.auth({
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: 'client_credentials',
+  clientId: process.env.KC_CLIENT_ID
+})
+
+export const keycloak = new Keycloak({}, kcConfig);
 
 export const prisma = new PrismaClient()
 
