@@ -5,6 +5,8 @@ import helmet from "helmet";
 import categoryRoutes from "./routes/CategoryRoutes";
 import helloRoutes from "./routes/helloRoutes";
 import subjectRoutes from "./routes/SubjectRoutes";
+import hourlyRateRoutes from "./routes/hourlyRateRoutes";
+import quotationRoute from "./routes/quotationRoutes";
 dotenv.config();
 
 import { PrismaClient } from "@prisma/client";
