@@ -1,21 +1,24 @@
+import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 export const addHourlyRate = async (req: Request, res: Response) => {
+  console.log(req.body);
   try {
-    const { level, subjectId, rate, realrate } = req.body;
+    const { level, subjectId, rate, realRate } = req.body;
     await prisma.hourlyRate.create({
       data: {
         level,
         subjectId,
         rate,
-        realrate,
+        realRate,
       },
     });
     res.status(200).json({ message: "Hourly rate created successfully" });
   } catch (error) {
     console.error("Error creating hourly rate");
+    console.error(error);
     res.status(500).json({ message: "Failed to create hourly rate" });
   }
 };
