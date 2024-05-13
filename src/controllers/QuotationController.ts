@@ -4,7 +4,8 @@ import {
     selectAllQuotations as selectAllQuotationsMiddleware,
     selectQuotation as selectQuotationMiddleware,
     updateQuotation as updateQuotationMiddleware,
-    updateQuotationStatus as updateQuotationStatusMiddleware
+    updateQuotationStatus as updateQuotationStatusMiddleware,
+    createQuotation as createQuotationMiddleware
 } from '../middlewares/QuotationMiddelwares';
 
 export const selectQuotation = async (req: Request, res: Response) => {
@@ -27,3 +28,6 @@ export const updateQuotation = async (req: Request, res: Response) => {
   return updateQuotationMiddleware(req, res);
 };
 
+export const createQuotation = async (req: Request, res: Response) => {
+  return createQuotationMiddleware(req, res);
+};

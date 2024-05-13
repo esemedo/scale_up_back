@@ -85,3 +85,22 @@ export const updateQuotation = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to update quotation" });
   }
 };
+
+export const createQuotation = async (req: Request, res: Response) => {
+  try {
+    const { price, bills, purchaseOrder, date } = req.body;
+    await prisma.quotation.create({
+      data: {
+        price,
+        status : false,
+        bills,
+        purchaseOrder,
+        date,
+      },
+    });
+    res.status(200).json({ message: "Quotation created successfully" });
+  } catch (error) {
+    console.error("Error creating quotation");
+    res.status(500).json({ message: "Failed to create quotation" });
+  }
+};
