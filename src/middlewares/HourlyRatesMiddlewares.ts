@@ -56,7 +56,7 @@ export const getHourlyRateById = async (req: Request, res: Response) => {
 export const updateHourlyRate = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const { level, subjectId, rate, realrate } = req.body;
+    const { level, subjectId, rate, realRate } = req.body;
     await prisma.hourlyRate.update({
       where: {
         id,
@@ -65,7 +65,7 @@ export const updateHourlyRate = async (req: Request, res: Response) => {
         level,
         subjectId,
         rate,
-        realrate,
+        realRate,
       },
     });
     res.status(200).json({ message: "Hourly rate updated successfully" });
@@ -82,13 +82,13 @@ export const updateHourlyRate = async (req: Request, res: Response) => {
 export const updateHourlyRateRealRate = async (req: Request, res: Response) => {
   try {
     const id = parseInt(req.params.id);
-    const { realrate } = req.body;
+    const { realRate } = req.body;
     await prisma.hourlyRate.update({
       where: {
         id,
       },
       data: {
-        realrate,
+        realRate,
       },
     });
     res.status(200).json({ message: "Hourly rate updated successfully" });
