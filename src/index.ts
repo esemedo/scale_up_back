@@ -6,6 +6,7 @@ import categoryRoutes from "./routes/CategoryRoutes";
 import helloRoutes from "./routes/helloRoutes";
 import subjectRoutes from "./routes/SubjectRoutes";
 import dei from './routes/deiRoutes'
+import absence from './routes/AbsenceRoutes'
 dotenv.config();
 
 import { PrismaClient } from "@prisma/client";
@@ -42,5 +43,6 @@ app.use("/api", helloRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
 app.use('/api/dei', dei)
+app.use('/api/absence', absence)
 
 export { app };
