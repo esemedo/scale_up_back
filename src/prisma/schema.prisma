@@ -146,6 +146,7 @@ model Bill {
   id          Int        @id @default(autoincrement())
   contractId  Int
   quotationId Int
+  file        String
   total       Float
   status      Int
   validity    Boolean

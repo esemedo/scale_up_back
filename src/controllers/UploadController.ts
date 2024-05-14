@@ -4,6 +4,7 @@ import { Request, Response } from 'express'
 const prisma = new PrismaClient();
 
 let syllabusPath = '';
+let billPath= '';
 
 interface Syllabus {
     subjectId: number,
@@ -15,6 +16,16 @@ interface Syllabus {
     user: User
 }
 
+interface Bill{
+    contractId:  number;
+    quotationId: number;
+    total:       number;
+    fileName:    string;
+    file:        object;
+    status:      number;
+    validity:    false;
+}
+
 interface MulterRequest extends Request {
     file: {
         path: string
@@ -22,6 +33,32 @@ interface MulterRequest extends Request {
     body: {
         offerID: string
     }
+}
+
+export const uploadBill = async (req: Request, res: Response) => {
+    console.log('here')
+    const d: Bill = req.body
+    if(billPath != '') {
+        const bill = await prisma.bill.create({
+            data: {
+                contractId: d.contractId,
+                quotationId: d.quotationId,
+                total: d.total,
+                file: billPath,
+                status: d.status,
+                validity: false
+            }
+        })
+        res.status(200).json(bill)
+    } else {
+        res.status(500).send('Path not found');
+    }
+}
+
+export const uploadBillFile = async (req: Request, res: Response) => {
+    console.log('uploading billpath')
+    billPath = (req as MulterRequest).file.path
+    res.status(200).send('ok')
 }
 
 export const uploadSyllabus = async (req: Request, res: Response) => {
@@ -167,3 +204,21 @@ export const getNeed = async (req: Request, res: Response) => {
         res.status(500).send('Internal Server Error');
       }
 }
+
+export const getBills = async (req: Request, res: Response) => {
+    try {
+        const result = await prisma.bill.findMany({
+            where: {
+                id: req.body.billId
+            },
+            select: {
+                id: true,
+            }
+        });
+        res.json(result);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      }
+}
+
