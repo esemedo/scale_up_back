@@ -12,7 +12,7 @@ export async function createContributor(values: CreateContributorBody) {
   });
 }
 
-export async function getContributorsByUserId(companyId: number) {
+export async function getContributorsByCompanyId(companyId: number) {
   return await prisma.contributor.findMany({
     where: {
       companyId,
