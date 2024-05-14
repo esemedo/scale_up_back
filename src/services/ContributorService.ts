@@ -1,8 +1,14 @@
 import { prisma } from "@/prisma";
+import { Prisma } from "@prisma/client";
 
-export async function createContributor(contributor) {
+type CreateContributorBody = Prisma.Args<
+  typeof prisma.contributor,
+  "create"
+>["data"];
+
+export async function createContributor(values: CreateContributorBody) {
   return await prisma.contributor.create({
-    data: contributor,
+    data: values,
   });
 }
 

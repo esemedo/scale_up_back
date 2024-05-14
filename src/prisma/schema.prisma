@@ -44,14 +44,16 @@ model Dei {
 }
 
 model Subject {
-  id          Int          @id @default(autoincrement())
-  name        String
-  level       String
-  categoryId  Int
-  syllabus    Syllabus[]
-  needs       Need[]
-  hourlyRates HourlyRate[]
-  category    Category     @relation(fields: [categoryId], references: [id])
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  level                String
+  categoryId           Int
+  syllabus             Syllabus[]
+  needs                Need[]
+  hourlyRates          HourlyRate[]
+  category             Category               @relation(fields: [categoryId], references: [id])
+  ContributorToSubject ContributorToSubject[]
+  Exemption            Exemption[]
 }
 
 model Category {
@@ -81,19 +83,22 @@ model Company {
 }
 
 model Contributor {
-  id            Int            @id @default(autoincrement())
-  companyId     Int
-  firstName     String
-  lastName      String
-  phone         String
-  mail          String
-  status        Int
-  company       Company        @relation(fields: [companyId], references: [id])
-  needs         Need[]
-  legalFiles    LegalFile[]
-  offers        Offer[]
-  dispensations Dispensation[]
-  quotations    Quotation[]
+  id                   Int                    @id @default(autoincrement())
+  companyId            Int
+  firstName            String
+  lastName             String
+  phone                String
+  mail                 String
+  status               Int
+  image                String
+  company              Company                @relation(fields: [companyId], references: [id])
+  needs                Need[]
+  legalFiles           LegalFile[]
+  offers               Offer[]
+  dispensations        Dispensation[]
+  quotations           Quotation[]
+  Exemption            Exemption[]
+  ContributorToSubject ContributorToSubject[]
 }
 
 model Syllabus {
@@ -240,4 +245,30 @@ model Notification {
   dueDate   DateTime
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Exemption {
+  id            Int       @id @default(autoincrement())
+  contributorId Int
+  subjectId     Int
+  hourlyRate    Float
+  reason        String
+  status        Int       @default(0) // 0: En attente, 1: Acceptée, 2: Refusée
+  requestDate   DateTime  @default(now())
+  approvalDate  DateTime?
+
+  contributor          Contributor          @relation(fields: [contributorId], references: [id])
+  subject              Subject              @relation(fields: [subjectId], references: [id])
+  contributorToSubject ContributorToSubject @relation(fields: [contributorId, subjectId], references: [contributorId, subjectId])
+}
+
+model ContributorToSubject {
+  contributorId Int
+  subjectId     Int
+
+  contributor Contributor @relation(fields: [contributorId], references: [id])
+  subject     Subject     @relation(fields: [subjectId], references: [id])
+  Exemption   Exemption[]
+
+  @@id([contributorId, subjectId])
 }
