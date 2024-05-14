@@ -8,7 +8,6 @@ import { getUsers } from './controllers/UserController'
 import needsRoutes from './routes/needsRoutes'
 import promotionRoutes from './routes/promotionRoutes'
 import contributorRoutes from './routes/contributorRoutes'
-import categoryRoutes from './routes/categoryRoutes'
 import userRoutes from './routes/userRoutes'
 import deiRoutes from './routes/deiRoutes'
 import SubjectRoutes from './routes/SubjectRoutes'
@@ -51,14 +50,10 @@ app.use(morgan('tiny'))
 //app.use(keycloak.middleware())
 //app.use(createUserIfNotExistsMiddleware)
 
-app.use('/api/needs', needsRoutes)
-app.use('/api/categories', categoryRoutes)
-app.get('/api/users', getUsers)
 app.use('/api/subjects', SubjectRoutes)
 app.use('/api/needs', needsRoutes)
 app.use('/api/promotions', promotionRoutes)
 app.use('/api/contributors', contributorRoutes)
-app.use('/api/categories', categoryRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/dei', deiRoutes)
 app.use('/api/notification-settings', notificationSettingsRoutes)
