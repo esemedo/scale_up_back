@@ -7,7 +7,8 @@ import helmet from 'helmet'
 import helloRoutes from './routes/helloRoutes'
 import subjectRoutes from './routes/SubjectRoutes'
 import promotionRoutes from './routes/PromotionRoutes'
-import importSubjects from './routes/ImportDataRoutes'
+import importSubjects from './routes/ImportSubjectsRoutes'
+import importPromotions from './routes/ImportPromotionsRoutes'
 import needsRoutes from './routes/needsRoutes'
 import categoryRoutes from './routes/CategoryRoutes'
 import { getUsers } from './controllers/UserController'
@@ -47,6 +48,7 @@ app.use('/api/subject', subjectRoutes)
 app.use('/api/promotion', promotionRoutes)
 app.use('/api/needs', needsRoutes)
 app.use('/api/upload', importSubjects)
+app.use('/api/upload', importPromotions)
 app.use('/api/categories', categoryRoutes)
 app.get('/api/users', getUsers)
 

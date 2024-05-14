@@ -9,7 +9,6 @@ export const importPromotions = async (req, res) => {
         return;
     }
 
-    // Convert JSON string to array
     try {
         data = JSON.parse(data);
     } catch (error) {
@@ -17,7 +16,6 @@ export const importPromotions = async (req, res) => {
         return;
     }
 
-    // Import data into the database
     const errors = [];
     for (let row of data) {
         try {
