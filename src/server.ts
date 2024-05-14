@@ -1,20 +1,9 @@
-import { server } from './index';
-import WebSocket from 'ws';
-import dotenv from 'dotenv'
-import { prisma } from './index'
+import dotenv from "dotenv";
+import { app } from "./index";
+dotenv.config();
 
-dotenv.config()
+const port = process.env.API_PORT || 3000;
 
-const port = process.env.API_PORT || 3000
-
-const wss = new WebSocket.Server({ server });
-
-wss.on('connection', async ws => {
-  const promotions = await prisma.promotion.findMany();
-  const subjects = await prisma.subject.findMany();
-  ws.send(JSON.stringify({ promotions, subjects }));
+app.listen(port, () => {
+  console.log(`Server started on http://localhost:${port}/api ! 🚀`);
 });
-
-server.listen(port, () => {
-    console.log(`Server started on http://localhost:${port}/api ! 🚀`)
-})

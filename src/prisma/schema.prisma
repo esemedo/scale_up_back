@@ -134,14 +134,13 @@ model Offer {
 
 model Need {
   id Int @id @default(autoincrement())
-  idSubject Int
+  subject Subject[]
   idPromotion Int
   status Int
   idContributor Int
   hoursVolume Int
   startSchoolYear Int
   endSchoolYear Int
-  subject Subject? @relation(fields: [idSubject], references: [id])
   promotion Promotion? @relation(fields: [idPromotion], references: [id])
   contributor Contributor? @relation(fields: [idContributor], references: [id])
   offers Offer[]
@@ -243,6 +242,18 @@ model PurchaseOrder{
   quotationId Int
   description String
   quotation Quotation @relation(fields: [quotationId], references: [id])
-  dei Dei @relation(fields: [deiId], references: [id])
   contract Contract[]
+  dei Dei @relation(fields: [deiId], references: [id])
+}
+
+model Notification {
+  id Int @id @default(autoincrement())
+  userId Int
+  title String
+  text String
+  category Int
+  status Int
+  dueDate DateTime
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
 }
