@@ -1,16 +1,15 @@
 import dotenv from 'dotenv'
-import http from 'http';
 dotenv.config()
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-import { getUsers } from './controllers/UserController'
 import needsRoutes from './routes/needsRoutes'
 import promotionRoutes from './routes/promotionRoutes'
+import subjectRoutes from './routes/subjectRoutes'
 import contributorRoutes from './routes/contributorRoutes'
+import categoryRoutes from './routes/categoryRoutes'
 import userRoutes from './routes/userRoutes'
 import deiRoutes from './routes/deiRoutes'
-import SubjectRoutes from './routes/SubjectRoutes'
 import notificationSettingsRoutes from './routes/notificationSettingsRoutes'
 import dispensationsRoutes from './routes/dispensationsRoutes'
 import hourlyRatesRoutes from './routes/hourlyRatesRoutes'
@@ -50,10 +49,11 @@ app.use(morgan('tiny'))
 //app.use(keycloak.middleware())
 //app.use(createUserIfNotExistsMiddleware)
 
-app.use('/api/subjects', SubjectRoutes)
 app.use('/api/needs', needsRoutes)
 app.use('/api/promotions', promotionRoutes)
+app.use('/api/subjects', subjectRoutes)
 app.use('/api/contributors', contributorRoutes)
+app.use('/api/categories', categoryRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/dei', deiRoutes)
 app.use('/api/notification-settings', notificationSettingsRoutes)
