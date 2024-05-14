@@ -1,6 +1,6 @@
 # scale_up_back
 
-## Prérequis 
+## Prérequis
 
 - docker
 

@@ -50,7 +50,7 @@ router.use("/companies", companyRoutes);
 router.use("/contributors", contributorRoutes);
 router.use("/exemptions", exemptionRoutes);
 
-app.use("/api", router)
+app.use("/api", router);
 
 // Error handler
 app.use(errorHandler());
