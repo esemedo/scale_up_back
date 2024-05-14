@@ -7,9 +7,10 @@ import helmet from 'helmet'
 import helloRoutes from './routes/helloRoutes'
 import subjectRoutes from './routes/SubjectRoutes'
 import promotionRoutes from './routes/PromotionRoutes'
-import importData from './routes/ImportDataRoutes'
+import importSubjects from './routes/ImportDataRoutes'
 import needsRoutes from './routes/needsRoutes'
 import categoryRoutes from './routes/CategoryRoutes'
+import { getUsers } from './controllers/UserController'
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
@@ -45,7 +46,8 @@ app.use('/api', helloRoutes)
 app.use('/api/subject', subjectRoutes)
 app.use('/api/promotion', promotionRoutes)
 app.use('/api/needs', needsRoutes)
-app.use('/api/upload', importData)
+app.use('/api/upload', importSubjects)
 app.use('/api/categories', categoryRoutes)
+app.get('/api/users', getUsers)
 
 export { server };

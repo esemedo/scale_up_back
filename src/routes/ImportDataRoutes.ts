@@ -1,9 +1,8 @@
 import { Router } from 'express'
-import { importData } from '../controllers/ImportDataController'
+import { importSubject } from '../controllers/ImportSubjectController'
 
 const router = Router()
 
-router.post('/subjects', importData)
-router.post('/promotions', importData)
+router.post('/subjects', importSubject)
 
 export default router
