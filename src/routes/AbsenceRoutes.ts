@@ -1,10 +1,11 @@
-import { createAbsence, getAbsences } from '../controllers/AbsenceController'
+import { createAbsence, getAbsences, updateSubstituteAbsence } from '../controllers/AbsenceController'
 import { Router } from 'express'
 
 
 const router = Router()
 
 router.get('/', getAbsences)
-router.get('/create', createAbsence)
+router.post('/create', createAbsence)
+router.patch('/:id/substitute', updateSubstituteAbsence)
 
 export default router

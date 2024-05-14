@@ -1,38 +1,49 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-
 const prisma = new PrismaClient();
 
 const getAllDEI = async (req: Request, res: Response) => {
     try {
-      //temporaire
       const {priority } = req.query
-      let whereClause ={ AND:[{"sashaStatus":{not:1}}, {need: {
+      let currentDate = new Date()
+      let whereClauseMain ={ AND:[{"sashaStatus":{not:1}}, {need: {
             promotion:{
-              users:{
-                some: {
-                  userId: req.userId
-                }
-              }
+              assistantId:req.userId
             }
           } 
         }]
       }
+      let whereClauseSubstitut ={ AND:[{"sashaStatus":{not:1}},{
+        need: {
+          promotion: {
+            assistant:{
+              absences: {
+                some: {
+                  startDate: { lte: currentDate },
+                  endDate: { gte: currentDate },
+                  substituteUserId: req.userId,
+                },
+            },
+          }
+          },
+        },
+      },]
+  }
       const parsedPriority = parseInt(String(priority))
       if (priority && !isNaN(parsedPriority)){
-        whereClause["priority"] = parsedPriority
+        whereClauseSubstitut["priority"] = parsedPriority
+        whereClauseMain["priority"] = parsedPriority
       }
-        const deiEntries = await prisma.dei.findMany({
-          where:whereClause,
-          orderBy: [
-            
-            {
-              id: 'desc',
-            },
-          ],
+        const mainTasks = await prisma.dei.findMany({
+          where: whereClauseMain
         });
-        
-        res.json(deiEntries);
+      
+        const substituteTasks = await prisma.dei.findMany({
+          where: whereClauseSubstitut
+        });
+      
+        const allTasks = [...mainTasks, ...substituteTasks];
+        res.json(allTasks);
     } catch (error) {
         res.status(500).json({ error: 'Could not retrieve DEI entries' });
     }
@@ -80,13 +91,12 @@ const updateStatusSacha = async (req: Request, res: Response) => {
               userId: ID_CONTROLEUR,
               title: "Demande d'achat saisi sur SACHA", 
               text: "La demande a été saisi sur SACHA. Veuillez associé le bon de commande.",
-              category:1,
+              category:1, 
               status:0,
               dueDate: new Date()
             },
           })
       return res.json({message: "Tâche envoyé au controleur de gestion !"});
-
       }
       res.json({message: "Statut SACHA mis à jour !"});
 
