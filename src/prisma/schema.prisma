@@ -16,8 +16,9 @@ model User {
   contracts Contract[]
   legalFiles LegalFile[]
   offers Offer[]
-  notification NotificationSettings[]
+  notificationSettings NotificationSettings[]
   companies Company[]
+  notifications Notification[]
 }
 
 model Absence {
@@ -50,7 +51,7 @@ model Subject {
   syllabus Syllabus[]
   needs Need[]
   hourlyRates HourlyRate[]
-  promotions PromotionSubject[]
+  Promotion Promotion[]
   category Category @relation(fields: [categoryId], references: [id])
 }
 
@@ -66,16 +67,8 @@ model Promotion {
   endSchoolYear Int
   managerId Int
   manager User @relation(fields: [managerId], references: [id])
-  subjects PromotionSubject[]
+  Subject Subject[]
   needs Need[]
-}
-
-model PromotionSubject {
-  promotionId Int
-  subjectId Int
-  promotion Promotion @relation(fields: [promotionId], references: [id])
-  subject Subject @relation(fields: [subjectId], references: [id])
-  @@id([promotionId, subjectId])
 }
 
 model Company {

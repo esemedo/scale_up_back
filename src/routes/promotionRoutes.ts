@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { getPromotions, importPromotions } from '../controllers/PromotionController'
+import { getPromotions,importPromotions } from '../controllers/PromotionController'
 const router = Router()
 
 router.get('/', getPromotions)
