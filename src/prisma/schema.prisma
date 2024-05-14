@@ -8,236 +8,267 @@ datasource db {
 }
 
 model User {
-  id   Int     @id @default(autoincrement())
-  uuid String  @unique
-  absences Absence[]
-  promotions Promotion[]
-  syllabus Syllabus[]
-  contracts Contract[]
-  legalFiles LegalFile[]
-  offers Offer[]
+  id                   Int                    @id @default(autoincrement())
+  uuid                 String                 @unique
+  absences             Absence[]
+  promotions           Promotion[]
+  syllabus             Syllabus[]
+  contracts            Contract[]
+  legalFiles           LegalFile[]
+  offers               Offer[]
   notificationSettings NotificationSettings[]
-  companies Company[]
-  notifications Notification[]
+  companies            Company[]
+  notifications        Notification[]
 }
 
 model Absence {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   startDate DateTime
-  endDate DateTime
-  reason String
-  user User @relation(fields: [userId], references: [id])
-  userId Int
+  endDate   DateTime
+  reason    String
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
 }
 
 model Dei {
-  id Int @id @default(autoincrement())
-  idNeed Int
-  idBill Int
-  hourlyPrice Float
-  totalPrice Float
-  status Boolean
-  sashaStatus Int
+  id            Int             @id @default(autoincrement())
+  idNeed        Int
+  idBill        Int
+  hourlyPrice   Float
+  totalPrice    Float
+  status        Boolean
+  sashaStatus   Int
   purchaseOrder PurchaseOrder[]
-  need Need @relation(fields: [idNeed], references: [id])
-  bill Bill @relation(fields: [idBill], references: [id])
+  need          Need            @relation(fields: [idNeed], references: [id])
+  bill          Bill            @relation(fields: [idBill], references: [id])
 }
 
 model Subject {
-  id Int @id @default(autoincrement())
-  name String
-  level String
-  categoryId Int
-  syllabus Syllabus[]
-  needs Need[]
-  hourlyRates HourlyRate[]
-  category Category @relation(fields: [categoryId], references: [id])
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  level                String
+  categoryId           Int
+  syllabus             Syllabus[]
+  needs                Need[]
+  hourlyRates          HourlyRate[]
+  category             Category               @relation(fields: [categoryId], references: [id])
+  ContributorToSubject ContributorToSubject[]
+  Exemption            Exemption[]
 }
 
 model Category {
-  id Int @id @default(autoincrement())
-  name String
+  id       Int       @id @default(autoincrement())
+  name     String
   subjects Subject[]
 }
 
 model Promotion {
-  id Int @id @default(autoincrement())
+  id         Int    @id @default(autoincrement())
   schoolYear Int
-  name String
-  managerId Int
-  manager User @relation(fields: [managerId], references: [id])
-  needs Need[]
+  name       String
+  managerId  Int
+  manager    User   @relation(fields: [managerId], references: [id])
+  needs      Need[]
 }
 
 model Company {
-  id Int @id @default(autoincrement())
-  userId Int
-  name String
-  phone String
-  mail String
+  id              Int           @id @default(autoincrement())
+  user            User          @relation(fields: [userId], references: [id])
+  userId          Int           @unique
+  name            String
+  phone           String
+  mail            String
   contributorList Contributor[]
-  createdAt DateTime @default(now())
-  user User @relation(fields: [userId], references: [id])
+  createdAt       DateTime      @default(now())
 }
 
 model Contributor {
-  id Int @id @default(autoincrement())
-  companyId Int
-  firstName String
-  lastName String
-  phone String
-  mail String
-  status Int
-  company Company @relation(fields: [companyId], references: [id])
-  needs Need[]
-  legalFiles LegalFile[]
-  offers Offer[]
-  dispensations Dispensation[]
-  quotations Quotation[]
+  id                   Int                    @id @default(autoincrement())
+  companyId            Int
+  firstName            String
+  lastName             String
+  phone                String
+  mail                 String
+  status               Int
+  image                String
+  company              Company                @relation(fields: [companyId], references: [id])
+  needs                Need[]
+  legalFiles           LegalFile[]
+  offers               Offer[]
+  dispensations        Dispensation[]
+  quotations           Quotation[]
+  Exemption            Exemption[]
+  ContributorToSubject ContributorToSubject[]
 }
 
 model Syllabus {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   subjectId Int
-  authorId Int
-  offerId Int
-  file String
+  authorId  Int
+  offerId   Int
+  file      String
   createdAt DateTime @default(now())
-  user User? @relation(fields: [authorId], references: [id])
-  subject Subject? @relation(fields: [subjectId], references: [id])
-  offer Offer @relation(fields: [offerId], references: [id])
+  user      User?    @relation(fields: [authorId], references: [id])
+  subject   Subject? @relation(fields: [subjectId], references: [id])
+  offer     Offer    @relation(fields: [offerId], references: [id])
 }
 
 model Offer {
-  id Int @id @default(autoincrement())
-  authorId Int
+  id            Int         @id @default(autoincrement())
+  authorId      Int
   contributorId Int
-  needId Int
-  syllabus Syllabus[]
-  ptf String
-  status Int
-  hourlyPrice Float
-  user User @relation(fields: [authorId], references: [id])
-  quotations Quotation[]
-  needs Need @relation(fields: [needId], references: [id])
-  contributor Contributor @relation(fields: [contributorId], references: [id])
+  needId        Int
+  syllabus      Syllabus[]
+  ptf           String
+  status        Int
+  hourlyPrice   Float
+  user          User        @relation(fields: [authorId], references: [id])
+  quotations    Quotation[]
+  needs         Need        @relation(fields: [needId], references: [id])
+  contributor   Contributor @relation(fields: [contributorId], references: [id])
 }
 
 model Need {
-  id Int @id @default(autoincrement())
-  idSubject Int
-  idPromotion Int
-  status Int
+  id            Int          @id @default(autoincrement())
+  idSubject     Int
+  idPromotion   Int
+  status        Int
   idContributor Int
-  hoursVolume Int
-  subject Subject? @relation(fields: [idSubject], references: [id])
-  promotion Promotion? @relation(fields: [idPromotion], references: [id])
-  contributor Contributor? @relation(fields: [idContributor], references: [id])
-  offers Offer[]
-  dei Dei[]
+  hoursVolume   Int
+  subject       Subject?     @relation(fields: [idSubject], references: [id])
+  promotion     Promotion?   @relation(fields: [idPromotion], references: [id])
+  contributor   Contributor? @relation(fields: [idContributor], references: [id])
+  offers        Offer[]
+  dei           Dei[]
 }
 
 model School {
-  id Int @id @default(autoincrement())
-  name String
+  id           Int    @id @default(autoincrement())
+  name         String
   yearlyBudget Float
 }
 
 model Bill {
-  id Int @id @default(autoincrement())
-  contractId Int
+  id          Int        @id @default(autoincrement())
+  contractId  Int
   quotationId Int
-  total Float
-  status Int
-  validity Boolean
-  contract Contract? @relation(fields: [contractId], references: [id])
-  quotation Quotation? @relation(fields: [quotationId], references: [id])
-  dei Dei[]
+  total       Float
+  status      Int
+  validity    Boolean
+  contract    Contract?  @relation(fields: [contractId], references: [id])
+  quotation   Quotation? @relation(fields: [quotationId], references: [id])
+  dei         Dei[]
 }
 
 model Contract {
-  id Int @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   signatoryId Int
   hourlyPrice Float
   hoursVolume Int
-  total Float
-  status Int
-  isVerified Boolean @default(false)
-  startDate DateTime
-  endDate DateTime
-  signatory User @relation(fields: [signatoryId], references: [id])
-  bills Bill[]
+  total       Float
+  status      Int
+  isVerified  Boolean  @default(false)
+  startDate   DateTime
+  endDate     DateTime
+  signatory   User     @relation(fields: [signatoryId], references: [id])
+  bills       Bill[]
 }
 
 model LegalFile {
-  id Int @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   contributorId Int
-  uploaderId Int
-  name String
-  file String
-  type Int
-  isVerified Boolean @default(false)
-  createdAt DateTime @default(now())
-  user User @relation(fields: [uploaderId], references: [id])
-  contributor Contributor @relation(fields: [contributorId], references: [id])
+  uploaderId    Int
+  name          String
+  file          String
+  type          Int
+  isVerified    Boolean     @default(false)
+  createdAt     DateTime    @default(now())
+  user          User        @relation(fields: [uploaderId], references: [id])
+  contributor   Contributor @relation(fields: [contributorId], references: [id])
 }
 
 model NotificationSettings {
-  id Int @id @default(autoincrement())
-  userId Int
+  id        Int  @id @default(autoincrement())
+  userId    Int
   frequency Int
-  status Int
-  user User @relation(fields: [userId], references: [id])
+  status    Int
+  user      User @relation(fields: [userId], references: [id])
 }
 
 model HourlyRate {
-  id Int @id @default(autoincrement())
-  level String
+  id        Int     @id @default(autoincrement())
+  level     String
   subjectId Int
-  rate Float
-  subject Subject @relation(fields: [subjectId], references: [id])
+  rate      Float
+  subject   Subject @relation(fields: [subjectId], references: [id])
 }
 
 model Quotation {
-  id Int @id @default(autoincrement())
-  price Float
-  status Boolean
-  offerId Int
+  id            Int             @id @default(autoincrement())
+  price         Float
+  status        Boolean
+  offerId       Int
   contributorId Int
-  contributor Contributor @relation(fields: [contributorId], references: [id])
-  offer Offer @relation(fields: [offerId], references: [id])
-  bills Bill[]
+  contributor   Contributor     @relation(fields: [contributorId], references: [id])
+  offer         Offer           @relation(fields: [offerId], references: [id])
+  bills         Bill[]
   purchaseOrder PurchaseOrder[]
-  date DateTime
+  date          DateTime
 }
 
 model Dispensation {
-  id Int @id @default(autoincrement())
+  id            Int         @id @default(autoincrement())
   contributorId Int
-  oldPrice Float
-  newPrice Float
-  status Boolean
-  date DateTime
-  contributor Contributor @relation(fields: [contributorId], references: [id])
+  oldPrice      Float
+  newPrice      Float
+  status        Boolean
+  date          DateTime
+  contributor   Contributor @relation(fields: [contributorId], references: [id])
 }
 
-model PurchaseOrder{
-  id Int @id @default(autoincrement())
-  deiId Int
+model PurchaseOrder {
+  id          Int       @id @default(autoincrement())
+  deiId       Int
   quotationId Int
   description String
-  quotation Quotation @relation(fields: [quotationId], references: [id])
-  dei Dei @relation(fields: [deiId], references: [id])
+  quotation   Quotation @relation(fields: [quotationId], references: [id])
+  dei         Dei       @relation(fields: [deiId], references: [id])
 }
 
 model Notification {
-  id Int @id @default(autoincrement())
-  userId Int
-  title String
-  text String
-  category Int
-  status Int
-  dueDate DateTime
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  text      String
+  category  Int
+  status    Int
+  dueDate   DateTime
   createdAt DateTime @default(now())
-  user User @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Exemption {
+  id            Int       @id @default(autoincrement())
+  contributorId Int
+  subjectId     Int
+  hourlyRate    Float
+  reason        String
+  status        Int       @default(0) // 0: En attente, 1: Acceptée, 2: Refusée
+  requestDate   DateTime  @default(now())
+  approvalDate  DateTime?
+
+  contributor          Contributor          @relation(fields: [contributorId], references: [id])
+  subject              Subject              @relation(fields: [subjectId], references: [id])
+  contributorToSubject ContributorToSubject @relation(fields: [contributorId, subjectId], references: [contributorId, subjectId])
+}
+
+model ContributorToSubject {
+  contributorId Int
+  subjectId     Int
+
+  contributor Contributor @relation(fields: [contributorId], references: [id])
+  subject     Subject     @relation(fields: [subjectId], references: [id])
+  Exemption   Exemption[]
+
+  @@id([contributorId, subjectId])
 }

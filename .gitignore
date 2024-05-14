@@ -176,6 +176,3 @@ compile_commands.json
 package-lock.json
 
 dist/
-
-#migrations
-/src/prisma/migrations/*

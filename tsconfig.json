@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "commonjs",
     "target": "esnext",
     "esModuleInterop": true,
@@ -8,7 +9,10 @@
     "outDir": "dist",
     "allowJs": true,
     "lib": ["dom", "es6"],
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "exclude": ["node_modules", "dist"],
   "include": ["src/**/*.ts", "src/**/*.d.ts", "tests/**/*.spec.ts"],

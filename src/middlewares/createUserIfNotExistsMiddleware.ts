@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { prisma } from "../index";
 export const createUserIfNotExistsMiddleware = async (
   req: Request,
@@ -6,11 +6,11 @@ export const createUserIfNotExistsMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.kauth.grant) {
+    if (!req.kauth!.grant) {
       next();
       return;
     }
-    const userUUID = req.kauth.grant.access_token.content.sub;
+    const userUUID = req.kauth!.grant.access_token!.content!.sub;
 
     const user = await prisma.user.upsert({
       where: {
