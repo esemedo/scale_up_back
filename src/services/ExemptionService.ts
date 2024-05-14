@@ -15,14 +15,10 @@ export async function createExemption(values: ExemptionCreateBody) {
 export async function readExemptions(values: {
   contributorId?: number;
   subjectId?: number;
-  statusNumber?: number;
+  status?: number;
 }) {
   return await prisma.exemption.findMany({
-    where: {
-      contributorId: values.contributorId,
-      subjectId: values.subjectId,
-      status: values.statusNumber,
-    },
+    where: values,
   });
 }
 

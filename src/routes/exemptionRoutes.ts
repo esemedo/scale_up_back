@@ -2,8 +2,6 @@ import { Router } from "express";
 
 import {
   createExemptionBodySchema,
-  readContributorExemptionsParamsSchema,
-  readContributorToSubjectExemptionsParamsSchema,
   readExemptionsQuerySchema,
   updateExemptionParamsSchema,
   updateExemptionQuerySchema,
@@ -13,8 +11,6 @@ import {
   processExemptionRequestHandler,
   createExemptionRequestHandler,
   getExemptionsHandler,
-  getContributorExemptionsHandler,
-  getContributorToSubjectExemptionsHandler,
 } from "@/controllers/ExemptionController";
 import { validateRequest } from "@/middlewares/validationMiddleware";
 
@@ -34,24 +30,6 @@ router.get(
     query: readExemptionsQuerySchema,
   }),
   getExemptionsHandler
-);
-
-router.get(
-  "/contributor/:contributorId",
-  validateRequest({
-    params: readContributorExemptionsParamsSchema,
-    query: readExemptionsQuerySchema,
-  }),
-  getContributorExemptionsHandler
-);
-
-router.get(
-  "/contributor/:contributorId/subject/:subjectId",
-  validateRequest({
-    params: readContributorToSubjectExemptionsParamsSchema,
-    query: readExemptionsQuerySchema,
-  }),
-  getContributorToSubjectExemptionsHandler
 );
 
 router.put(

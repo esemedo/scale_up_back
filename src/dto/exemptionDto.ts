@@ -27,23 +27,6 @@ export const readExemptionsQuerySchema = z.object({
 
 export type ReadExemptionsQuery = z.infer<typeof readExemptionsQuerySchema>;
 
-export const readContributorExemptionsParamsSchema = z.object({
-  contributorId: z.coerce.number(),
-});
-
-export type ReadContributorExemptionsParams = z.infer<
-  typeof readContributorExemptionsParamsSchema
->;
-
-export const readContributorToSubjectExemptionsParamsSchema = z.object({
-  contributorId: z.coerce.number(),
-  subjectId: z.coerce.number(),
-});
-
-export type ReadContributorToSubjectExemptionsParams = z.infer<
-  typeof readContributorToSubjectExemptionsParamsSchema
->;
-
 export const updateExemptionParamsSchema = z.object({
   id: z.coerce.number(),
 });

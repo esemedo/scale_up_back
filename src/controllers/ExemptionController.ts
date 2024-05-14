@@ -9,8 +9,6 @@ import {
 } from "@/services/ExemptionService";
 import {
   CreateExemptionBody,
-  ReadContributorExemptionsParams,
-  ReadContributorToSubjectExemptionsParams,
   ReadExemptionsQuery,
   UpdateExemptionParams,
   UpdateExemptionQuery,
@@ -46,47 +44,9 @@ export async function getExemptionsHandler(
 ) {
   const { status } = req.query;
   const statusNumber = getStatusNumber(status);
-  const exemptions = await readExemptions({ statusNumber });
+  const exemptions = await readExemptions({ status: statusNumber });
 
   res.json(exemptions);
-}
-
-export async function getContributorExemptionsHandler(
-  req: Request<any, any, any, ReadExemptionsQuery>,
-  res: Response
-) {
-  const params: ReadContributorExemptionsParams = req.params;
-  const contributorId = Number(params.contributorId);
-
-  const { status } = req.query;
-  const statusNumber = getStatusNumber(status);
-
-  const contributorExemptions = await readExemptions({
-    contributorId,
-    statusNumber,
-  });
-
-  res.json(contributorExemptions);
-}
-
-export async function getContributorToSubjectExemptionsHandler(
-  req: Request<any, any, any, ReadExemptionsQuery>,
-  res: Response
-) {
-  const params: ReadContributorToSubjectExemptionsParams = req.params;
-  const contributorId = Number(params.contributorId);
-  const subjectId = Number(params.subjectId);
-
-  const { status } = req.query;
-  const statusNumber = getStatusNumber(status);
-
-  const contributorExemptions = await readExemptions({
-    contributorId,
-    subjectId,
-    statusNumber,
-  });
-
-  res.json(contributorExemptions);
 }
 
 export async function processExemptionRequestHandler(

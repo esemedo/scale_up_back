@@ -15,17 +15,15 @@ export async function createContributor(values: CreateContributorBody) {
 export async function getContributorsByUserId(companyId: number) {
   return await prisma.contributor.findMany({
     where: {
-      companyId: {
-        equals: companyId,
-      },
+      companyId,
     },
   });
 }
 
-export async function deleteContributorById(contributorId: number) {
+export async function deleteContributorById(id: number) {
   return await prisma.contributor.delete({
     where: {
-      id: contributorId,
+      id,
     },
   });
 }

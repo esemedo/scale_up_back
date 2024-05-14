@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { ErrorRequestHandler, RequestHandler } from "express";
 
 import status from "http-status";
@@ -26,6 +27,14 @@ const addErrorToRequestLog: ErrorRequestHandler = (err, _req, res, next) => {
       error: status[status.INTERNAL_SERVER_ERROR],
       message: err.message || "An unexpected error occurred",
       detail: err.name,
+    });
+  } else if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    res.status(status.INTERNAL_SERVER_ERROR).json({
+      statusCode: status.INTERNAL_SERVER_ERROR,
+      code: err.code,
+      error: status[status.INTERNAL_SERVER_ERROR],
+      message: err.message,
+      detail: err.meta,
     });
   } else {
     res.locals.err = err;
