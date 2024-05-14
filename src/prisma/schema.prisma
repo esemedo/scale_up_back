@@ -44,16 +44,16 @@ model Dei {
 }
 
 model Subject {
-  id                   Int                    @id @default(autoincrement())
-  name                 String
-  level                String
-  categoryId           Int
-  syllabus             Syllabus[]
-  needs                Need[]
-  hourlyRates          HourlyRate[]
-  category             Category               @relation(fields: [categoryId], references: [id])
-  ContributorToSubject ContributorToSubject[]
-  Exemption            Exemption[]
+  id                    Int                    @id @default(autoincrement())
+  name                  String
+  level                 String
+  categoryId            Int
+  syllabus              Syllabus[]
+  needs                 Need[]
+  hourlyRates           HourlyRate[]
+  category              Category               @relation(fields: [categoryId], references: [id])
+  contributorToSubjects ContributorToSubject[]
+  exemptions            Exemption[]
 }
 
 model Category {
@@ -83,22 +83,22 @@ model Company {
 }
 
 model Contributor {
-  id                   Int                    @id @default(autoincrement())
-  companyId            Int
-  firstName            String
-  lastName             String
-  phone                String
-  mail                 String
-  status               Int
-  image                String
-  company              Company                @relation(fields: [companyId], references: [id])
-  needs                Need[]
-  legalFiles           LegalFile[]
-  offers               Offer[]
-  dispensations        Dispensation[]
-  quotations           Quotation[]
-  Exemption            Exemption[]
-  ContributorToSubject ContributorToSubject[]
+  id                    Int                    @id @default(autoincrement())
+  companyId             Int
+  firstName             String
+  lastName              String
+  phone                 String
+  mail                  String
+  status                Int
+  image                 String
+  company               Company                @relation(fields: [companyId], references: [id])
+  needs                 Need[]
+  legalFiles            LegalFile[]
+  offers                Offer[]
+  dispensations         Dispensation[]
+  quotations            Quotation[]
+  exemptions            Exemption[]
+  contributorToSubjects ContributorToSubject[]
 }
 
 model Syllabus {
@@ -268,7 +268,7 @@ model ContributorToSubject {
 
   contributor Contributor @relation(fields: [contributorId], references: [id])
   subject     Subject     @relation(fields: [subjectId], references: [id])
-  Exemption   Exemption[]
+  exemptions  Exemption[]
 
   @@id([contributorId, subjectId])
 }

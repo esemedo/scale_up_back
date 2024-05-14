@@ -1,6 +1,7 @@
 import {
   addContributor,
   getContributorExemptionsHandler,
+  getContributorHandler,
   getContributorToSubjectExemptionsHandler,
   removeContributor,
 } from "@/controllers/ContributorController";
@@ -15,7 +16,14 @@ import { Router } from "express";
 const router = Router();
 
 router.post("/", addContributor);
+router.get(
+  "/:id",
+  validateRequest({ params: readContributorParamsSchema }),
+  getContributorHandler
+);
+
 router.delete("/:id", removeContributor);
+
 router.get(
   "/:id/exemptions",
   validateRequest({
@@ -24,7 +32,6 @@ router.get(
   }),
   getContributorExemptionsHandler
 );
-
 router.get(
   "/:id/exemptions/subject/:subjectId",
   validateRequest({

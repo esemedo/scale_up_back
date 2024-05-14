@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import {
   createContributor,
   deleteContributorById,
+  readContributor,
 } from "@/services/ContributorService";
 import { ReadExemptionsQuery } from "@/dto/exemptionDto";
 import { getStatusNumber } from "@/libs/exemption";
@@ -19,6 +20,14 @@ export const addContributor = async (req: Request, res: Response) => {
 
   res.json(newContributor);
 };
+
+export async function getContributorHandler(req: Request, res: Response) {
+  const contributorId = req.params.id;
+
+  const contributor = await readContributor(Number(contributorId));
+
+  res.json(contributor);
+}
 
 export async function getContributorExemptionsHandler(
   req: Request<any, any, any, ReadExemptionsQuery>,
