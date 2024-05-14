@@ -22,7 +22,11 @@ router.get(
   getContributorHandler
 );
 
-router.delete("/:id", removeContributor);
+router.delete(
+  "/:id",
+  validateRequest({ params: readContributorParamsSchema }),
+  removeContributor
+);
 
 router.get(
   "/:id/exemptions",
