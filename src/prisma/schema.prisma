@@ -12,6 +12,7 @@ model User {
   uuid String  @unique
   absences Absence[]
   promotions Promotion[]
+  promotionsAssistant Promotion[] @relation(name: "assistant")
   syllabus Syllabus[]
   contracts Contract[]
   legalFiles LegalFile[]
@@ -19,6 +20,7 @@ model User {
   notificationSettings NotificationSettings[]
   companies Company[]
   notifications Notification[]
+  absencesSubstitute Absence [] @relation(name: "SubstituteUser")
 }
 
 model Absence {
@@ -28,7 +30,11 @@ model Absence {
   reason String
   user User @relation(fields: [userId], references: [id])
   userId Int
+  substituteUser User? @relation("SubstituteUser", fields: [substituteUserId], references: [id])
+  substituteUserId Int?
 }
+
+
 
 model Dei {
   id Int @id @default(autoincrement())
@@ -65,11 +71,15 @@ model Promotion {
   id Int @id @default(autoincrement())
   startSchoolYear Int
   endSchoolYear Int
-  managerId Int
-  manager User @relation(fields: [managerId], references: [id])
   Subject Subject[]
   needs Need[]
+  managerId Int
+  manager User @relation(fields: [managerId], references: [id])
+  assistantId Int?
+  assistant User? @relation("assistant",fields: [assistantId], references: [id])
 }
+
+
 
 model Company {
   id Int @id @default(autoincrement())

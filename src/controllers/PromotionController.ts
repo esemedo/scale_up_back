@@ -9,6 +9,8 @@ export const getPromotions = async (req: Request, res: Response) => {
     res.status(200).json(promotions)
 }
 
+
+
 export const getPromotionById = async (req: Request, res: Response) => {
     let promotionId = parseInt(req.params.promotionId)
     let promotion = await prisma.promotion.findUnique({
@@ -25,6 +27,7 @@ export const getPromotionById = async (req: Request, res: Response) => {
 export const importPromotions = async (req, res) => {
     let data = req.body.data;
     let managerId = req.body.managerId;
+    let assistantId = req.body.assistantId;
 
     if (!data) {
         res.status(400).json({ error: 'Request body is missing or malformed' });
@@ -46,6 +49,7 @@ export const importPromotions = async (req, res) => {
                     startSchoolYear: parseInt(row.startSchoolYear),
                     endSchoolYear: parseInt(row.endSchoolYear),
                     managerId: parseInt(managerId),
+                    assistantId: parseInt(assistantId),
                 },
             });
         } catch (error) {
@@ -59,3 +63,62 @@ export const importPromotions = async (req, res) => {
         res.status(200).json({ message: 'Data imported successfully' });
     }
 };
+
+
+
+export const getAssistantsForPromotion = async (req, res) => {
+    const { promotionId } = req.params;
+  
+    try {
+      const promotion = await prisma.promotion.findUnique({
+        where: { id: parseInt(promotionId) },
+        include: { manager: true, assistant: true } 
+      });
+  
+      if (!promotion) {
+        return res.status(404).json({ error: 'Promotion not found' });
+      }
+  
+      return res.status(200).json(promotion);
+    } catch (error) {
+      console.error('Error getting assistants for promotion:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+export const addAssistantToPromotion = async (req, res) => {
+    const { promotionId } = req.params;
+    const { assistantId } = req.body;
+  
+    try {
+        const promotion = await prisma.promotion.findUnique({
+            where: { id: parseInt(promotionId) }
+        });
+  
+        if (!promotion) {
+            return res.status(404).json({ error: 'Promotion not found' });
+        }
+
+        const assistant = await prisma.user.findUnique({
+            where: { id: parseInt(assistantId) }
+        });
+
+        if (!assistant) {
+            return res.status(404).json({ error: 'Assistant not found' });
+        }
+  
+        const updatedPromotion = await prisma.promotion.update({
+            where: { id: parseInt(promotionId) },
+            data: {
+                assistantId: parseInt(assistantId)
+            },
+            include: { assistant: true }
+        });
+  
+        return res.status(200).json(updatedPromotion);
+    } catch (error) {
+        console.error('Error adding assistant to promotion:', error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
+

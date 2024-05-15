@@ -36,7 +36,7 @@ const kcConfig = {
   resource: process.env.KC_CLIENT_ID,
 };
 
-//export const keycloak = new Keycloak({}, kcConfig)
+export const keycloak = new Keycloak({}, kcConfig)
 
 const app = express()
 
@@ -46,11 +46,11 @@ app.use(helmet())
 app.use(cors())
 app.use(express.json())
 app.use(morgan('tiny'))
-//app.use(keycloak.middleware())
-//app.use(createUserIfNotExistsMiddleware)
+app.use(keycloak.middleware())
+app.use(createUserIfNotExistsMiddleware)
 
 app.use('/api/needs', needsRoutes)
-app.use('/api/promotions', promotionRoutes)
+app.use('/api/promotions', keycloak.protect(),promotionRoutes)
 app.use('/api/subjects', subjectRoutes)
 app.use('/api/contributors', contributorRoutes)
 app.use('/api/categories', categoryRoutes)
