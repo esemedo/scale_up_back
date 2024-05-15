@@ -5,7 +5,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import needsRoutes from './routes/needsRoutes'
 import promotionRoutes from './routes/promotionRoutes'
-import subjectRoutes from './routes/subjectRoutes'
+// import subjectRoutes from './routes/subjectRoutes'
 import contributorRoutes from './routes/contributorRoutes'
 import categoryRoutes from './routes/categoryRoutes'
 import userRoutes from './routes/userRoutes'
@@ -19,6 +19,7 @@ import purchaseOrderRoutes from './routes/purchaseOrderRoutes'
 import quotationRoutes from './routes/quotationRoutes'
 import schoolRoutes from './routes/schoolRoutes'
 import syllabusRoutes from './routes/syllabusRoutes'
+import regroupPromotionsRouter from './routes/regroupingPromoSubjectRoutes';
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
@@ -49,9 +50,11 @@ app.use(morgan('tiny'))
 //app.use(keycloak.middleware())
 //app.use(createUserIfNotExistsMiddleware)
 
+app.use('/api/regroup-promotions', regroupPromotionsRouter);
+
 app.use('/api/needs', needsRoutes)
 app.use('/api/promotions', promotionRoutes)
-app.use('/api/subjects', subjectRoutes)
+// app.use('/api/subjects', subjectRoutes)
 app.use('/api/contributors', contributorRoutes)
 app.use('/api/categories', categoryRoutes)
 app.use('/api/users', userRoutes)
@@ -65,5 +68,6 @@ app.use('/api/purchase-orders', purchaseOrderRoutes)
 app.use('/api/quotations', quotationRoutes)
 app.use('/api/schools', schoolRoutes)
 app.use('/api/syllabus', syllabusRoutes)
+
 
 export { app };

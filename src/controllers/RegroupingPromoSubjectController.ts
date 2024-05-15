@@ -35,7 +35,9 @@ export const regroupPromotionsForCategory = async (req: Request, res: Response) 
     subjects.forEach(subject => {
       const subjectTotalPrice = subject.hourlyRates.reduce((acc, rate) => acc + rate.rate, 0);
       promotions.forEach(promotion => {
-        totalPrice += subjectTotalPrice * promotion.discountRate;
+        // TODO : Remplacer discountRate codé en dur par la valeur réelle lorsqu'elle est disponible dans le modèle
+        const discountRate = 0.1; // 10% discount
+        totalPrice += subjectTotalPrice * discountRate;
       });
     });
 
