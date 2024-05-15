@@ -1,3 +1,4 @@
+import { IParams } from "@/utils/params";
 import { z } from "zod";
 
 export const createExemptionBodySchema = z.object({
@@ -40,4 +41,6 @@ export const updateExemptionQuerySchema = z.object({
 
 export type UpdateExemptionQuery = z.infer<typeof updateExemptionQuerySchema>;
 
-export type UpdateExemptionParams = z.infer<typeof updateExemptionParamsSchema>;
+export type UpdateExemptionParams = IParams<
+  z.infer<typeof updateExemptionParamsSchema>
+>;

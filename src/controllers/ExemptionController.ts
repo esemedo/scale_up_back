@@ -15,7 +15,6 @@ import {
   updateExemptionQuerySchema,
 } from "@/dto/exemptionDto";
 import { getStatusNumber } from "@/libs/exemption";
-import { IParams } from "@/utils/params";
 
 export async function createExemptionRequestHandler(
   req: Request<any, any, CreateExemptionBody>,
@@ -51,7 +50,7 @@ export async function getExemptionsHandler(
 }
 
 export async function processExemptionRequestHandler(
-  req: Request<IParams<UpdateExemptionParams>, any, any, UpdateExemptionQuery>,
+  req: Request<UpdateExemptionParams, any, any, UpdateExemptionQuery>,
   res: Response
 ) {
   const params = req.params;
