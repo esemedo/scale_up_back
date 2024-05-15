@@ -10,6 +10,7 @@ import contributorRoutes from "./routes/contributorRoutes";
 import exemptionRoutes from "./routes/exemptionRoutes";
 import helloRoutes from "./routes/helloRoutes";
 import userRoutes from "./routes/userRoutes";
+import contractsRoutes from "./routes/contractsRoutes";
 import Keycloak, { KeycloakConfig } from "keycloak-connect";
 import { PrismaClient } from "@prisma/client";
 import { createUserIfNotExistsMiddleware } from "./middlewares/createUserIfNotExistsMiddleware";
@@ -47,6 +48,7 @@ const router = Router();
 router.use("/", helloRoutes);
 router.use("/users", userRoutes);
 router.use("/companies", companyRoutes);
+router.use("/contracts", contractsRoutes);
 router.use("/contributors", contributorRoutes);
 router.use("/exemptions", exemptionRoutes);
 

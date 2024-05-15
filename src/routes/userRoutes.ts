@@ -1,9 +1,10 @@
 import { Router } from "express";
 
-import { getUserCompany } from "@/controllers/UserController";
+import { getUserContracts, getUserCompany } from "@/controllers/UserController";
 
 const router = Router();
 
 router.get("/:id/company", getUserCompany);
+router.get("/:id/contracts", getUserContracts);
 
 export default router;
