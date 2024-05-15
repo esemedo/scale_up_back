@@ -7,7 +7,7 @@ import {
   updateHourlyRateRealRate as updateHourlyRateRealRateMiddleware,
   deleteHourlyRate as deleteHourlyRateMiddleware,
   getAllSubjectsNames as getAllSubjectsNamesMiddleware,
-} from "../middlewares/HourlyRatesMiddlewares";
+} from "../middlewares/hourlyRatesMiddleware";
 
 export const addHourlyRate = async (req: Request, res: Response) => {
   return addHourlyRateMiddleware(req, res);

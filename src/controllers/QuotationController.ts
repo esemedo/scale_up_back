@@ -6,7 +6,7 @@ import {
     updateQuotation as updateQuotationMiddleware,
     updateQuotationStatus as updateQuotationStatusMiddleware,
     createQuotation as createQuotationMiddleware
-} from '../middlewares/QuotationMiddelwares';
+} from '../middlewares/quotationMiddleware';
 
 export const selectQuotation = async (req: Request, res: Response) => {
   return selectQuotationMiddleware(req, res);

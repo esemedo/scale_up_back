@@ -7,6 +7,8 @@ import helloRoutes from "./routes/helloRoutes";
 import subjectRoutes from "./routes/SubjectRoutes";
 import hourlyRateRoutes from "./routes/hourlyRateRoutes";
 import quotationRoute from "./routes/quotationRoutes";
+import offerRoutes from "./routes/offerRoutes";
+import contractroutes from "./routes/contractRoutes";
 dotenv.config();
 
 import { PrismaClient } from "@prisma/client";
@@ -44,5 +46,7 @@ app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
 app.use('/hourlyRateRoutes', hourlyRateRoutes)
 app.use('/quotation', quotationRoute)
+app.use('/offer', offerRoutes)
+app.use('/contract', contractroutes)
 
 export { app };
