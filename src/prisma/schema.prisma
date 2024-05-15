@@ -74,8 +74,8 @@ model Promotion {
   needs Need[]
   managerId Int
   manager User @relation(fields: [managerId], references: [id])
-  assistantId Int
-  assistant User @relation("assistant",fields: [assistantId], references: [id])
+  assistantId Int?
+  assistant User? @relation("assistant",fields: [assistantId], references: [id])
 } 
 
 
