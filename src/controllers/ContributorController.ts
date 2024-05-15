@@ -9,21 +9,23 @@ import { ReadExemptionsQuery } from "@/dto/exemptionDto";
 import { getStatusNumber } from "@/libs/exemption";
 import { readExemptions } from "@/services/ExemptionService";
 import {
+  CreateContributorBody,
   ReadContributorExemptionsParams,
   ReadContributorParams,
 } from "@/dto/contributorDto";
-import { IParams } from "@/utils/params";
 
-export const addContributor = async (req: Request, res: Response) => {
-  const contributor = req.body;
-
-  const newContributor = await createContributor(contributor);
+export const addContributor = async (
+  req: Request<any, any, CreateContributorBody>,
+  res: Response
+) => {
+  const values = req.body;
+  const newContributor = await createContributor(values);
 
   res.json(newContributor);
 };
 
 export async function getContributorHandler(
-  req: Request<IParams<ReadContributorParams>, any, any>,
+  req: Request<ReadContributorParams>,
   res: Response
 ) {
   const params = req.params;
@@ -53,12 +55,7 @@ export async function getContributorExemptionsHandler(
 }
 
 export async function getContributorToSubjectExemptionsHandler(
-  req: Request<
-    IParams<ReadContributorExemptionsParams>,
-    any,
-    any,
-    ReadExemptionsQuery
-  >,
+  req: Request<ReadContributorExemptionsParams, any, any, ReadExemptionsQuery>,
   res: Response
 ) {
   const params = req.params;
@@ -78,7 +75,7 @@ export async function getContributorToSubjectExemptionsHandler(
 }
 
 export const removeContributor = async (
-  req: Request<IParams<ReadContributorParams>>,
+  req: Request<ReadContributorParams>,
   res: Response
 ) => {
   const params = req.params;

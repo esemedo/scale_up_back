@@ -2,11 +2,10 @@ import { Request, Response } from "express";
 
 import { readCompanyContributors } from "@/services/ContributorService";
 import { readCompany } from "@/services/CompanyService";
-import { IParams } from "@/utils/params";
 import { ReadCompanyParams } from "@/dto/companyDto";
 
 export async function getCompany(
-  req: Request<IParams<ReadCompanyParams>>,
+  req: Request<ReadCompanyParams>,
   res: Response
 ) {
   const params = req.params;
@@ -18,7 +17,7 @@ export async function getCompany(
 }
 
 export const getCompanyContributors = async (
-  req: Request<IParams<ReadCompanyParams>>,
+  req: Request<ReadCompanyParams>,
   res: Response
 ) => {
   const params = req.params;

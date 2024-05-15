@@ -77,7 +77,7 @@ model Company {
   userId          Int           @unique
   name            String
   phone           String
-  mail            String
+  email           String
   contributorList Contributor[]
   createdAt       DateTime      @default(now())
 }
@@ -88,9 +88,9 @@ model Contributor {
   firstName             String
   lastName              String
   phone                 String
-  mail                  String
-  status                Int
-  image                 String
+  email                 String
+  status                Int                    @default(0) // 0: En attente, 1: Accepté, 2: Refusé
+  image                 String?
   company               Company                @relation(fields: [companyId], references: [id])
   needs                 Need[]
   legalFiles            LegalFile[]
