@@ -27,7 +27,6 @@ export const getPromotionById = async (req: Request, res: Response) => {
 export const importPromotions = async (req, res) => {
     let data = req.body.data;
     let managerId = req.body.managerId;
-    let assistantId = req.body.assistantId;
 
     if (!data) {
         res.status(400).json({ error: 'Request body is missing or malformed' });
@@ -49,7 +48,6 @@ export const importPromotions = async (req, res) => {
                     startSchoolYear: parseInt(row.startSchoolYear),
                     endSchoolYear: parseInt(row.endSchoolYear),
                     managerId: parseInt(managerId),
-                    assistantId: parseInt(assistantId),
                 },
             });
         } catch (error) {
