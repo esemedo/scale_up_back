@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 
+import { getCompanyByUserId } from "@/services/CompanyService";
+import { getNotificationsByUserId } from "@/services/NotificationService";
 import { readUserCompany } from "@/services/CompanyService";
 import { getContractsByUserId } from "@/services/ContractService";
 
@@ -10,6 +12,14 @@ export const getUserCompany = async (req: Request, res: Response) => {
 
   res.json(company);
 };
+
+export const getUserNotifications = async (req: Request, res: Response) => {
+    const userId: string = req.params.id;
+  
+    const notifications = await getNotificationsByUserId(Number(userId));
+  
+    res.json(notifications);
+  };
 
 export const getUserContracts = async (req: Request, res: Response) => {
   // Récupérez l'ID de l'utilisateur de l'URL

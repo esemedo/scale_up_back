@@ -10,6 +10,7 @@ import contributorRoutes from "./routes/contributorRoutes";
 import exemptionRoutes from "./routes/exemptionRoutes";
 import helloRoutes from "./routes/helloRoutes";
 import userRoutes from "./routes/userRoutes";
+import notifRoutes from './routes/notifRoutes'
 import contractsRoutes from "./routes/contractsRoutes";
 import Keycloak, { KeycloakConfig } from "keycloak-connect";
 import { PrismaClient } from "@prisma/client";
@@ -42,6 +43,7 @@ app.use(morgan("tiny"));
 // app.use(keycloak.middleware());
 // app.use(createUserIfNotExistsMiddleware);
 
+app.use ('/api/notifications', notifRoutes)
 // Routes
 const router = Router();
 
