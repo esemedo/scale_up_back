@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "commonjs",
     "target": "esnext",
     "esModuleInterop": true,
@@ -14,6 +15,9 @@
     }
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src/**/*.ts", "tests/**/*.spec.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "tests/**/*.spec.ts"],
+  "ts-node": {
+    "files": true
+  },
   "files": ["src/index.ts"]
 }

@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id            Int                    @id @default(autoincrement())
-  uuid          String                 @unique
-  absences      Absence[]
-  promotions    Promotion[]
-  syllabus      Syllabus[]
-  contracts     Contract[]
-  legalFiles    LegalFile[]
-  offers        Offer[]
-  notifications NotificationSettings[]
-  companies     Company[]
+  id                   Int                    @id @default(autoincrement())
+  uuid                 String                 @unique
+  absences             Absence[]
+  promotions           Promotion[]
+  syllabus             Syllabus[]
+  contracts            Contract[]
+  legalFiles           LegalFile[]
+  offers               Offer[]
+  notificationSettings NotificationSettings[]
+  companies            Company[]
+  notifications        Notification[]
 }
 
 model Absence {
@@ -43,14 +44,16 @@ model Dei {
 }
 
 model Subject {
-  id          Int          @id @default(autoincrement())
-  name        String
-  level       String
-  categoryId  Int
-  syllabus    Syllabus[]
-  needs       Need[]
-  hourlyRates HourlyRate[]
-  category    Category     @relation(fields: [categoryId], references: [id])
+  id                    Int                    @id @default(autoincrement())
+  name                  String
+  level                 String
+  categoryId            Int
+  syllabus              Syllabus[]
+  needs                 Need[]
+  hourlyRates           HourlyRate[]
+  category              Category               @relation(fields: [categoryId], references: [id])
+  contributorToSubjects ContributorToSubject[]
+  exemptions            Exemption[]
 }
 
 model Category {
@@ -80,19 +83,22 @@ model Company {
 }
 
 model Contributor {
-  id            Int            @id @default(autoincrement())
-  companyId     Int
-  firstName     String
-  lastName      String
-  phone         String
-  mail          String
-  status        Int
-  company       Company        @relation(fields: [companyId], references: [id])
-  needs         Need[]
-  legalFiles    LegalFile[]
-  offers        Offer[]
-  dispensations Dispensation[]
-  quotations    Quotation[]
+  id                    Int                    @id @default(autoincrement())
+  companyId             Int
+  firstName             String
+  lastName              String
+  phone                 String
+  mail                  String
+  status                Int
+  image                 String
+  company               Company                @relation(fields: [companyId], references: [id])
+  needs                 Need[]
+  legalFiles            LegalFile[]
+  offers                Offer[]
+  dispensations         Dispensation[]
+  quotations            Quotation[]
+  exemptions            Exemption[]
+  contributorToSubjects ContributorToSubject[]
 }
 
 model Syllabus {
@@ -228,4 +234,42 @@ model PurchaseOrder {
   description String
   quotation   Quotation @relation(fields: [quotationId], references: [id])
   dei         Dei       @relation(fields: [deiId], references: [id])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  title     String
+  text      String
+  category  Int
+  status    Int
+  dueDate   DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Exemption {
+  id            Int       @id @default(autoincrement())
+  contributorId Int
+  subjectId     Int
+  hourlyRate    Float
+  reason        String
+  status        Int       @default(0) // 0: En attente, 1: Acceptée, 2: Refusée
+  requestDate   DateTime  @default(now())
+  approvalDate  DateTime?
+
+  contributor          Contributor          @relation(fields: [contributorId], references: [id])
+  subject              Subject              @relation(fields: [subjectId], references: [id])
+  contributorToSubject ContributorToSubject @relation(fields: [contributorId, subjectId], references: [contributorId, subjectId])
+}
+
+model ContributorToSubject {
+  contributorId Int
+  subjectId     Int
+
+  contributor Contributor @relation(fields: [contributorId], references: [id])
+  subject     Subject     @relation(fields: [subjectId], references: [id])
+  exemptions  Exemption[]
+
+  @@id([contributorId, subjectId])
 }

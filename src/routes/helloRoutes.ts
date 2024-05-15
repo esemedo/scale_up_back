@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router } from "express";
 
 import { getHello } from '../controllers/HelloController'
 import { uploadSyllabus, uploadSyllabusFile, getSubjects, getNeed, getOffers, uploadPTF, getPTF, getSyllabus, getTemplatePTF, getTemplateSyllabus, uploadBillFile, uploadBill, getBills } from '../controllers/UploadController'
@@ -25,4 +25,4 @@ router.post('/uploadPTF', upload.single('ptf'), uploadPTF);
 router.post('/uploadBillFile',upload.single('bill'),  uploadBillFile)
 router.post('/uploadBill', uploadBill)
 
-export default router
+export default router;

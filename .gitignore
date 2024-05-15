@@ -25,6 +25,7 @@
 !.nycrc
 !.yamllint.yaml
 !.env.exemple
+!/docker/.env.example
 
 # === Rules for root dir ===
 /core
