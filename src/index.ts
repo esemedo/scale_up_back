@@ -38,9 +38,9 @@ const kcConfig = {
 
 export const keycloak = new Keycloak({}, kcConfig)
 
-const app = express()
-
 export const prisma = new PrismaClient()
+
+const app = express()
 
 app.use(helmet())
 app.use(cors())
