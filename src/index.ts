@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
 import categoryRoutes from "./routes/CategoryRoutes";
-import emailRoutes from "./routes/EmailRoutes";
-
 import helloRoutes from "./routes/helloRoutes";
 import subjectRoutes from "./routes/SubjectRoutes";
 dotenv.config();
@@ -42,6 +40,5 @@ app.use(createUserIfNotExistsMiddleware);
 app.use("/api", helloRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
-app.use("/api/mail", emailRoutes);
 
 export { app };
