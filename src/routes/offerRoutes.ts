@@ -4,7 +4,7 @@ import { getOfferId, getOfferStatus } from "../controllers/OfferController";
 
 const router = Router();
 
-router.get("/getOfferId", getOfferId);
-router.get("/getOfferStatus", getOfferStatus);
+router.get("/getAuthorIdByOffer/:id", getOfferId);
+router.get("/getOfferStatus/:id", getOfferStatus);
 
 export default router;

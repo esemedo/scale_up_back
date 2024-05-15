@@ -5,6 +5,6 @@ import { getEndDate } from "controllers/ContractController";
 
 const router = Router();
 
-router.get("/getEndDate", getEndDate);
+router.get("/getEndDate/:id", getEndDate);
 
 export default router;
