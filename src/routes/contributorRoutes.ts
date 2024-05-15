@@ -6,6 +6,7 @@ import {
   removeContributor,
 } from "@/controllers/ContributorController";
 import {
+  createContributorBodySchema,
   readContributorExemptionsParamsSchema,
   readContributorParamsSchema,
 } from "@/dto/contributorDto";
@@ -15,7 +16,13 @@ import { Router } from "express";
 
 const router = Router();
 
-router.post("/", addContributor);
+router.post(
+  "/",
+  validateRequest({
+    body: createContributorBodySchema,
+  }),
+  addContributor
+);
 router.get(
   "/:id",
   validateRequest({ params: readContributorParamsSchema }),
