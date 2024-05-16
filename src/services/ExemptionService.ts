@@ -1,12 +1,9 @@
 import { prisma } from "@/prisma";
 import { Prisma } from "@prisma/client";
 
-type ExemptionCreateBody = Prisma.Args<
-  typeof prisma.exemption,
-  "create"
->["data"];
+type ExemptionCreate = Prisma.Args<typeof prisma.exemption, "create">["data"];
 
-export async function createExemption(values: ExemptionCreateBody) {
+export async function createExemption(values: ExemptionCreate) {
   return await prisma.exemption.create({
     data: values,
   });

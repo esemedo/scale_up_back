@@ -1,5 +1,6 @@
 import {
   addContributor,
+  getContributorDocumentsHandler,
   getContributorExemptionsHandler,
   getContributorHandler,
   getContributorToSubjectExemptionsHandler,
@@ -10,6 +11,7 @@ import {
   readContributorExemptionsParamsSchema,
   readContributorParamsSchema,
 } from "@/dto/contributorDto";
+import { readDocumentsQuerySchema } from "@/dto/documentDto";
 import { readExemptionsQuerySchema } from "@/dto/exemptionDto";
 import { validateRequest } from "@/middlewares/validationMiddleware";
 import { Router } from "express";
@@ -50,6 +52,15 @@ router.get(
     query: readExemptionsQuerySchema,
   }),
   getContributorToSubjectExemptionsHandler
+);
+
+router.get(
+  "/:id/documents",
+  validateRequest({
+    params: readContributorParamsSchema,
+    query: readDocumentsQuerySchema,
+  }),
+  getContributorDocumentsHandler
 );
 
 export default router;
