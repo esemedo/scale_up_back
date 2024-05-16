@@ -1,10 +1,20 @@
 import { Request, Response } from 'express';
-import { createAbsenceWithSubstitute, getAbsencesOfUser, updateSubstitute } from '../services/AbsenceService';
+import { createAbsenceWithSubstitute, deleteAbsenceOfUser, getAbsencesOfUser, updateSubstitute } from '../services/AbsenceService';
+import { createNotif } from 'services/NotificationService';
 
 async function createAbsence(req: Request, res: Response) {
     const { startDate, endDate, reason, substitutUserId } = req.body;
     try {
      await createAbsenceWithSubstitute(req.userId, startDate, endDate, reason, substitutUserId)
+     if(substitutUserId !== null || substitutUserId)
+      await createNotif({
+        userId: substitutUserId,
+        title: "Remplacement", 
+        text: `Vous avez été choisi comme remplaçant .`,
+        category:2, 
+        status:0,
+        dueDate: new Date()
+      });
       res.status(201).json({message: "Absence created !"});
     } catch (error) {
       res.status(500).json({ error: 'Unable to create absence' });
@@ -18,9 +28,29 @@ async function updateSubstituteAbsence(req: Request, res: Response) {
       const parsedId = parseInt(id)
       
       await updateSubstitute(parsedId,substitutUserId)
+      await createNotif({
+        userId: substitutUserId,
+        title: "Remplacement", 
+        text: "Vous avez été choisi comme remplaçant.",
+        category:2, 
+        status:0,
+        dueDate: new Date()
+      });
       res.status(200).json({message: "Absence updated !"});
     } catch (error) {
       res.status(500).json({ error: 'Unable to update absence' });
+    }
+  }
+
+async function deleteAbsence(req: Request, res: Response) {
+    try {
+      const {id} = req.params
+      const parsedId = parseInt(id)
+      
+      await deleteAbsenceOfUser(parsedId)
+      res.status(200).json({message: "Absence deleted !"});
+    } catch (error) {
+      res.status(500).json({ error: 'Unable to delete absence' });
     }
   }
 async function getAbsences(req: Request, res: Response) {
@@ -32,16 +62,6 @@ async function getAbsences(req: Request, res: Response) {
     }
   }
 
-// const getAllAssistant = async (req: Request, res: Response) => {
-//   const users = await kcAdminClient.roles.findUsersWithRole({
-//     name: "educational-assistant",
-//   });
-//   res.status(200).json(users)
-// }
-// const getControllerGestion = async (req: Request, res: Response) => {
-//   const users = await kcAdminClient.roles.findUsersWithRole({
-//     name: "educational-assistant",
-//   });
-//   res.status(200).json(users)
-// }
-export {createAbsence, getAbsences, updateSubstituteAbsence}
+
+
+export {createAbsence, getAbsences, updateSubstituteAbsence, deleteAbsence}

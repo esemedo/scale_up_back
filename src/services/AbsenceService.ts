@@ -41,7 +41,16 @@ export async function updateSubstitute(id, substituteUserId) {
       
     });
 }
-  
+
+export async function deleteAbsenceOfUser(id) {
+  return await prisma.absence.delete({
+      where: {
+          id,
+        },
+    
+  });
+}
+
 export async function getAbsencesOfUser(userId){
     return await prisma.absence.findMany({
         where: {

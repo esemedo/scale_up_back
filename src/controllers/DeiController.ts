@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
+import { createNotif } from "../services/NotificationService";
 const prisma = new PrismaClient();
 
 const getAllDEI = async (req: Request, res: Response) => {
@@ -35,11 +36,11 @@ const getAllDEI = async (req: Request, res: Response) => {
         whereClauseMain["priority"] = parsedPriority
       }
         const mainTasks = await prisma.dei.findMany({
-          where: whereClauseMain
+          where: whereClauseMain, orderBy:[{dueDate: "asc"}]
         });
       
         const substituteTasks = await prisma.dei.findMany({
-          where: whereClauseSubstitut
+          where: whereClauseSubstitut, orderBy:[{dueDate: "asc"}]
         });
       
         const allTasks = [...mainTasks, ...substituteTasks];
@@ -55,7 +56,7 @@ const updateStatusDEI = async (req: Request, res: Response) => {
         const {status} = req.body
         await prisma.dei.update({
             where: {
-              id: parseInt(id),
+              id: id,
             },
             data: {
               status: Boolean(status),
@@ -79,23 +80,22 @@ const updateStatusSacha = async (req: Request, res: Response) => {
       }
       await prisma.dei.update({
           where: {
-            id: parseInt(id),
+            id: id,
           },
           data ,
         })
         
         
       if(sachaStatus ===1){
-          await prisma.notification.create({
-            data: {
-              userId: ID_CONTROLEUR,
-              title: "Demande d'achat saisi sur SACHA", 
-              text: "La demande a été saisi sur SACHA. Veuillez associé le bon de commande.",
-              category:1, 
-              status:0,
-              dueDate: new Date()
-            },
-          })
+         await createNotif({
+          userId: ID_CONTROLEUR,
+          title: "Demande d'achat saisi sur SACHA", 
+          text: "La demande a été saisi sur SACHA. Veuillez associé le bon de commande.",
+          category:1, 
+          status:0,
+          dueDate: new Date()
+        });
+         
       return res.json({message: "Tâche envoyé au controleur de gestion !"});
       }
       res.json({message: "Statut SACHA mis à jour !"});
@@ -109,10 +109,10 @@ const updatePriority = async (req: Request, res: Response) => {
   try {
       const {id} = req.params
       const { priority} = req.body
-
+      
      await prisma.dei.update({
           where: {
-            id: parseInt(id),
+            id: id,
           },
           data: {
             priority: priority
