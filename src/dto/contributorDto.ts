@@ -20,10 +20,10 @@ export type ReadContributorParams = IParams<
   z.infer<typeof readContributorParamsSchema>
 >;
 
-export const readContributorExemptionsParamsSchema = z.object({
-  id: z.coerce.number(),
-  subjectId: z.coerce.number(),
-});
+export const readContributorExemptionsParamsSchema =
+  readContributorParamsSchema.extend({
+    subjectId: z.coerce.number(),
+  });
 
 export type ReadContributorExemptionsParams = IParams<
   z.infer<typeof readContributorExemptionsParamsSchema>
