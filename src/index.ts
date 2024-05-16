@@ -16,6 +16,7 @@ import { PrismaClient } from "@prisma/client";
 import { createUserIfNotExistsMiddleware } from "./middlewares/createUserIfNotExistsMiddleware";
 import errorHandler from "./middlewares/errorHandlerMiddleware";
 import documentRoutes from "./routes/documentRoutes";
+import BillRoutes from "./routes/BillRoutes";
 
 // const kcConfig: KeycloakConfig = {
 //   clientId: process.env.KC_CLIENT_ID,
@@ -53,6 +54,7 @@ router.use("/contracts", contractsRoutes);
 router.use("/contributors", contributorRoutes);
 router.use("/exemptions", exemptionRoutes);
 router.use("/documents", documentRoutes);
+router.use("/bills", BillRoutes)
 
 app.use("/api", router);
 

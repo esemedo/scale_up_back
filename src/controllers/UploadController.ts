@@ -1,5 +1,7 @@
+import { createDocument } from "@/services/DocumentService";
 import { PrismaClient, User } from "@prisma/client";
 import { Request, Response } from "express";
+import path from "path";
 
 const prisma = new PrismaClient();
 
@@ -17,9 +19,6 @@ interface Syllabus {
 }
 
 interface Bill {
-  contractId: number;
-  quotationId: number;
-  total: number;
   fileName: string;
   file: object;
   status: number;
@@ -32,11 +31,8 @@ export const uploadBill = async (req: Request, res: Response) => {
   if (billPath != "") {
     const bill = await prisma.bill.create({
       data: {
-        contractId: d.contractId,
-        quotationId: d.quotationId,
-        total: d.total,
         file: billPath,
-        status: d.status,
+        status: 0,
         validity: false,
       },
     });
@@ -233,3 +229,4 @@ export const getBills = async (req: Request, res: Response) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
