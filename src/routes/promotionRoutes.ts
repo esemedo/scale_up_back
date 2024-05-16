@@ -14,7 +14,7 @@ const validateAddAssistant = [
     body('assistantId').isInt().withMessage('L\'identifiant de l\'assistant doit être un nombre entier'),
 ];
 
-router.get('/:promotionId/assistants', getAssistantsForPromotion);
+router.get('/promotions-with-assistants', getAssistantsForPromotion);
 
 router.post('/:promotionId/assistants', validateAddAssistant, handleValidationErrors, addAssistantToPromotion);
 

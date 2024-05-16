@@ -48,6 +48,7 @@ export const importPromotions = async (req, res) => {
                     startSchoolYear: parseInt(row.startSchoolYear),
                     endSchoolYear: parseInt(row.endSchoolYear),
                     managerId: parseInt(managerId),
+                    name: (row.name) 
                 },
             });
         } catch (error) {
@@ -64,12 +65,9 @@ export const importPromotions = async (req, res) => {
 
 
 
-export const getAssistantsForPromotion = async (req, res) => {
-    const { promotionId } = req.params;
-  
+export const getAssistantsForPromotion = async (req, res) => {  
     try {
-      const promotion = await prisma.promotion.findUnique({
-        where: { id: parseInt(promotionId) },
+      const promotion = await prisma.promotion.findMany({
         include: { manager: true, assistant: true } 
       });
   
