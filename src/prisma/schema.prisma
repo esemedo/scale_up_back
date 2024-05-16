@@ -19,6 +19,7 @@ model User {
   notificationSettings NotificationSettings[]
   companies            Company[]
   notifications        Notification[]
+  File                 Document[]
 }
 
 model Absence {
@@ -99,6 +100,7 @@ model Contributor {
   quotations            Quotation[]
   exemptions            Exemption[]
   contributorToSubjects ContributorToSubject[]
+  File                  Document[]
 }
 
 model Syllabus {
@@ -272,4 +274,28 @@ model ContributorToSubject {
   exemptions  Exemption[]
 
   @@id([contributorId, subjectId])
+}
+
+model Document {
+  id            Int          @id @default(autoincrement())
+  userId        Int
+  contributorId Int?
+  type          DocumentType
+  fileName      String
+  path          String
+  year          Int
+  issueDate     DateTime?
+  uploadDate    DateTime     @default(now())
+
+  user        User         @relation(fields: [userId], references: [id])
+  contributor Contributor? @relation(fields: [contributorId], references: [id])
+}
+
+enum DocumentType {
+  Resume
+  Diploma
+  CriminalRecord
+  KBIS
+  URSSAFCertificate
+  TaxCertificate
 }

@@ -47,7 +47,8 @@ export const uploadBill = async (req: Request, res: Response) => {
 };
 
 export const uploadBillFile = async (req: Request, res: Response) => {
-  billPath = req.file?.path || "";
+  console.log("uploading billpath");
+  billPath = req.file!.path;
   res.status(200).send("ok");
 };
 
@@ -70,12 +71,12 @@ export const uploadSyllabus = async (req: Request, res: Response) => {
 };
 
 export const uploadSyllabusFile = async (req: Request, res: Response) => {
-  syllabusPath = req.file?.path || "";
+  syllabusPath = req.file!.path;
   res.status(200).send("ok");
 };
 
 export const uploadPTF = async (req: Request, res: Response) => {
-  const ptfPath = req.file?.path || "";
+  const ptfPath = req.file!.path;
   const offerID = req.body.offerID;
 
   await prisma.offer.update({

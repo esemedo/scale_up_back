@@ -13,6 +13,8 @@ import {
   ReadContributorExemptionsParams,
   ReadContributorParams,
 } from "@/dto/contributorDto";
+import { readDocuments } from "@/services/DocumentService";
+import { ReadDocumentsQuery } from "@/dto/documentDto";
 
 export const addContributor = async (
   req: Request<any, any, CreateContributorBody>,
@@ -52,6 +54,26 @@ export async function getContributorExemptionsHandler(
   });
 
   res.json(contributorExemptions);
+}
+
+export async function getContributorDocumentsHandler(
+  req: Request<ReadContributorParams, any, any, ReadDocumentsQuery>,
+  res: Response
+) {
+  const params = req.params;
+  const contributorId = Number(params.id);
+
+  const query = req.query;
+  const year = Number(query.year) || undefined;
+  const type = query.type;
+
+  const contributorDocuments = await readDocuments({
+    contributorId,
+    year,
+    type,
+  });
+
+  res.json(contributorDocuments);
 }
 
 export async function getContributorToSubjectExemptionsHandler(
