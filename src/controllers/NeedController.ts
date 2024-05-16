@@ -14,14 +14,16 @@ export const getNeeds = async (req: Request, res: Response) => {
     });
   res.status(200).json(needs);
 };
+
 export const updateNeedToDraft = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const STATUS = {
-    DRAFT: 0,
-    PUBLISHED: 1,
-    CANCELLED: 2,
+    DRAFT: 4,
+    PUBLISHED: 3,
+    CANCELLED: 0,
   };
+
 
   try {
     const existingNeed = await prisma.need.findUnique({
@@ -48,22 +50,20 @@ export const updateNeedToDraft = async (req: Request, res: Response) => {
     res.status(200).json(updatedNeed);
   } catch (error) {
     console.error("Erreur :", error);
-    res
-      .status(500)
-      .json({
-        error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
-      });
+    res.status(500).json({
+      error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
+    });
   }
 };
 
 export const updateNeedToPublished = async (req: Request, res: Response) => {
   const { id } = req.params;
-
   const STATUS = {
-    DRAFT: 0,
-    PUBLISHED: 1,
-    CANCELLED: 2,
+    DRAFT: 4,
+    PUBLISHED: 3,
+    CANCELLED: 0,
   };
+
 
   try {
     const existingNeed = await prisma.need.findUnique({
@@ -90,11 +90,9 @@ export const updateNeedToPublished = async (req: Request, res: Response) => {
     res.status(200).json(updatedNeed);
   } catch (error) {
     console.error("Erreur :", error);
-    res
-      .status(500)
-      .json({
-        error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
-      });
+    res.status(500).json({
+      error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
+    });
   }
 };
 
@@ -102,9 +100,9 @@ export const cancelDraftNeed = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   const STATUS = {
-    DRAFT: 0,
-    PUBLISHED: 1,
-    CANCELLED: 2,
+    DRAFT: 4,
+    PUBLISHED: 3,
+    CANCELLED: 0,
   };
 
   try {
@@ -134,11 +132,9 @@ export const cancelDraftNeed = async (req: Request, res: Response) => {
       .json({ message: "Déclaration de besoin annulée avec succès" });
   } catch (error) {
     console.error("Erreur :", error);
-    res
-      .status(500)
-      .json({
-        error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
-      });
+    res.status(500).json({
+      error: "Erreur de serveur interne. Veuillez réessayer plus tard.",
+    });
   }
 };
 
