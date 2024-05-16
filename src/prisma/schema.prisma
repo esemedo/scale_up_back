@@ -38,12 +38,14 @@ model Absence {
 model Dei {
   id Int @id @default(autoincrement())
   idNeed Int
+  idBill Int
   hourlyPrice Float
   totalPrice Float
   status Boolean
   sashaStatus Int
   purchaseOrder PurchaseOrder[]
   need Need @relation(fields: [idNeed], references: [id])
+  bill Bill @relation(fields: [idBill], references: [id])
 }
 
 model Subject {
@@ -163,6 +165,7 @@ model Bill {
   validity Boolean
   contract Contract? @relation(fields: [contractId], references: [id])
   quotation Quotation? @relation(fields: [quotationId], references: [id])
+  dei Dei[]
 }
 
 model Contract {
