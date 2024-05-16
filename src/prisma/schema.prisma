@@ -37,12 +37,14 @@ model Absence {
 model Dei {
   id Int @id @default(autoincrement())
   idNeed Int
-  idContract Int
-  idQuotation Int
+  idContract Int @default(autoincrement())
+  idQuotation Int @default(autoincrement())
   hourlyPrice Float
   totalPrice Float
   status Boolean
   sashaStatus Int
+  dueDate DateTime
+  priority Int
   purchaseOrder PurchaseOrder[]
   need Need @relation(fields: [idNeed], references: [id])
   contract Contract @relation(fields: [idContract], references: [id])
