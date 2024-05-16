@@ -26,15 +26,6 @@ interface Bill {
   validity: false;
 }
 
-interface MulterRequest extends Request {
-  file: {
-    path: string;
-  };
-  body: {
-    offerID: string;
-  };
-}
-
 export const uploadBill = async (req: Request, res: Response) => {
   console.log("here");
   const d: Bill = req.body;
@@ -56,8 +47,7 @@ export const uploadBill = async (req: Request, res: Response) => {
 };
 
 export const uploadBillFile = async (req: Request, res: Response) => {
-  console.log("uploading billpath");
-  billPath = (req as MulterRequest).file.path;
+  billPath = req.file?.path || "";
   res.status(200).send("ok");
 };
 
@@ -80,13 +70,13 @@ export const uploadSyllabus = async (req: Request, res: Response) => {
 };
 
 export const uploadSyllabusFile = async (req: Request, res: Response) => {
-  syllabusPath = (req as MulterRequest).file.path;
+  syllabusPath = req.file?.path || "";
   res.status(200).send("ok");
 };
 
 export const uploadPTF = async (req: Request, res: Response) => {
-  const ptfPath = (req as MulterRequest).file.path;
-  const offerID = (req as MulterRequest).body.offerID;
+  const ptfPath = req.file?.path || "";
+  const offerID = req.body.offerID;
 
   await prisma.offer.update({
     where: {
