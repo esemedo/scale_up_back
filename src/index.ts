@@ -19,6 +19,7 @@ import purchaseOrderRoutes from './routes/purchaseOrderRoutes'
 import quotationRoutes from './routes/quotationRoutes'
 import schoolRoutes from './routes/schoolRoutes'
 import syllabusRoutes from './routes/syllabusRoutes'
+import billRoutes from './routes/billRoutes';
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
@@ -65,5 +66,6 @@ app.use('/api/purchase-orders', purchaseOrderRoutes)
 app.use('/api/quotations', quotationRoutes)
 app.use('/api/schools', schoolRoutes)
 app.use('/api/syllabus', syllabusRoutes)
+app.use('/api/bills', billRoutes);
 
 export { app };
