@@ -1,7 +1,7 @@
 import { render } from "@react-email/render";
 import { Resend } from "resend";
 
-const resend = new Resend("re_MAkMG4oT_L6TDv5pmhfUVCcPdjx7Z3WiW");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendEmailUtils(
   receiver: string,
