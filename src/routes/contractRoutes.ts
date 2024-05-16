@@ -1,10 +1,20 @@
 import { Router } from "express";
-import { body, param } from "express-validator";
+import { param } from "express-validator";
 
-import { getEndDate } from "controllers/ContractController";
+import { getEndDate } from "../controllers/ContractController";
+import { handleValidationErrors } from "../middlewares/handleValidator";
 
 const router = Router();
 
-router.get("/getEndDate/:id", getEndDate);
+const validateContractId = [
+  param("id").isInt().withMessage(`L'id du contrat est invalide`)
+];
+
+router.get(
+  "/getEndDate/:id",
+  validateContractId,
+  handleValidationErrors,
+  getEndDate
+);
 
 export default router;
