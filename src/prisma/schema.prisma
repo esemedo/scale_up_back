@@ -44,7 +44,7 @@ model Dei {
   sashaStatus Int
   purchaseOrder PurchaseOrder[]
   dueDate DateTime
-  priority Int @default(3)
+  priority Int
   need Need @relation(fields: [idNeed], references: [id])
   bill Bill @relation(fields: [idBill], references: [id])
 }
