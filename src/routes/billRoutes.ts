@@ -1,13 +1,11 @@
 // routes/billRoutes.ts
-import { Router } from 'express'
-import { getBills, validateBill, cancelBill, downloadBill, viewBill } from '../controllers/BillController'
+import { Router } from 'express';
+import { getBills, validateBill, cancelBill } from '../controllers/BillController';
 
-const router = Router()
+const router = Router();
 
-router.get('/', getBills)
-router.put('/:id/validate', validateBill)
-router.put('/:id/cancel', cancelBill)
-router.get('/:id/download', downloadBill)
-router.get('/:id/view', viewBill)
+router.get('/', getBills);
+router.put('/:id/validate', validateBill);
+router.put('/:id/cancel', cancelBill);
 
-export default router
+export default router;
