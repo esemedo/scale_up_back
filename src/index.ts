@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-import cors from "cors";
-import dotenv from "dotenv";
-import express from "express";
-import helmet from "helmet";
-import categoryRoutes from "./routes/CategoryRoutes";
-import helloRoutes from "./routes/helloRoutes";
-import subjectRoutes from "./routes/SubjectRoutes";
-import hourlyRateRoutes from "./routes/hourlyRateRoutes";
-import quotationRoute from "./routes/quotationRoutes";
-import offerRoutes from "./routes/offerRoutes";
-import contractroutes from "./routes/contractRoutes";
-dotenv.config();
-
-import { PrismaClient } from "@prisma/client";
-import Keycloak from "keycloak-connect";
-import morgan from "morgan";
-import { createUserIfNotExistsMiddleware } from "./middlewares/createUserIfNotExistsMiddleware";
-=======
 import dotenv from 'dotenv'
 dotenv.config()
 import express from 'express'
@@ -42,7 +23,6 @@ import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
 import { createUserIfNotExistsMiddleware } from './middlewares/createUserIfNotExistsMiddleware'
->>>>>>> 4f3ef9ec787fb53b48753a3902a32987c384097a
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -69,15 +49,6 @@ app.use(morgan('tiny'))
 app.use(keycloak.middleware())
 app.use(createUserIfNotExistsMiddleware)
 
-<<<<<<< HEAD
-app.use("/api", helloRoutes);
-app.use("/api/subject", subjectRoutes);
-app.use("/api/category", categoryRoutes);
-app.use('/hourlyRateRoutes', hourlyRateRoutes)
-app.use('/quotation', quotationRoute)
-app.use('/offer', offerRoutes)
-app.use('/contract', contractroutes)
-=======
 app.use('/api/needs', needsRoutes)
 app.use('/api/promotions', promotionRoutes)
 app.use('/api/subjects', subjectRoutes)
@@ -94,6 +65,5 @@ app.use('/api/purchase-orders', purchaseOrderRoutes)
 app.use('/api/quotations', quotationRoutes)
 app.use('/api/schools', schoolRoutes)
 app.use('/api/syllabus', syllabusRoutes)
->>>>>>> 4f3ef9ec787fb53b48753a3902a32987c384097a
 
 export { app };

@@ -1,5 +1,4 @@
 import { Router } from "express";
-<<<<<<< HEAD
 import { body, param } from "express-validator";
 
 import {
@@ -80,13 +79,3 @@ router.delete(
 router.get("/selectAllQuotations", selectAllQuotations);
 
 export default router;
-=======
-
-import { getQuotations } from "../controllers/QuotationController";
-
-const router = Router();
-
-router.get('/', getQuotations);
-
-export default router;
->>>>>>> 4f3ef9ec787fb53b48753a3902a32987c384097a

@@ -210,11 +210,7 @@ model HourlyRate {
   level String
   subjectId Int
   rate Float
-<<<<<<< HEAD
   realRate Float?
-=======
-  realrate Float
->>>>>>> 4f3ef9ec787fb53b48753a3902a32987c384097a
   subject Subject @relation(fields: [subjectId], references: [id])
 }
 
