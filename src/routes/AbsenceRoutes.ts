@@ -1,7 +1,7 @@
-import { validCreateAbsence, validId, validUpdateAbsence } from '../middlewares/handleValidAbsence'
+import { validCreateAbsence, validId, validUpdateAbsence } from 'middlewares/handleValidAbsence'
 import { createAbsence, deleteAbsence, getAbsences, updateSubstituteAbsence } from '../controllers/AbsenceController'
 import { Router } from 'express'
-import { handleValidationErrors } from '../middlewares/handleValidator'
+import { handleValidationErrors } from 'middlewares/handleValidator'
 
 
 const router = Router()
