@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
-import { registerUser } from '../controllers/UserController'
+import { getUsers, registerUser } from '../controllers/UserController'
 import { USER_ROLES } from '../utils/userConst'
 
 import { getUsers, getAllAssistants } from "../controllers/UserController";
 
 const router = Router();
+
+router.get('/', getUsers)
 
 router.post(
     '/register',
