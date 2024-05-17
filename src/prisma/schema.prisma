@@ -44,6 +44,8 @@ model Dei {
   totalPrice Float
   status Boolean
   sashaStatus Int
+  dueDate DateTime
+  priority Int
   purchaseOrder PurchaseOrder[]
   need Need @relation(fields: [idNeed], references: [id])
 }
@@ -78,6 +80,7 @@ model Promotion {
   assistantId Int?
   assistant User? @relation("assistant",fields: [assistantId], references: [id])
 }
+
 
 
 
@@ -250,7 +253,7 @@ model PurchaseOrder{
 }
 
 model Notification {
-  id Int @id @default(autoincrement())
+  id Int @id @unique @default(autoincrement())
   userId Int
   title String
   text String
