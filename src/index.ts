@@ -32,10 +32,14 @@ import schoolRoutes from "./routes/schoolRoutes";
 import subjectRoutes from "./routes/subjectRoutes";
 import syllabusRoutes from "./routes/syllabusRoutes";
 import userRoutes from "./routes/userRoutes";
+import cron from 'node-cron';
+import { checkTasksAndNotify } from 'utils/dailyNotifications'
 
 export const prisma = new PrismaClient();
 
 const app = express();
+
+
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -88,7 +92,8 @@ app.use("/api/subjects", subjectRoutes);
 app.use("/api/contributors", contributorRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/users", keycloak.protect(), userRoutes);
-app.use("/api/dei", deiRoutes);
+app.use("/api/dei", keycloak.protect(),deiRoutes);
+app.use('/api/absence',keycloak.protect(), absenceRoutes)
 app.use("/api/notification-settings", notificationSettingsRoutes);
 app.use("/api/dispensations", dispensationsRoutes);
 app.use("/api/hourly-rates", hourlyRatesRoutes);
@@ -106,4 +111,8 @@ app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/pdf", pdfRoutes);
 
+//envoi notification dès que date d'échéance est proche 
+cron.schedule('0 0 * * *', () => {
+  checkTasksAndNotify().catch(console.error);
+});
 export { app };
