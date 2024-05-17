@@ -1,11 +1,13 @@
-import express from "express";
+import Router from "express";
 import { generatePdfController } from "../controllers/PdfController";
 import { pdfMiddleware } from "../middlewares/pdfMiddleware";
 
-const router = express.Router();
+const router = Router();
 
-export const pdfRoutes = router.post(
+const pdfRoutes = router.post(
   "/generatePDF",
   pdfMiddleware,
   generatePdfController
 );
+
+export default pdfRoutes;
