@@ -8,8 +8,6 @@ export const exportSheet = async (req: Request, res: Response) => {
 
     const dataParse = JSON.parse(data);
 
-    console.log(dataParse);
-
     dataParse.forEach(async (row: SheetRow) => {
       const existingSheetRow = await prisma.sheetRow.findFirst({
         where: {
