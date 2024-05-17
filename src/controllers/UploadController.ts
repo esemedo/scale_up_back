@@ -5,7 +5,6 @@ import fs from 'fs';
 
 const prisma = new PrismaClient();
 
-let syllabusPath = "";
 let billPath = "";
 
 interface Syllabus {
@@ -14,6 +13,7 @@ interface Syllabus {
   offerId: number;
   fileName: string;
   file: object;
+  path: string;
   createdAt: Date;
   user: User;
 }
@@ -58,26 +58,27 @@ export const uploadBillFile = async (req: Request, res: Response) => {
 };
 
 export const uploadSyllabus = async (req: Request, res: Response) => {
-  const d: Syllabus = req.body;
-  if (syllabusPath != "") {
-    const syllabus = await prisma.syllabus.create({
-      data: {
-        subjectId: d.subjectId,
-        authorId: d.authorId,
-        offerId: d.offerId,
-        file: syllabusPath,
-        createdAt: d.createdAt,
-      },
-    });
-    res.status(200).json(syllabus);
-  } else {
-    res.status(500).send("Path not found");
-  }
+    try {
+        const d: Syllabus = req.body;
+        const syllabus = await prisma.syllabus.create({
+        data: {
+            subjectId: d.subjectId,
+            authorId: d.authorId,
+            offerId: d.offerId,
+            file: d.path,
+            createdAt: d.createdAt,
+        },
+        });
+        res.status(200).json(syllabus);
+    } catch {
+        res.status(500).send("error occurred")
+    }
+    
 };
 
 export const uploadSyllabusFile = async (req: Request, res: Response) => {
-    syllabusPath = (req as MulterRequest).file.path
-    res.status(200).send('ok') //send path as res
+    const syllabusPath = (req as MulterRequest).file.path;
+    res.status(200).send({path: syllabusPath});
 }
 
 export const uploadPTF = async (req: Request, res: Response) => {
