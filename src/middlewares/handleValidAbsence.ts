@@ -8,7 +8,7 @@ function validCreateAbsence(){
     return [
         body("startDate").notEmpty().isISO8601().withMessage("La date de début est invalide."), 
         body("endDate").notEmpty().isISO8601().withMessage("La date de fin est invalide."),
-        body("reason").notEmpty().isString().trim().escape().withMessage("La raison est invalide."),
+        body("reason").optional().notEmpty().isString().trim().escape().withMessage("La raison est invalide."),
         body("substitutUserId").optional({ nullable: true }).isNumeric().toInt().withMessage("Le remplaçant est invalide.")
     ]
 
