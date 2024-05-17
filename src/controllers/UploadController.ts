@@ -28,6 +28,15 @@ interface Bill {
   validity: false;
 }
 
+interface MulterRequest extends Request {
+    file: {
+        path: string
+    },
+    body: {
+        offerID: string
+    }
+}
+
 export const uploadBill = async (req: Request, res: Response) => {
   console.log("here");
   const d: Bill = req.body;
