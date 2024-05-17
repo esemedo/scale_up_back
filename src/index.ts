@@ -19,6 +19,7 @@ import purchaseOrderRoutes from './routes/purchaseOrderRoutes'
 import quotationRoutes from './routes/quotationRoutes'
 import schoolRoutes from './routes/schoolRoutes'
 import syllabusRoutes from './routes/syllabusRoutes'
+import billRoutes from './routes/billRoutes';
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
@@ -56,9 +57,9 @@ setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000)
 
 export const keycloak = new Keycloak({}, kcConfig)
 
-const app = express()
-
 export const prisma = new PrismaClient()
+
+const app = express()
 
 app.use(helmet())
 app.use(cors())
@@ -83,5 +84,6 @@ app.use('/api/purchase-orders', purchaseOrderRoutes)
 app.use('/api/quotations', quotationRoutes)
 app.use('/api/schools', schoolRoutes)
 app.use('/api/syllabus', syllabusRoutes)
+app.use('/api/bills', billRoutes);
 
 export { app };
