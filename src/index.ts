@@ -26,6 +26,9 @@ import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
 import { createUserIfNotExistsMiddleware } from './middlewares/createUserIfNotExistsMiddleware'
+import KcAdminClient from '@keycloak/keycloak-admin-client'
+import{Credentials} from '@keycloak/keycloak-admin-client/lib/utils/auth'
+
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -38,6 +41,21 @@ const kcConfig = {
   "confidential-port": 0,
   resource: process.env.KC_CLIENT_ID,
 };
+
+export const kcAdminClient = new KcAdminClient({
+  baseUrl: process.env.KC_URL,
+  realmName: process.env.KC_REALM
+})
+
+const kcAdminClientCredentials = {
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: 'client_credentials',
+  clientId: process.env.KC_CLIENT_ID
+} as Credentials
+await kcAdminClient.auth(kcAdminClientCredentials)
+
+setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000)
 
 export const keycloak = new Keycloak({}, kcConfig)
 
@@ -53,11 +71,11 @@ app.use(keycloak.middleware())
 app.use(createUserIfNotExistsMiddleware)
 
 app.use('/api/needs', needsRoutes)
-app.use('/api/promotions', promotionRoutes)
+app.use('/api/promotions', keycloak.protect(),promotionRoutes)
 app.use('/api/subjects', subjectRoutes)
 app.use('/api/contributors', contributorRoutes)
 app.use('/api/categories', categoryRoutes)
-app.use('/api/users', userRoutes)
+app.use('/api/users',keycloak.protect(), userRoutes)
 app.use('/api/dei', deiRoutes)
 app.use('/api/notification-settings', notificationSettingsRoutes)
 app.use('/api/dispensations', dispensationsRoutes)

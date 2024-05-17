@@ -35,6 +35,8 @@ model Absence {
   substituteUserId Int?
 }
 
+
+
 model Dei {
   id Int @id @default(autoincrement())
   idNeed Int
@@ -68,6 +70,7 @@ model Category {
 
 model Promotion {
   id Int @id @default(autoincrement())
+  name String
   startSchoolYear Int
   endSchoolYear Int
   Subject Subject[]
@@ -76,7 +79,9 @@ model Promotion {
   manager User @relation(fields: [managerId], references: [id])
   assistantId Int?
   assistant User? @relation("assistant",fields: [assistantId], references: [id])
-} 
+}
+
+
 
 
 

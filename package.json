@@ -1,5 +1,6 @@
 {
   "name": "backend",
+  "type":"module",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
@@ -53,7 +54,8 @@
     "prisma": "^5.10.2",
     "ts-node": "^10.9.1",
     "tsup": "^8.0.1",
-    "tsx": "^4.10.2",
+    "tsx": "^4.10.3",
+
     "typescript": "^5.3.2"
   }
 }
