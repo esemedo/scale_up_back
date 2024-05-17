@@ -1,7 +1,7 @@
-import { createDocument } from "@/services/DocumentService";
-import { PrismaClient, User } from "@prisma/client";
-import { Request, Response } from "express";
-import path from "path";
+import { PrismaClient, User } from '@prisma/client';
+import { Request, Response } from 'express'
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
 
 const prisma = new PrismaClient();
 
@@ -23,6 +23,15 @@ interface Bill {
   file: object;
   status: number;
   validity: false;
+}
+
+interface MulterRequest extends Request {
+    file: {
+        path: string
+    },
+    body: {
+        offerID: string
+    }
 }
 
 export const uploadBill = async (req: Request, res: Response) => {
@@ -67,13 +76,13 @@ export const uploadSyllabus = async (req: Request, res: Response) => {
 };
 
 export const uploadSyllabusFile = async (req: Request, res: Response) => {
-  syllabusPath = req.file!.path;
-  res.status(200).send("ok");
-};
+    syllabusPath = (req as MulterRequest).file.path
+    res.status(200).send('ok') //send path as res
+}
 
 export const uploadPTF = async (req: Request, res: Response) => {
-  const ptfPath = req.file!.path;
-  const offerID = req.body.offerID;
+  const ptfPath = (req as MulterRequest).file!.path;
+  const offerID = (req as MulterRequest).body.offerID;
 
   await prisma.offer.update({
     where: {
@@ -196,37 +205,73 @@ export const getOffers = async (req: Request, res: Response) => {
 };
 
 export const getNeed = async (req: Request, res: Response) => {
-  try {
-    const result = await prisma.need.findUnique({
-      where: {
-        id: req.body.needId,
-      },
-      select: {
-        id: true,
-        idSubject: true,
-      },
-    });
-    res.json(result);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-};
+    try {
+        const result = await prisma.need.findUnique({
+            where: {
+                id: req.body.needId
+            },
+            select: {
+                id: true,
+                idSubject: true
+            }
+        });
+        res.json(result);
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      }
+}
+
+export const generatePDF = async (req: Request, res: Response) => {
+    try {
+        const body = req.body;
+        console.log(body)
+        const doc = new PDFDocument();
+        
+        doc.pipe(fs.createWriteStream(`uploads/${body.name}-${body.surname}-trainingrep.pdf`));
+        
+        doc.fontSize(27).text(body.name, 100, 100);
+        doc.fontSize(27).text(body.surname, 100, 150);
+        doc.fontSize(27).text(body.email, 100, 200);
+        doc.fontSize(27).text(body.phone, 100, 250);
+        doc.fontSize(27).text("Comment avez-vous trouvé le contenu de la formation par rapport à vos besoins ?", 50, 350);
+        doc.fontSize(27).text(body.answer, 35, 450);
+        
+        doc.end();
+        res.status(200).send("ok")
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+export const downloadPDF = async (req: Request, res: Response) => {
+    try {
+        const params = req.url.split('?name=', 2)[1];
+        const name = params.split('&surname=', 2)[0]
+        const surname = params.split('&surname=', 2)[1]
+        console.log(name)
+        console.log(surname)
+        res.download(`uploads/${name}-${surname}-trainingrep.pdf`)
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+}
 
 export const getBills = async (req: Request, res: Response) => {
-  try {
-    const result = await prisma.bill.findMany({
-      where: {
-        id: req.body.billId,
-      },
-      select: {
-        id: true,
-      },
-    });
-    res.json(result);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
-  }
-};
-
+    try {
+      const result = await prisma.bill.findMany({
+        where: {
+          id: req.body.billId,
+        },
+        select: {
+          id: true,
+        },
+      });
+      res.json(result);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send("Internal Server Error");
+    }
+  };
