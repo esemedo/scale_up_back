@@ -1,10 +1,9 @@
 import { Router } from "express";
 
-import { getCompany, getHello } from "../controllers/HelloController";
+import { getHello } from "../controllers/HelloController";
 
 const router = Router();
 
-router.get("/", getHello);
-router.get("/users", getCompany)
+router.get("/", getHello,);
 
 export default router;

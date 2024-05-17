@@ -3,8 +3,9 @@ import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
 import categoryRoutes from "./routes/CategoryRoutes";
-import helloRoutes from "./routes/helloRoutes";
+import helloRoutes from "./routes/HelloRoutes";
 import subjectRoutes from "./routes/SubjectRoutes";
+import intervenantRoutes from "./routes/IntervenantRoutes";
 dotenv.config();
 
 import { PrismaClient } from "@prisma/client";
@@ -12,6 +13,7 @@ import Keycloak from "keycloak-connect";
 import morgan from "morgan";
 import { createUserIfNotExistsMiddleware } from "./middlewares/createUserIfNotExistsMiddleware";
 import KcAdminClient from '@keycloak/keycloak-admin-client'
+import{Credentials} from '@keycloak/keycloak-admin-client/lib/utils/auth'
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -37,9 +39,19 @@ await kcAdminClient.auth({
   clientId: process.env.KC_CLIENT_ID
 })
 
-export const keycloak = new Keycloak({}, kcConfig);
+const kcAdminClientCredentials = {
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: 'client_credentials',
+  clientId: process.env.KC_CLIENT_ID
+} as Credentials
+await kcAdminClient.auth(kcAdminClientCredentials)
 
-export const prisma = new PrismaClient();
+setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000)
+
+export const keycloak = new Keycloak({}, kcConfig)
+
+export const prisma = new PrismaClient()
 
 const app = express();
 
@@ -53,5 +65,6 @@ app.use(createUserIfNotExistsMiddleware);
 app.use("/api", helloRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
+app.use("/api/company", intervenantRoutes);
 
 export { app };
