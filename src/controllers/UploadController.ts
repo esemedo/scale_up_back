@@ -69,7 +69,7 @@ export const uploadSyllabus = async (req: Request, res: Response) => {
 };
 
 export const uploadSyllabusFile = async (req: Request, res: Response) => {
-    const syllabusPath = req.file.path;
+    const syllabusPath = req.file!.path;
     res.status(200).send({path: syllabusPath});
 }
 
