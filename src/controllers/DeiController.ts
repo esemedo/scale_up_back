@@ -66,7 +66,7 @@ const updateStatusDEI = async (req: Request, res: Response) => {
               id: id,
             },
             data: {
-              status: Boolean(status),
+              status: status,
             },
           })
           
