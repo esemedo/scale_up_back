@@ -12,6 +12,7 @@ model User {
   uuid String  @unique
   absences Absence[]
   promotions Promotion[]
+  promotionsAssistant Promotion[] @relation(name: "assistant")
   syllabus Syllabus[]
   contracts Contract[]
   legalFiles LegalFile[]
@@ -19,7 +20,9 @@ model User {
   notificationSettings NotificationSettings[]
   companies Company[]
   notifications Notification[]
+  absencesSubstitute Absence [] @relation(name: "SubstituteUser")
 }
+
 
 model Absence {
   id Int @id @default(autoincrement())
@@ -28,6 +31,8 @@ model Absence {
   reason String
   user User @relation(fields: [userId], references: [id])
   userId Int
+  substituteUser User? @relation("SubstituteUser", fields: [substituteUserId], references: [id])
+  substituteUserId Int?
 }
 
 model Dei {
@@ -51,6 +56,7 @@ model Subject {
   syllabus Syllabus[]
   needs Need[]
   hourlyRates HourlyRate[]
+  Promotion Promotion[]
   category Category @relation(fields: [categoryId], references: [id])
 }
 
@@ -62,12 +68,16 @@ model Category {
 
 model Promotion {
   id Int @id @default(autoincrement())
-  schoolYear Int
-  name String
+  startSchoolYear Int
+  endSchoolYear Int
+  Subject Subject[]
+  needs Need[]
   managerId Int
   manager User @relation(fields: [managerId], references: [id])
-  needs Need[]
-}
+  assistantId Int?
+  assistant User? @relation("assistant",fields: [assistantId], references: [id])
+} 
+
 
 model Company {
   id Int @id @default(autoincrement())
@@ -125,16 +135,19 @@ model Offer {
 
 model Need {
   id Int @id @default(autoincrement())
-  idSubject Int
+  subject Subject[]
   idPromotion Int
   status Int
   idContributor Int
   hoursVolume Int
-  subject Subject? @relation(fields: [idSubject], references: [id])
+  startSchoolYear Int
+  endSchoolYear Int
   promotion Promotion? @relation(fields: [idPromotion], references: [id])
   contributor Contributor? @relation(fields: [idContributor], references: [id])
   offers Offer[]
   dei Dei[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model School {
@@ -158,6 +171,7 @@ model Bill {
 model Contract {
   id Int @id @default(autoincrement())
   signatoryId Int
+  purchaseOrderId Int
   hourlyPrice Float
   hoursVolume Int
   total Float
@@ -165,6 +179,7 @@ model Contract {
   isVerified Boolean @default(false)
   startDate DateTime
   endDate DateTime
+  purchaseOrder PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
   signatory User @relation(fields: [signatoryId], references: [id])
   bills Bill[]
 }
@@ -195,7 +210,11 @@ model HourlyRate {
   level String
   subjectId Int
   rate Float
+<<<<<<< HEAD
   realRate Float?
+=======
+  realrate Float
+>>>>>>> 4f3ef9ec787fb53b48753a3902a32987c384097a
   subject Subject @relation(fields: [subjectId], references: [id])
 }
 
@@ -228,6 +247,7 @@ model PurchaseOrder{
   quotationId Int
   description String
   quotation Quotation @relation(fields: [quotationId], references: [id])
+  contract Contract[]
   dei Dei @relation(fields: [deiId], references: [id])
 }
 

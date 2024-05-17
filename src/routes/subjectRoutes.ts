@@ -7,12 +7,16 @@ import {
   getSubjectsByCategoryId,
   getSubjectsById,
   updateSubject,
+  importSubject,
 } from "../controllers/SubjectController";
 import { handleValidationErrors } from "../middlewares/handleValidator";
 
 const router = Router();
 
 router.get("/", getAllSubjects);
+
+router.post('/upload', importSubject)
+
 router.post(
   "/",
   [

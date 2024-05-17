@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Request, Response } from 'express';
 import {
     deleteQuotation as deleteQuotationMiddleware,
@@ -31,3 +32,15 @@ export const updateQuotation = async (req: Request, res: Response) => {
 export const createQuotation = async (req: Request, res: Response) => {
   return createQuotationMiddleware(req, res);
 };
+=======
+import { Request, Response } from 'express'
+import { prisma } from '../index'
+
+export const getQuotations = async (req: Request, res: Response) => {
+    let quotations = await prisma.quotation.findMany().catch((error) => {
+        console.error('Error fetching quotations:', error)
+        res.status(500).json({ error: 'Error fetching quotations' })
+    })
+    res.status(200).json(quotations)
+}
+>>>>>>> 4f3ef9ec787fb53b48753a3902a32987c384097a
