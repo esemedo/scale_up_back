@@ -15,6 +15,8 @@ import {
   uploadBillFile,
   uploadBill,
   getBills,
+  generatePDF, 
+  downloadPDF
 } from "@/controllers/UploadController";
 
 const router = Router();
@@ -32,7 +34,9 @@ router.get("/getSyllabus", getSyllabus);
 router.get("/getTemplatePTF", getTemplatePTF);
 router.get("/getTemplateSyllabus", getTemplateSyllabus);
 router.get("/getBills", getBills);
+router.get('/downloadTrainingReport', downloadPDF);
 
+router.post('/generateTrainingReport', generatePDF);
 router.post(
   "/uploadSyllabusFile",
   upload.single("syllabus"),
