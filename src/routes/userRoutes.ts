@@ -4,10 +4,10 @@ import {
   getUserContractsHandler,
   getUserCompanyHandler, getUserNotifications,
   getUserDocumentsHandler,
-} from "@/controllers/UserController";
-import { validateRequest } from "@/middlewares/validationMiddleware";
-import { readUserParamsSchema } from "@/dto/userDto";
-import { readDocumentsQuerySchema } from "@/dto/documentDto";
+} from "../controllers/UserController";
+import { validateRequest } from "../middlewares/validationMiddleware";
+import { readUserParamsSchema } from "../dto/userDto";
+import { readDocumentsQuerySchema } from "../dto/documentDto";
 
 const router = Router();
 

@@ -3,9 +3,9 @@ import { Router } from "express";
 import {
   getCompany,
   getCompanyContributors,
-} from "@/controllers/CompanyController";
-import { validateRequest } from "@/middlewares/validationMiddleware";
-import { readCompanyParamsSchema } from "@/dto/companyDto";
+} from "../controllers/CompanyController";
+import { validateRequest } from "../middlewares/validationMiddleware";
+import { readCompanyParamsSchema } from "../dto/companyDto";
 
 const router = Router();
 

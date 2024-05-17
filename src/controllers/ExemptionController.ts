@@ -6,15 +6,15 @@ import {
   readExemption,
   readExemptions,
   updateExemption,
-} from "@/services/ExemptionService";
+} from "../services/ExemptionService";
 import {
   CreateExemptionBody,
   ReadExemptionsQuery,
   UpdateExemptionParams,
   UpdateExemptionQuery,
   updateExemptionQuerySchema,
-} from "@/dto/exemptionDto";
-import { getStatusNumber } from "@/libs/exemption";
+} from "../dto/exemptionDto";
+import { getStatusNumber } from "../libs/exemption";
 
 export async function createExemptionRequestHandler(
   req: Request<any, any, CreateExemptionBody>,

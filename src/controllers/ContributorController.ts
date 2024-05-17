@@ -4,17 +4,17 @@ import {
   createContributor,
   deleteContributorById,
   readContributor,
-} from "@/services/ContributorService";
-import { ReadExemptionsQuery } from "@/dto/exemptionDto";
-import { getStatusNumber } from "@/libs/exemption";
-import { readExemptions } from "@/services/ExemptionService";
+} from "../services/ContributorService";
+import { ReadExemptionsQuery } from "../dto/exemptionDto";
+import { getStatusNumber } from "../libs/exemption";
+import { readExemptions } from "../services/ExemptionService";
 import {
   CreateContributorBody,
   ReadContributorExemptionsParams,
   ReadContributorParams,
-} from "@/dto/contributorDto";
-import { readDocuments } from "@/services/DocumentService";
-import { ReadDocumentsQuery } from "@/dto/documentDto";
+} from "../dto/contributorDto";
+import { readDocuments } from "../services/DocumentService";
+import { ReadDocumentsQuery } from "../dto/documentDto";
 
 export const addContributor = async (
   req: Request<any, any, CreateContributorBody>,

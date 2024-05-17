@@ -1,23 +1,28 @@
 {
   "compilerOptions": {
     "strict": true,
-    "module": "commonjs",
-    "target": "esnext",
+    "module": "ESNext",
+    "target": "ESNext",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
+    "types": [
+        "node"
+    ],
     "sourceMap": true,
     "outDir": "dist",
     "allowJs": true,
     "lib": ["dom", "es6"],
     "baseUrl": "./src",
     "paths": {
-      "@/*": ["./*"]
-    }
+      "@/*": ["./"]
+    },
+    "jsx": "react"
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "tests/**/*.spec.ts"],
+  "include": ["src//*.ts", "src//.d.ts", "tests/**/.spec.ts"],
   "ts-node": {
-    "files": true
+    "files": true,
+    "esm": true
   },
   "files": ["src/index.ts"]
 }

@@ -5,14 +5,14 @@ import {
   readExemptionsQuerySchema,
   updateExemptionParamsSchema,
   updateExemptionQuerySchema,
-} from "@/dto/exemptionDto";
+} from "../dto/exemptionDto";
 
 import {
   processExemptionRequestHandler,
   createExemptionRequestHandler,
   getExemptionsHandler,
-} from "@/controllers/ExemptionController";
-import { validateRequest } from "@/middlewares/validationMiddleware";
+} from "../controllers/ExemptionController";
+import { validateRequest } from "../middlewares/validationMiddleware";
 
 const router = Router();
 

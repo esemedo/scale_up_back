@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { getHello } from "@/controllers/HelloController";
+import { getHello } from "../controllers/HelloController";
 import {
   uploadSyllabus,
   uploadSyllabusFile,
@@ -17,7 +17,7 @@ import {
   getBills,
   generatePDF, 
   downloadPDF
-} from "@/controllers/UploadController";
+} from "../controllers/UploadController";
 
 const router = Router();
 

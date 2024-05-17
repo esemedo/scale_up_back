@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { createDocument, readDocument } from "@/services/DocumentService";
-import { CreateDocumentBody } from "@/dto/documentDto";
+import { createDocument, readDocument } from "../services/DocumentService";
+import { CreateDocumentBody } from "../dto/documentDto";
 import path from "path";
 import fs from "fs";
 

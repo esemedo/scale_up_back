@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 
-import { getNotificationsByUserId } from "@/services/NotificationService";
-import { readUserCompany } from "@/services/CompanyService";
-import { getContractsByUserId } from "@/services/ContractService";
-import { ReadUserParams } from "@/dto/userDto";
-import { readDocuments } from "@/services/DocumentService";
-import { ReadDocumentsQuery } from "@/dto/documentDto";
+import { getNotificationsByUserId } from "../services/NotificationService";
+import { readUserCompany } from "../services/CompanyService";
+import { getContractsByUserId } from "../services/ContractService";
+import { ReadUserParams } from "../dto/userDto";
+import { readDocuments } from "../services/DocumentService";
+import { ReadDocumentsQuery } from "../dto/documentDto";
 
 export const getUserCompanyHandler = async (
   req: Request<ReadUserParams>,

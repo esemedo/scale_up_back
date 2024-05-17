@@ -5,15 +5,15 @@ import {
   getContributorHandler,
   getContributorToSubjectExemptionsHandler,
   removeContributor,
-} from "@/controllers/ContributorController";
+} from "../controllers/ContributorController";
 import {
   createContributorBodySchema,
   readContributorExemptionsParamsSchema,
   readContributorParamsSchema,
-} from "@/dto/contributorDto";
-import { readDocumentsQuerySchema } from "@/dto/documentDto";
-import { readExemptionsQuerySchema } from "@/dto/exemptionDto";
-import { validateRequest } from "@/middlewares/validationMiddleware";
+} from "../dto/contributorDto";
+import { readDocumentsQuerySchema } from "../dto/documentDto";
+import { readExemptionsQuerySchema } from "../dto/exemptionDto";
+import { validateRequest } from "../middlewares/validationMiddleware";
 import { Router } from "express";
 
 const router = Router();

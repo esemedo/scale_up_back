@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 
-import { readCompanyContributors } from "@/services/ContributorService";
-import { readCompany } from "@/services/CompanyService";
-import { ReadCompanyParams } from "@/dto/companyDto";
+import { readCompanyContributors } from "../services/ContributorService";
+import { readCompany } from "../services/CompanyService";
+import { ReadCompanyParams } from "../dto/companyDto";
 
 export async function getCompany(
   req: Request<ReadCompanyParams>,
