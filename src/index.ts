@@ -48,7 +48,17 @@ await kcAdminClient.auth({
   clientId: process.env.KC_CLIENT_ID
 })
 
-export const keycloak = new Keycloak({}, kcConfig);
+const kcAdminClientCredentials = {
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: 'client_credentials',
+  clientId: process.env.KC_CLIENT_ID
+} as Credentials
+await kcAdminClient.auth(kcAdminClientCredentials)
+
+setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000)
+
+export const keycloak = new Keycloak({}, kcConfig)
 
 export const prisma = new PrismaClient()
 
