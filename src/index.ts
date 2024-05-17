@@ -22,6 +22,7 @@ import syllabusRoutes from './routes/syllabusRoutes'
 import billRoutes from './routes/billRoutes';
 import notifRoutes from './routes/notifRoutes';
 import absenceRoutes from './routes/absenceRoutes';
+import companyRoutes from './routes/companyRoutes'
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
 import { PrismaClient } from '@prisma/client'
@@ -89,5 +90,6 @@ app.use('/api/syllabus', syllabusRoutes)
 app.use('/api/bills', billRoutes);
 app.use('/api/notif', notifRoutes);
 app.use('/api/absence', absenceRoutes);
+app.use('/api/company', companyRoutes)
 
 export { app };
