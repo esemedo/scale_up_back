@@ -99,6 +99,7 @@ app.use("/api/absence", absenceRoutes);
 app.use("/api/company", companyRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
+app.use('/api/user', userRoutes)
 app.use("/api/pdf", pdfRoutes);
 
-export { app };
+export { app }
