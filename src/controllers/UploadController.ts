@@ -1,5 +1,7 @@
 import { PrismaClient, User } from '@prisma/client';
 import { Request, Response } from 'express'
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
 
 const prisma = new PrismaClient();
 
@@ -44,7 +46,7 @@ export const uploadSyllabus = async (req: Request, res: Response) => {
 
 export const uploadSyllabusFile = async (req: Request, res: Response) => {
     syllabusPath = (req as MulterRequest).file.path
-    res.status(200).send('ok')
+    res.status(200).send('ok') //send path as res
 }
 
 export const uploadPTF = async (req: Request, res: Response) => {
@@ -166,4 +168,41 @@ export const getNeed = async (req: Request, res: Response) => {
         console.error(err);
         res.status(500).send('Internal Server Error');
       }
+}
+
+export const generatePDF = async (req: Request, res: Response) => {
+    try {
+        const body = req.body;
+        console.log(body)
+        const doc = new PDFDocument();
+        
+        doc.pipe(fs.createWriteStream(`uploads/${body.name}-${body.surname}-trainingrep.pdf`));
+        
+        doc.fontSize(27).text(body.name, 100, 100);
+        doc.fontSize(27).text(body.surname, 100, 150);
+        doc.fontSize(27).text(body.email, 100, 200);
+        doc.fontSize(27).text(body.phone, 100, 250);
+        doc.fontSize(27).text("Comment avez-vous trouvé le contenu de la formation par rapport à vos besoins ?", 50, 350);
+        doc.fontSize(27).text(body.answer, 35, 450);
+        
+        doc.end();
+        res.status(200).send("ok")
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
+export const downloadPDF = async (req: Request, res: Response) => {
+    try {
+        const params = req.url.split('?name=', 2)[1];
+        const name = params.split('&surname=', 2)[0]
+        const surname = params.split('&surname=', 2)[1]
+        console.log(name)
+        console.log(surname)
+        res.download(`uploads/${name}-${surname}-trainingrep.pdf`)
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
 }
