@@ -4,6 +4,7 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import needsRoutes from './routes/needsRoutes'
+import absenceRoutes from './routes/absenceRoutes'
 import promotionRoutes from './routes/promotionRoutes'
 import subjectRoutes from './routes/subjectRoutes'
 import contributorRoutes from './routes/contributorRoutes'
@@ -26,6 +27,9 @@ import { createUserIfNotExistsMiddleware } from './middlewares/createUserIfNotEx
 import { Credentials } from "@keycloak/keycloak-admin-client/lib/utils/auth";
 import notifRoutes from './routes/notifRoutes'
 import KcAdminClient from '@keycloak/keycloak-admin-client'
+import cron from 'node-cron';
+import { checkTasksAndNotify } from 'utils/dailyNotifications'
+
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
   bearerOnly: true,
@@ -55,6 +59,7 @@ await kcAdminClient.auth(kcAdminClientCredentials)
 setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000)
 export const prisma = new PrismaClient();
 
+
 const app = express()
 
 app.use(helmet())
@@ -70,7 +75,8 @@ app.use('/api/subjects', subjectRoutes)
 app.use('/api/contributors', contributorRoutes)
 app.use('/api/categories', categoryRoutes)
 app.use('/api/users', userRoutes)
-app.use('/api/dei', deiRoutes)
+app.use('/api/dei', keycloak.protect(),deiRoutes)
+app.use('/api/absence',keycloak.protect(), absenceRoutes)
 app.use('/api/notification-settings', notificationSettingsRoutes)
 app.use('/api/dispensations', dispensationsRoutes)
 app.use('/api/hourly-rates', hourlyRatesRoutes)
@@ -81,4 +87,8 @@ app.use('/api/quotations', quotationRoutes)
 app.use('/api/schools', schoolRoutes)
 app.use('/api/syllabus', syllabusRoutes)
 app.use ('/api/notifications', notifRoutes)
+//envoi notification dès que date d'échéance est proche 
+cron.schedule('0 0 * * *', () => {
+  checkTasksAndNotify().catch(console.error);
+});
 export { app };

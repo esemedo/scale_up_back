@@ -179,3 +179,7 @@ dist/
 
 #migrations
 /src/prisma/migrations/*
+
+#files
+/files/purchaseOrder/*
+!/files/purchaseOrder/.gitkeep

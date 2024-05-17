@@ -38,12 +38,12 @@ model Absence {
 model Dei {
   id Int @id @default(autoincrement())
   idNeed Int
-  idContract Int @default(autoincrement())
-  idQuotation Int @default(autoincrement())
+  idContract Int 
+  idQuotation Int
   hourlyPrice Float
   totalPrice Float
-  status Boolean
-  sashaStatus Int
+  status Int @default(0)
+  sashaStatus Int @default(0)
   dueDate DateTime
   priority Int
   purchaseOrder PurchaseOrder[]
@@ -72,8 +72,8 @@ model Category {
 
 model Promotion {
   id Int @id @default(autoincrement())
-  startSchoolYear Int
-  endSchoolYear Int
+  startSchoolYear Int  
+  endSchoolYear Int 
   Subject Subject[]
   needs Need[]
   managerId Int
@@ -144,14 +144,12 @@ model Need {
   status Int
   idContributor Int
   hoursVolume Int
-  startSchoolYear Int
-  endSchoolYear Int
   promotion Promotion? @relation(fields: [idPromotion], references: [id])
   contributor Contributor? @relation(fields: [idContributor], references: [id])
   offers Offer[]
   dei Dei[]
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime @updatedAt @default(now())
 }
 
 model School {
@@ -174,7 +172,6 @@ model Bill {
 model Contract {
   id Int @id @default(autoincrement())
   signatoryId Int
-  purchaseOrderId Int
   hourlyPrice Float
   hoursVolume Int
   total Float
@@ -182,7 +179,6 @@ model Contract {
   isVerified Boolean @default(false)
   startDate DateTime
   endDate DateTime
-  purchaseOrder PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
   signatory User @relation(fields: [signatoryId], references: [id])
   bills Bill[]
   dei Dei[]
@@ -214,7 +210,7 @@ model HourlyRate {
   level String
   subjectId Int
   rate Float
-  realrate Float
+  realrate Float 
   subject Subject @relation(fields: [subjectId], references: [id])
 }
 
@@ -244,7 +240,7 @@ model Dispensation {
 model PurchaseOrder{
   id Int @id @default(autoincrement())
   deiId Int
-  description String
+  fileUrl String?
   dei Dei @relation(fields: [deiId], references: [id])
 }
 

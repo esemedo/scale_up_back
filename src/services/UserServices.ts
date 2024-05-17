@@ -1,4 +1,4 @@
-import { prisma } from "index";
+import { kcAdminClient, prisma } from "index";
 
 export async function createUsersIfNotExists(usersData) {
     const promises = usersData.map(async (userData) => {
@@ -20,3 +20,14 @@ export async function createUsersIfNotExists(usersData) {
     const users = await Promise.all(promises);
     return users;
 }
+
+
+export async function getUserById(idUser){
+  return await prisma.user.findUnique({
+    where: {id:idUser}
+  })
+} 
+export async function getInfoUserByUuid(uuid){
+  return await kcAdminClient.users.findOne({id:uuid})  
+ 
+  }

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { createAbsenceWithSubstitute, deleteAbsenceOfUser, getAbsencesOfUser, updateSubstitute } from '../services/AbsenceService';
-import { createNotif } from 'services/NotificationService';
+import { createNotif } from '../services/NotificationService';
 
 async function createAbsence(req: Request, res: Response) {
     const { startDate, endDate, reason, substitutUserId } = req.body;
