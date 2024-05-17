@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { param } from "express-validator";
 
-import { getOfferId, getOfferStatus } from "../controllers/OfferController";
+import { getAuthorId, getOfferStatus } from "../controllers/OfferController";
 import { handleValidationErrors } from "../middlewares/handleValidator";
 
 const router = Router();
@@ -14,7 +14,7 @@ router.get(
   "/getAuthorIdByOffer/:id",
   validateOfferId,
   handleValidationErrors,
-  getOfferId
+  getAuthorId
 );
 
 router.get(
