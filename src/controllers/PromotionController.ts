@@ -68,7 +68,12 @@ export const importPromotions = async (req, res) => {
 export const getAssistantsForPromotion = async (req, res) => {  
     try {
       const promotion = await prisma.promotion.findMany({
-        include: { manager: true, assistant: true } 
+        include: { manager: true, assistant: true },
+        where: {
+            assistantId: {
+                not: null
+            }
+        }
       });
   
       if (!promotion) {
