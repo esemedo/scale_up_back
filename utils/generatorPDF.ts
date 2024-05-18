@@ -19,7 +19,7 @@ export const generatePDF = (data: ContractData): Promise<Buffer> => {
         resolve(pdfData);
       });
 
-      // doc.image("./EsieeITLogo.png", 50, 50, { width: 50 }); //TODO: resolve bug
+      // doc.image("./EsieeITLogo.png", 50, 50, { width: 50 }); //TODO: resolve image bug
 
       doc
         .rect(50, 220, 500, 100)
