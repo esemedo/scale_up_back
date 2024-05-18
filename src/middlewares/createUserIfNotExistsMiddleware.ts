@@ -6,11 +6,11 @@ export const createUserIfNotExistsMiddleware = async (
   next: NextFunction
 ) => {
   try {
-    if (!req.kauth!.grant) {
+    if (!(req as any).kauth!.grant) {
       next();
       return;
     }
-    const userUUID = req.kauth!.grant.access_token!.content!.sub;
+    const userUUID = (req as any).kauth!.grant.access_token!.content!.sub;
 
     const user = await prisma.user.upsert({
       where: {
@@ -22,10 +22,9 @@ export const createUserIfNotExistsMiddleware = async (
       },
     });
 
-    req.userId = user.id;
+    (req as any).userId = user.id;
     next();
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
