@@ -7,6 +7,8 @@ import {
 import { validateRequest } from "../middlewares/validationMiddleware";
 import { readCompanyParamsSchema } from "../dto/companyDto";
 
+import { getCompanies } from "../controllers/CompanyController";
+
 const router = Router();
 
 router.get(
@@ -23,5 +25,7 @@ router.get(
   }),
   getCompanyContributors
 );
+
+router.get("/", getCompanies);
 
 export default router;

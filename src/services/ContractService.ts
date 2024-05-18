@@ -12,10 +12,8 @@ export async function getContractsByUserId(userId: number) {
   });
 }
 
-
-
-export async function getContracts() {
-    const contracts = await prisma.contract.findMany();
-    console.log(contracts)
-    return contracts
-  }
+export async function readContracts() {
+  const contracts = await prisma.contract.findMany();
+  console.log(contracts);
+  return contracts;
+}

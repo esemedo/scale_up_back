@@ -16,6 +16,8 @@ import { readExemptionsQuerySchema } from "../dto/exemptionDto";
 import { validateRequest } from "../middlewares/validationMiddleware";
 import { Router } from "express";
 
+import { getContributors } from "../controllers/ContributorController";
+
 const router = Router();
 
 router.post(
@@ -62,5 +64,7 @@ router.get(
   }),
   getContributorDocumentsHandler
 );
+
+router.get("/", getContributors);
 
 export default router;

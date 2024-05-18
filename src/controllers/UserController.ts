@@ -7,6 +7,8 @@ import { ReadUserParams } from "../dto/userDto";
 import { readDocuments } from "../services/DocumentService";
 import { ReadDocumentsQuery } from "../dto/documentDto";
 
+import { prisma } from "../index";
+
 export const getUserCompanyHandler = async (
   req: Request<ReadUserParams>,
   res: Response
@@ -61,4 +63,12 @@ export const getUserDocumentsHandler = async (
   });
 
   res.json(documents);
+};
+
+export const getUsers = async (req: Request, res: Response) => {
+  let users = await prisma.user.findMany().catch((error) => {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Error fetching users" });
+  });
+  res.status(200).json(users);
 };

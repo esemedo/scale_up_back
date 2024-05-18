@@ -12,6 +12,7 @@ model User {
   uuid                 String                 @unique
   absences             Absence[]
   promotions           Promotion[]
+  promotionsAssistant  Promotion[]            @relation(name: "assistant")
   syllabus             Syllabus[]
   contracts            Contract[]
   legalFiles           LegalFile[]
@@ -19,16 +20,19 @@ model User {
   notificationSettings NotificationSettings[]
   companies            Company[]
   notifications        Notification[]
-  File                 Document[]
+  absencesSubstitute   Absence[]              @relation(name: "SubstituteUser")
+  Document             Document[]
 }
 
 model Absence {
-  id        Int      @id @default(autoincrement())
-  startDate DateTime
-  endDate   DateTime
-  reason    String
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  id               Int      @id @default(autoincrement())
+  startDate        DateTime
+  endDate          DateTime
+  reason           String
+  user             User     @relation(fields: [userId], references: [id])
+  userId           Int
+  substituteUser   User?    @relation("SubstituteUser", fields: [substituteUserId], references: [id])
+  substituteUserId Int?
 }
 
 model Dei {
@@ -45,16 +49,17 @@ model Dei {
 }
 
 model Subject {
-  id                    Int                    @id @default(autoincrement())
-  name                  String
-  level                 String
-  categoryId            Int
-  syllabus              Syllabus[]
-  needs                 Need[]
-  hourlyRates           HourlyRate[]
-  category              Category               @relation(fields: [categoryId], references: [id])
-  contributorToSubjects ContributorToSubject[]
-  exemptions            Exemption[]
+  id                   Int                    @id @default(autoincrement())
+  name                 String
+  level                String
+  categoryId           Int
+  syllabus             Syllabus[]
+  needs                Need[]
+  hourlyRates          HourlyRate[]
+  Promotion            Promotion[]
+  category             Category               @relation(fields: [categoryId], references: [id])
+  Exemption            Exemption[]
+  ContributorToSubject ContributorToSubject[]
 }
 
 model Category {
@@ -64,12 +69,15 @@ model Category {
 }
 
 model Promotion {
-  id         Int    @id @default(autoincrement())
-  schoolYear Int
-  name       String
-  managerId  Int
-  manager    User   @relation(fields: [managerId], references: [id])
-  needs      Need[]
+  id              Int       @id @default(autoincrement())
+  startSchoolYear Int
+  endSchoolYear   Int
+  Subject         Subject[]
+  needs           Need[]
+  managerId       Int
+  manager         User      @relation(fields: [managerId], references: [id])
+  assistantId     Int?
+  assistant       User?     @relation("assistant", fields: [assistantId], references: [id])
 }
 
 model Company {
@@ -131,17 +139,20 @@ model Offer {
 }
 
 model Need {
-  id            Int          @id @default(autoincrement())
-  idSubject     Int
-  idPromotion   Int
-  status        Int
-  idContributor Int
-  hoursVolume   Int
-  subject       Subject?     @relation(fields: [idSubject], references: [id])
-  promotion     Promotion?   @relation(fields: [idPromotion], references: [id])
-  contributor   Contributor? @relation(fields: [idContributor], references: [id])
-  offers        Offer[]
-  dei           Dei[]
+  id              Int          @id @default(autoincrement())
+  subject         Subject[]
+  idPromotion     Int
+  status          Int
+  idContributor   Int
+  hoursVolume     Int
+  startSchoolYear Int
+  endSchoolYear   Int
+  promotion       Promotion?   @relation(fields: [idPromotion], references: [id])
+  contributor     Contributor? @relation(fields: [idContributor], references: [id])
+  offers          Offer[]
+  dei             Dei[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
 }
 
 model School {
@@ -164,17 +175,19 @@ model Bill {
 }
 
 model Contract {
-  id          Int      @id @default(autoincrement())
-  signatoryId Int
-  hourlyPrice Float
-  hoursVolume Int
-  total       Float
-  status      Int
-  isVerified  Boolean  @default(false)
-  startDate   DateTime
-  endDate     DateTime
-  signatory   User     @relation(fields: [signatoryId], references: [id])
-  bills       Bill[]
+  id              Int           @id @default(autoincrement())
+  signatoryId     Int
+  purchaseOrderId Int
+  hourlyPrice     Float
+  hoursVolume     Int
+  total           Float
+  status          Int
+  isVerified      Boolean       @default(false)
+  startDate       DateTime
+  endDate         DateTime
+  purchaseOrder   PurchaseOrder @relation(fields: [purchaseOrderId], references: [id])
+  signatory       User          @relation(fields: [signatoryId], references: [id])
+  bills           Bill[]
 }
 
 model LegalFile {
@@ -203,6 +216,7 @@ model HourlyRate {
   level     String
   subjectId Int
   rate      Float
+  realrate  Float
   subject   Subject @relation(fields: [subjectId], references: [id])
 }
 
@@ -230,12 +244,13 @@ model Dispensation {
 }
 
 model PurchaseOrder {
-  id          Int       @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   deiId       Int
   quotationId Int
   description String
-  quotation   Quotation @relation(fields: [quotationId], references: [id])
-  dei         Dei       @relation(fields: [deiId], references: [id])
+  quotation   Quotation  @relation(fields: [quotationId], references: [id])
+  contract    Contract[]
+  dei         Dei        @relation(fields: [deiId], references: [id])
 }
 
 model Notification {

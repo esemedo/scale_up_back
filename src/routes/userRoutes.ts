@@ -2,8 +2,10 @@ import { Router } from "express";
 
 import {
   getUserContractsHandler,
-  getUserCompanyHandler, getUserNotifications,
+  getUserCompanyHandler,
+  getUserNotifications,
   getUserDocumentsHandler,
+  getUsers,
 } from "../controllers/UserController";
 import { validateRequest } from "../middlewares/validationMiddleware";
 import { readUserParamsSchema } from "../dto/userDto";
@@ -29,5 +31,7 @@ router.get(
   }),
   getUserDocumentsHandler
 );
+
+router.get("/", getUsers);
 
 export default router;
