@@ -32,6 +32,9 @@ import purchaseOrderRoutes from "./routes/purchaseOrderRoutes";
 import quotationRoutes from "./routes/quotationRoutes";
 import schoolRoutes from "./routes/schoolRoutes";
 import syllabusRoutes from "./routes/syllabusRoutes";
+import IntervenantRoutes from "./routes/IntervenantRoutes";
+import KcAdminClient from "@keycloak/keycloak-admin-client";
+import { Credentials } from "@keycloak/keycloak-admin-client/lib/utils/auth";
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -44,6 +47,28 @@ const kcConfig = {
   "confidential-port": 0,
   resource: process.env.KC_CLIENT_ID!,
 };
+
+export const kcAdminClient = new KcAdminClient({
+  baseUrl: process.env.KC_URL,
+  realmName: process.env.KC_REALM,
+});
+
+await kcAdminClient.auth({
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: "client_credentials",
+  clientId: process.env.KC_CLIENT_ID!,
+});
+
+const kcAdminClientCredentials = {
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: "client_credentials",
+  clientId: process.env.KC_CLIENT_ID,
+} as Credentials;
+await kcAdminClient.auth(kcAdminClientCredentials);
+
+setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000);
 
 export const keycloak = new Keycloak({}, kcConfig);
 
@@ -73,10 +98,12 @@ router.use("/documents", documentRoutes);
 router.use("/bills", BillRoutes);
 
 app.use("/api/needs", needsRoutes);
+app.use("/api/company", IntervenantRoutes);
 app.use("/api/promotions", promotionRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/contributors", contributorRoutes);
 app.use("/api/categories", categoryRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/dei", deiRoutes);
 app.use("/api/notification-settings", notificationSettingsRoutes);
 app.use("/api/dispensations", dispensationsRoutes);
