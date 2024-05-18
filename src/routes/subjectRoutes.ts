@@ -3,7 +3,7 @@ import { body, param } from "express-validator";
 import {
   createSubject,
   deleteSubject,
-  getAllSubjects,
+  getSubjects,
   getSubjectsByCategoryId,
   getSubjectsById,
   updateSubject,
@@ -13,7 +13,7 @@ import { handleValidationErrors } from "../middlewares/handleValidator";
 
 const router = Router();
 
-router.get("/", getAllSubjects);
+router.get("/", getSubjects);
 
 router.post('/upload', importSubject)
 

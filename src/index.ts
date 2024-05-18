@@ -18,6 +18,8 @@ import offersRoutes from './routes/offersRoutes'
 import purchaseOrderRoutes from './routes/purchaseOrderRoutes'
 import quotationRoutes from './routes/quotationRoutes'
 import schoolRoutes from './routes/schoolRoutes'
+import exportRoutes from './routes/exportRoutes'
+
 import syllabusRoutes from './routes/syllabusRoutes'
 import IntervenantRoutes from './routes/IntervenantRoutes'
 import morgan from 'morgan'
@@ -91,5 +93,6 @@ app.use('/api/purchase-orders', purchaseOrderRoutes)
 app.use('/api/quotations', quotationRoutes)
 app.use('/api/schools', schoolRoutes)
 app.use('/api/syllabus', syllabusRoutes)
+app.use('/api/administrative', exportRoutes)
 
 export { app };

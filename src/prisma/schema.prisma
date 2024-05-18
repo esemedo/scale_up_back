@@ -258,3 +258,10 @@ model Notification {
   createdAt DateTime @default(now())
   user User @relation(fields: [userId], references: [id])
 }
+
+model SheetRow {
+  id Int @id @default(autoincrement())
+  promo String
+  course String
+  listOfDate String[]
+}
