@@ -4,6 +4,6 @@ import { getSyllabus } from "../controllers/SyllabusController";
 
 const router = Router();
 
-router.get('/', getSyllabus);
+router.get("/", getSyllabus);
 
 export default router;

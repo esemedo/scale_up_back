@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../index";
-import { createNotif } from '../services/NotificationService';
-
+import { createNotif } from "../services/NotificationService";
 
 export const getNeeds = async (req: Request, res: Response) => {
   let needs = await prisma.need
@@ -25,7 +24,6 @@ export const updateNeedToDraft = async (req: Request, res: Response) => {
     PUBLISHED: 3,
     CANCELLED: 0,
   };
-
 
   try {
     const existingNeed = await prisma.need.findUnique({
@@ -65,7 +63,6 @@ export const updateNeedToPublished = async (req: Request, res: Response) => {
     PUBLISHED: 3,
     CANCELLED: 0,
   };
-
 
   try {
     const existingNeed = await prisma.need.findUnique({
@@ -179,13 +176,13 @@ export const createNeed = async (req: Request, res: Response) => {
       console.error("Error creating need:", error);
       res.status(500).json({ error: "Error creating need" });
     });
-    await createNotif({
-      userId: req.userId,
-      title: "Besoin créé", 
-      text: `Votre demande de besoin a été créée avec succès`,
-      category:1, 
-      status:0,
-      dueDate: new Date()
-    });
+  await createNotif({
+    userId: req.userId,
+    title: "Besoin créé",
+    text: `Votre demande de besoin a été créée avec succès`,
+    category: 1,
+    status: 0,
+    dueDate: new Date(),
+  });
   res.status(201).json(newNeed);
 };

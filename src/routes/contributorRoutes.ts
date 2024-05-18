@@ -4,6 +4,6 @@ import { getContributors } from "../controllers/ContributorController";
 
 const router = Router();
 
-router.get('/', getContributors);
+router.get("/", getContributors);
 
 export default router;

@@ -4,6 +4,6 @@ import { getSchools } from "../controllers/SchoolController";
 
 const router = Router();
 
-router.get('/', getSchools);
+router.get("/", getSchools);
 
 export default router;

@@ -4,6 +4,6 @@ import { getOffers } from "../controllers/OfferController";
 
 const router = Router();
 
-router.get('/', getOffers);
+router.get("/", getOffers);
 
 export default router;
