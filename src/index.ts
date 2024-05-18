@@ -19,10 +19,13 @@ import purchaseOrderRoutes from './routes/purchaseOrderRoutes'
 import quotationRoutes from './routes/quotationRoutes'
 import schoolRoutes from './routes/schoolRoutes'
 import syllabusRoutes from './routes/syllabusRoutes'
+import IntervenantRoutes from './routes/IntervenantRoutes'
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
+import KcAdminClient from '@keycloak/keycloak-admin-client'
 import { PrismaClient } from '@prisma/client'
 import { createUserIfNotExistsMiddleware } from './middlewares/createUserIfNotExistsMiddleware'
+import { Credentials } from '@keycloak/keycloak-admin-client/lib/utils/auth'
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -35,6 +38,28 @@ const kcConfig = {
   "confidential-port": 0,
   resource: process.env.KC_CLIENT_ID,
 };
+
+export const kcAdminClient = new KcAdminClient({
+  baseUrl: process.env.KC_URL,
+  realmName: process.env.KC_REALM
+})
+
+await kcAdminClient.auth({
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: 'client_credentials',
+  clientId: process.env.KC_CLIENT_ID
+})
+
+const kcAdminClientCredentials = {
+  username: process.env.KC_CLIENT_ID,
+  clientSecret: process.env.KC_CLIENT_SECRET,
+  grantType: 'client_credentials',
+  clientId: process.env.KC_CLIENT_ID
+} as Credentials
+await kcAdminClient.auth(kcAdminClientCredentials)
+
+setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000)
 
 export const keycloak = new Keycloak({}, kcConfig)
 
@@ -50,6 +75,7 @@ app.use(keycloak.middleware())
 app.use(createUserIfNotExistsMiddleware)
 
 app.use('/api/needs', needsRoutes)
+app.use('/api/company', IntervenantRoutes)
 app.use('/api/promotions', promotionRoutes)
 app.use('/api/subjects', subjectRoutes)
 app.use('/api/contributors', contributorRoutes)
