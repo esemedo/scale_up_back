@@ -2,7 +2,6 @@ import multer from "multer";
 
 import path from "path";
 
-// Définir le répertoire de stockage et le nom de fichier
 const storage = multer.diskStorage({
   destination: "uploads/",
   filename: (req, file, cb) => {
@@ -12,7 +11,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Créer un middleware multer
 export const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {

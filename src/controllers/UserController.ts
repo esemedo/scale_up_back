@@ -33,14 +33,12 @@ export const getUserContractsHandler = async (
   req: Request<ReadUserParams>,
   res: Response
 ) => {
-  // Récupérez l'ID de l'utilisateur de l'URL
   const params = req.params;
   const userId = Number(params.id);
 
   const contracts = await getContractsByUserId(userId);
 
   console.log(contracts);
-  // Renvoyez les informations de l'entreprise en réponse à la demande
   res.json(contracts);
 };
 
