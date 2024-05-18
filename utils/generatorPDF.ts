@@ -19,10 +19,10 @@ export const generatePDF = (data: ContractData): Promise<Buffer> => {
         resolve(pdfData);
       });
 
-      // doc.image("./EsieeITLogo.png", 50, 50, { width: 50 });
+      // doc.image("./EsieeITLogo.png", 50, 50, { width: 50 }); //TODO: resolve bug
 
       doc
-        .rect(50, 110, 500, 100)
+        .rect(50, 220, 500, 100)
         .strokeColor("black")
         .stroke()
         .fillColor("black")
@@ -47,11 +47,10 @@ export const generatePDF = (data: ContractData): Promise<Buffer> => {
 
       doc.fontSize(20).text("détails du contrat", 50, 300);
       doc
-        .fontSize(12)
-        .text(`hourly price: ${data.hourlyPrice}`, 50, 350)
-        .text(`hours volume: ${data.hoursVolume}`, 50, 375)
-        .text(`start date: ${data.startDate}`, 50, 400)
-        .text(`end date: ${data.endDate}`, 50, 425);
+        .text(`prix horaire : ${data.hourlyPrice}`, 50, 350)
+        .text(`volume horaire : ${data.hoursVolume}`, 50, 375)
+        .text(`date de début : ${data.startDate}`, 50, 400)
+        .text(`date de fin : ${data.endDate}`, 50, 425);
 
       doc.end();
     } catch (error) {
