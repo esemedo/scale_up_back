@@ -19,10 +19,13 @@ import purchaseOrderRoutes from './routes/purchaseOrderRoutes'
 import quotationRoutes from './routes/quotationRoutes'
 import schoolRoutes from './routes/schoolRoutes'
 import syllabusRoutes from './routes/syllabusRoutes'
+import IntervenantRoutes from './routes/IntervenantRoutes'
 import morgan from 'morgan'
 import Keycloak from 'keycloak-connect'
+import KcAdminClient from '@keycloak/keycloak-admin-client'
 import { PrismaClient } from '@prisma/client'
 import { createUserIfNotExistsMiddleware } from './middlewares/createUserIfNotExistsMiddleware'
+import { Credentials } from '@keycloak/keycloak-admin-client/lib/utils/auth'
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -72,6 +75,7 @@ app.use(keycloak.middleware())
 app.use(createUserIfNotExistsMiddleware)
 
 app.use('/api/needs', needsRoutes)
+app.use('/api/company', IntervenantRoutes)
 app.use('/api/promotions', promotionRoutes)
 app.use('/api/subjects', subjectRoutes)
 app.use('/api/contributors', contributorRoutes)
