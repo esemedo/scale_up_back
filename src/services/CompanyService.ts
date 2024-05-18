@@ -6,19 +6,23 @@ const readFields: Prisma.CompanyInclude = {
 };
 
 export async function readCompany(id: number) {
-  return await prisma.company.findUnique({
-    where: {
-      id,
-    },
-    include: readFields,
-  });
+  return await prisma.company
+    .findUnique({
+      where: {
+        id,
+      },
+      include: readFields,
+    })
+    .catch((err) => null);
 }
 
 export async function readUserCompany(userId: number) {
-  return await prisma.company.findFirst({
-    where: {
-      userId,
-    },
-    include: readFields,
-  });
+  return await prisma.company
+    .findFirst({
+      where: {
+        userId,
+      },
+      include: readFields,
+    })
+    .catch((err) => null);
 }
