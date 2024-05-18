@@ -1,4 +1,4 @@
-import { IParams } from "@/utils/params";
+import { IParams } from "../utils/params";
 import { z } from "zod";
 
 export const createExemptionBodySchema = z.object({
