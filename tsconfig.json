@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "ESNext",
     "target": "ESNext",
     "esModuleInterop": true,
@@ -12,10 +13,13 @@
     "allowJs": true,
     "lib": ["dom", "es6"],
     "baseUrl": "./src",
+    "paths": {
+      "@/*": ["./"]
+    },
     "jsx": "react"
   },
   "exclude": ["node_modules", "dist"],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "tests/**/*.spec.ts"],
+  "include": ["src//*.ts", "src//.d.ts", "tests/**/.spec.ts"],
   "ts-node": {
     "files": true,
     "esm": true
