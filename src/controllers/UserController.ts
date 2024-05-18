@@ -1,37 +1,44 @@
 import { Request, Response } from 'express'
 import { prisma } from '../index'
 import { kcAdminClient } from 'index';
-import { log } from 'console';
 
 export const getUsers = async (req: Request, res: Response) => {
-    let users = await prisma.user.findMany().catch((error) => {
-        console.error('Error fetching users:', error)
-        res.status(500).json({ error: 'Error fetching users' })
-    })
-    res.status(200).json(users)
-}
+  try {
+      let users = await prisma.user.findMany();
+      res.status(200).json(users);
+  } catch (error) {
+      console.error('Error fetching users:', error);
+      return res.status(500).json({ error: 'Error fetching users' });
+  }
+};
 
 
 export async function createUsersIfNotExists(usersData) {
-    const promises = usersData.map(async (userData) => {
-        const existingUser = await prisma.user.findFirst({
-          where: {
-            uuid: userData.id 
-          }
-        });
-        if (!existingUser) {
-          return prisma.user.create({
-            data: {
-              uuid: userData.id   
-            },
+  try {
+      const promises = usersData.map(async (userData) => {
+          const existingUser = await prisma.user.findFirst({
+              where: {
+                  uuid: userData.id 
+              }
           });
-        } else {
-          return existingUser;
-        }
+          if (!existingUser) {
+              return prisma.user.create({
+                  data: {
+                      uuid: userData.id   
+                  },
+              });
+          } else {
+              return existingUser;
+          }
       });
-    const users = await Promise.all(promises);
-    return users;
+      const users = await Promise.all(promises);
+      return users;
+  } catch (error) {
+      console.error('Error creating users:', error);
+      return [];
+  }
 }
+
 
 
 function mergeArrays(array1, array2) {
@@ -64,8 +71,6 @@ function mergeArrays(array1, array2) {
         res.status(200).json(usersObject)
   } catch (error) {
       res.status(500).json({ error: 'Can\'t get all assistants' });
-      console.log(error);
-      
-        
+      console.log(error); 
     }
 }

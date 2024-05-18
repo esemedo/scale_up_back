@@ -1,6 +1,6 @@
 import { body, param, query } from "express-validator";
 
-function validId(nameParams){
+function validateNumericIdParam(nameParams){
     return [param(nameParams).notEmpty().isNumeric().toInt()]
 } 
 
@@ -23,4 +23,4 @@ function validUpdateAbsence(){
 
 
 
-export {validId, validCreateAbsence,  validUpdateAbsence}
+export {validateNumericIdParam, validCreateAbsence,  validUpdateAbsence}

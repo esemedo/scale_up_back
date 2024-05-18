@@ -1,6 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import prisma from './PrismaClient';
 
-const prisma = new PrismaClient();
 
 export async function createAbsenceWithSubstitute(userId, startDate, endDate, reason, substituteUserId) {
   return prisma.absence.create({
