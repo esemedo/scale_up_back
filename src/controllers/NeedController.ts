@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../index";
+
 import { createNotif } from "../services/NotificationService";
 
 export const getNeeds = async (req: Request, res: Response) => {
@@ -173,11 +174,11 @@ export const createNeed = async (req: Request, res: Response) => {
       data: need,
     })
     .catch((error) => {
-      console.error("Error creating need:", error);
       res.status(500).json({ error: "Error creating need" });
     });
+
   await createNotif({
-    userId: req.userId,
+    userId: (req as any).userId,
     title: "Besoin créé",
     text: `Votre demande de besoin a été créée avec succès`,
     category: 1,

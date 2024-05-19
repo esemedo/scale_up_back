@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { prisma } from "../index";
+
 import {
   createAbsenceWithSubstitute,
   deleteAbsenceOfUser,
@@ -11,7 +13,7 @@ async function createAbsence(req: Request, res: Response) {
   const { startDate, endDate, reason, substitutUserId } = req.body;
   try {
     await createAbsenceWithSubstitute(
-      req.userId,
+      (req as any).userId,
       startDate,
       endDate,
       reason,
@@ -67,7 +69,7 @@ async function deleteAbsence(req: Request, res: Response) {
 }
 async function getAbsences(req: Request, res: Response) {
   try {
-    const absence = await getAbsencesOfUser(req.userId);
+    const absence = await getAbsencesOfUser((req as any).userId);
     res.status(201).json(absence);
   } catch (error) {
     res.status(500).json({ error: "Can't get all absence" });

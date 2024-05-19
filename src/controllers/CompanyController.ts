@@ -1,5 +1,39 @@
 import { Request, Response } from "express";
+
+import { readCompanyContributors } from "../services/ContributorService";
+import { readCompany } from "../services/CompanyService";
+import { ReadCompanyParams } from "../dto/companyDto";
+
 import { prisma } from "../index";
+
+export async function getCompany(
+  req: Request<ReadCompanyParams>,
+  res: Response
+) {
+  const params = req.params;
+  const companyId = Number(params.id);
+
+  try {
+    const company = await readCompany(companyId);
+
+    res.json(company);
+  } catch (error) {
+    console.error("Error fetching company:", error);
+    res.status(500).json({ error: "Error fetching company" });
+  }
+}
+
+export const getCompanyContributors = async (
+  req: Request<ReadCompanyParams>,
+  res: Response
+) => {
+  const params = req.params;
+  const companyId = Number(params.id);
+
+  const company = await readCompanyContributors(companyId);
+
+  res.json(company);
+};
 
 export const getCompanies = async (req: Request, res: Response) => {
   let companies = await prisma.company.findMany().catch((error) => {
@@ -7,17 +41,4 @@ export const getCompanies = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Error fetching companies" });
   });
   res.status(200).json(companies);
-};
-
-export const getCompany = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  let company = await prisma.company
-    .findUnique({
-      where: { id: parseInt(id) },
-    })
-    .catch((error) => {
-      console.error("Error fetching company:", error);
-      res.status(500).json({ error: "Error fetching company" });
-    });
-  res.status(200).json(company);
 };

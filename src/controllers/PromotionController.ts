@@ -2,13 +2,10 @@ import { Request, Response } from "express";
 import { prisma } from "../index";
 
 export const getPromotions = async (req: Request, res: Response) => {
-  try {
-    let promotions = await prisma.promotion.findMany();
-    res.status(200).json(promotions);
-  } catch (error) {
-    console.error("Error fetching promotions:", error);
-    return res.status(500).json({ error: "Error fetching promotions" });
-  }
+  let promotions = await prisma.promotion.findMany().catch((error) => {
+    res.status(500).json({ error: "Error fetching promotions" });
+  });
+  res.status(200).json(promotions);
 };
 
 export const getPromotionById = async (req: Request, res: Response) => {
@@ -26,7 +23,7 @@ export const getPromotionById = async (req: Request, res: Response) => {
   }
 };
 
-export const importPromotions = async (req, res) => {
+export const importPromotions = async (req: Request, res: Response) => {
   let data = req.body.data;
   let managerId = req.body.managerId;
 
@@ -41,9 +38,34 @@ export const importPromotions = async (req, res) => {
     res.status(400).json({ error: "Invalid JSON format" });
     return;
   }
+
+  const errors = [];
+  for (let row of data) {
+    try {
+      await prisma.promotion.create({
+        data: {
+          name: row.name,
+          startSchoolYear: parseInt(row.startSchoolYear),
+          endSchoolYear: parseInt(row.endSchoolYear),
+          managerId: parseInt(managerId),
+        },
+      });
+    } catch (error) {
+      errors.push({ row, error });
+    }
+  }
+
+  if (errors.length > 0) {
+    res.status(400).json({ message: "Some rows failed to import", errors });
+  } else {
+    res.status(200).json({ message: "Data imported successfully" });
+  }
 };
 
-export const getAssistantsForPromotion = async (req, res) => {
+export const getAssistantsForPromotion = async (
+  req: Request,
+  res: Response
+) => {
   try {
     const promotion = await prisma.promotion.findMany({
       include: { manager: true, assistant: true },
@@ -65,7 +87,7 @@ export const getAssistantsForPromotion = async (req, res) => {
   }
 };
 
-export const addAssistantToPromotion = async (req, res) => {
+export const addAssistantToPromotion = async (req: Request, res: Response) => {
   const { promotionId } = req.params;
   const { assistantId } = req.body;
 

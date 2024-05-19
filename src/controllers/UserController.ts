@@ -1,6 +1,69 @@
 import { Request, Response } from "express";
-import { kcAdminClient } from "index";
+
+import { getNotificationsByUserId } from "../services/NotificationService";
+import { readUserCompany } from "../services/CompanyService";
+import { getContractsByUserId } from "../services/ContractService";
+import { ReadUserParams } from "../dto/userDto";
+import { readDocuments } from "../services/DocumentService";
+import { ReadDocumentsQuery } from "../dto/documentDto";
+
 import { prisma } from "../index";
+
+import { kcAdminClient } from "index";
+
+export const getUserCompanyHandler = async (
+  req: Request<ReadUserParams>,
+  res: Response
+) => {
+  const params = req.params;
+  const userId = Number(params.id);
+
+  const company = await readUserCompany(userId);
+
+  res.json(company);
+};
+
+export const getUserNotifications = async (req: Request, res: Response) => {
+  const userId: string = req.params.id;
+
+  const notifications = await getNotificationsByUserId(Number(userId));
+
+  res.json(notifications);
+};
+
+export const getUserContractsHandler = async (
+  req: Request<ReadUserParams>,
+  res: Response
+) => {
+  const params = req.params;
+  const userId = Number(params.id);
+
+  const contracts = await getContractsByUserId(userId);
+
+  console.log(contracts);
+  res.json(contracts);
+};
+
+export const getUserDocumentsHandler = async (
+  req: Request<ReadUserParams, any, any, ReadDocumentsQuery>,
+  res: Response
+) => {
+  const params = req.params;
+  const userId = Number(params.id);
+
+  const query = req.query;
+  const year = Number(query.year) || undefined;
+  const type = query.type;
+
+  const documents = await readDocuments({
+    userId,
+    contributorId: null,
+    year,
+    type,
+  });
+
+  res.json(documents);
+};
 
 export const getUsers = async (req: Request, res: Response) => {
   try {
@@ -12,9 +75,9 @@ export const getUsers = async (req: Request, res: Response) => {
   }
 };
 
-export async function createUsersIfNotExists(usersData) {
+export async function createUsersIfNotExists(usersData: any) {
   try {
-    const promises = usersData.map(async (userData) => {
+    const promises = usersData.map(async (userData: any) => {
       const existingUser = await prisma.user.findFirst({
         where: {
           uuid: userData.id,
@@ -38,7 +101,7 @@ export async function createUsersIfNotExists(usersData) {
   }
 }
 
-function mergeArrays(array1, array2) {
+function mergeArrays(array1: any[], array2: any[]) {
   const uuidMap = array2.reduce((acc, obj) => {
     acc[obj.uuid] = obj.id;
     return acc;

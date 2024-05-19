@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { prisma } from "../index";
 
 export const getContracts = async (req: Request, res: Response) => {
