@@ -47,9 +47,12 @@ model Dei {
   status Int @default(0)
   sashaStatus Int @default(0)
   dueDate DateTime
-  priority Int
+  priority Int @default(1)
   purchaseOrder PurchaseOrder[]
   need Need @relation(fields: [idNeed], references: [id])
+  contract Contract? @relation(fields: [idContract], references: [id])
+  quotation Quotation? @relation(fields: [idQuotation], references: [id])
+
 }
 
 model Subject {
@@ -72,7 +75,6 @@ model Category {
 
 model Promotion {
   id Int @id @default(autoincrement())
-  name String
   startSchoolYear Int
   endSchoolYear Int
   Subject Subject[]
@@ -185,6 +187,7 @@ model Contract {
   endDate DateTime
   signatory User @relation(fields: [signatoryId], references: [id])
   bills Bill[]
+  dei Dei[]
 }
 
 model LegalFile {
@@ -226,8 +229,9 @@ model Quotation {
   contributor Contributor @relation(fields: [contributorId], references: [id])
   offer Offer @relation(fields: [offerId], references: [id])
   bills Bill[]
-  purchaseOrder PurchaseOrder[]
   date DateTime
+  dei Dei[]
+
 }
 
 model Dispensation {

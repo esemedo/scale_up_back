@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { createNotif } from "../services/NotificationService";
-import { getControllerGestion } from "./UserController";
-import { createPurchaseOrderAndUpdateDei } from "services/DeiServices";
-import { getInfoUserByUuid, getUserById } from "services/UserServices";
+import { getControllerGestion } from "../services/UserServices";
+import { createPurchaseOrderAndUpdateDei } from "../services/DeiServices";
+import { getInfoUserByUuid, getUserById } from "../services/UserServices";
 import { sendEmailUtils } from "utils/sendEmail";
 import {PurchaseOrderEmail} from "../../emails/templateMailPurchaseOrder"
 import { mergeArraysWithoutDuplicat } from "utils/mergeArrays";
@@ -39,21 +39,22 @@ const getAllDEI = async (req: Request, res: Response) => {
   }
       const parsedPriority = parseInt(String(priority))
       if (priority && !isNaN(parsedPriority)){
-        whereClauseSubstitut["priority"] = parsedPriority
-        whereClauseMain["priority"] = parsedPriority
+        whereClauseSubstitut["AND"].push({'priority':parsedPriority}) 
+        whereClauseMain["AND"].push({'priority':parsedPriority}) 
       }
         const mainTasks = await prisma.dei.findMany({
-          where: whereClauseMain, orderBy:[{dueDate: "asc"}],
+          where: whereClauseMain, orderBy:[{dueDate: "asc"},{priority: "asc"}],
           include:{purchaseOrder: true}
         });
       
         const substituteTasks = await prisma.dei.findMany({
-          where: whereClauseSubstitut, orderBy:[{dueDate: "asc"}],
+          where: whereClauseSubstitut, orderBy:[{dueDate: "asc"},{priority: "asc"}],
           include:{purchaseOrder: true}
         });
         const allTasks = mergeArraysWithoutDuplicat(mainTasks, substituteTasks)
         res.json(allTasks);
     } catch (error) {
+      
         res.status(500).json({ error: 'Impossible de récupérer les tâches.' });
     }
 };
@@ -84,7 +85,7 @@ const updateDei = async (req: Request, res: Response) => {
       const {sashaStatus, priority} = req.body
       let data = {}
       if(sashaStatus) data['sashaStatus'] = parseInt(sashaStatus)
-      if(priority) data['priority'] = parseInt(priority)
+      if(priority !== undefined) data['priority'] = parseInt(priority)
       if(parseInt(sashaStatus) === 3 && req.file){
           const {updatedDei} = await createPurchaseOrderAndUpdateDei(id, req.file.filename,data )
           const idIntervenant = updatedDei?.contract?.signatoryId
