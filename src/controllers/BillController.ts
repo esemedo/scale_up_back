@@ -37,6 +37,10 @@ export async function downloadBillHandler(req: Request, res: Response) {
     return res.status(404).json({ message: "Bill not found" });
   }
 
+  if (!bill.file) {
+    return res.status(404).json({ message: "File not found" });
+  }
+
   const filePath = path.join(bill.file);
 
   if (!fs.existsSync(filePath)) {
