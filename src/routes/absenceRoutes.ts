@@ -1,4 +1,4 @@
-import { validCreateAbsence, validateNumericIdParam, validUpdateAbsence } from '../middlewares/handleValidAbsence'
+import { validCreateAbsence, validateNumericIdParam, validUpdateAbsence } from 'middlewares/handleValidAbsence'
 import { createAbsence, deleteAbsence, getAbsences, updateSubstituteAbsence } from '../controllers/AbsenceController'
 import { Router } from 'express'
 import { handleValidationErrors } from 'middlewares/handleValidator'

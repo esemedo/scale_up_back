@@ -6,4 +6,5 @@ const router = Router();
 
 router.get('/', getPurchaseOrders);
 router.get("/files/:id", getFilesPurchaseOrder)
+router.get("/files/:id", getFilesPurchaseOrder)
 export default router;

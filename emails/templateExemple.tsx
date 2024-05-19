@@ -24,6 +24,9 @@ const baseUrl = process.env.VERCEL_URL
 export const RaycastMagicLinkEmail = ({
   magicLink,
 }: RaycastMagicLinkEmailProps) => (
+export const RaycastMagicLinkEmail = ({
+  magicLink,
+}: RaycastMagicLinkEmailProps) => (
   <Html>
     <Head />
     <Preview>Stack overflow tips for searching</Preview>
