@@ -4,6 +4,6 @@ import { getNotificationSettings } from "../controllers/NotificationSettingsCont
 
 const router = Router();
 
-router.get('/', getNotificationSettings);
+router.get("/", getNotificationSettings);
 
 export default router;

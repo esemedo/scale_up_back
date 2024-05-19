@@ -4,6 +4,6 @@ import { getQuotations } from "../controllers/QuotationController";
 
 const router = Router();
 
-router.get('/', getQuotations);
+router.get("/", getQuotations);
 
 export default router;

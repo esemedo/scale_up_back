@@ -1,5 +1,3 @@
-//https://demo.react.email/
-
 import {
   Body,
   Column,
@@ -16,7 +14,7 @@ import {
   Row,
 } from "@react-email/components";
 import * as React from "react";
-import * as style from "./templateStyle"
+import * as style from "./templateStyle";
 interface StackOverflowTipsEmailProps {
   tips?: { id: number; description: string }[];
 }
@@ -82,7 +80,7 @@ export const StackOverflowTipsEmail = ({
             Searching for solutions
           </Heading>
           <Text style={style.paragraph}>
-           {` With more than 18 million questions, it's possible that someone has
+            {` With more than 18 million questions, it's possible that someone has
             already provided a solution to the problem you're facing.{" "}`}
           </Text>
 
@@ -115,7 +113,10 @@ export const StackOverflowTipsEmail = ({
           </Heading>
 
           <Section style={style.buttonContainer}>
-            <Link style={style.button} href="https://stackoverflow.blog/2019/10/22/">
+            <Link
+              style={style.button}
+              href="https://stackoverflow.blog/2019/10/22/"
+            >
               I need a break
             </Link>
           </Section>

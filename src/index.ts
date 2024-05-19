@@ -35,6 +35,14 @@ import syllabusRoutes from "./routes/syllabusRoutes";
 import IntervenantRoutes from "./routes/IntervenantRoutes";
 import KcAdminClient from "@keycloak/keycloak-admin-client";
 import { Credentials } from "@keycloak/keycloak-admin-client/lib/utils/auth";
+dotenv.config();
+
+import absenceRoutes from "./routes/absenceRoutes";
+import { pdfRoutes } from "./routes/pdfRoutes";
+
+export const prisma = new PrismaClient();
+
+const app = express();
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -72,10 +80,6 @@ setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000);
 
 export const keycloak = new Keycloak({}, kcConfig);
 
-export const prisma = new PrismaClient();
-
-const app = express();
-
 // Middlewares
 app.use(helmet());
 app.use(cors());
@@ -98,12 +102,13 @@ router.use("/documents", documentRoutes);
 router.use("/bills", BillRoutes);
 
 app.use("/api/needs", needsRoutes);
-app.use("/api/company", IntervenantRoutes);
-app.use("/api/promotions", promotionRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/contributors", contributorRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api/promotions", keycloak.protect(), promotionRoutes);
+app.use("/api/company", IntervenantRoutes(keycloak));
+
+app.use("/api/users", keycloak.protect(), userRoutes);
 app.use("/api/dei", deiRoutes);
 app.use("/api/notification-settings", notificationSettingsRoutes);
 app.use("/api/dispensations", dispensationsRoutes);
@@ -115,9 +120,15 @@ app.use("/api/quotations", quotationRoutes);
 app.use("/api/schools", schoolRoutes);
 app.use("/api/syllabus", syllabusRoutes);
 
+app.use("/api/notif", notifRoutes);
+app.use("/api/absence", absenceRoutes);
+app.use("/api/company", companyRoutes);
+app.use("/api/subject", subjectRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/pdf", pdfRoutes);
+
 app.use("/api", router);
 
 // Error handler
 app.use(errorHandler());
-
 export { app };

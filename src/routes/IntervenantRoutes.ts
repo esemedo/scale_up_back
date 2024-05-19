@@ -1,11 +1,12 @@
 import { Router } from "express";
-import {keycloak} from "index";
-import authorizedUser from "../utils/accessByRole";
 import { getCompany } from "../controllers/IntervenantController";
+import authorizedUser from "../utils/accessByRole";
 
 const router = Router();
 
+const IntervenantRoutes = (keycloak) => {
+  router.get("/", keycloak.protect(authorizedUser), getCompany);
+  return router;
+};
 
-router.get("/", keycloak.protect( authorizedUser ), getCompany);
-
-export default router;
+export default IntervenantRoutes;

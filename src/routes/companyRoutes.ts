@@ -28,4 +28,6 @@ router.get(
 
 router.get("/", getCompanies);
 
+router.get("/:id", getCompany);
+
 export default router;

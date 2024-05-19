@@ -11,6 +11,8 @@ import { validateRequest } from "../middlewares/validationMiddleware";
 import { readUserParamsSchema } from "../dto/userDto";
 import { readDocumentsQuerySchema } from "../dto/documentDto";
 
+import { getAllAssistants } from "../controllers/UserController";
+
 const router = Router();
 
 router.get(
@@ -33,5 +35,7 @@ router.get(
 );
 
 router.get("/", getUsers);
+
+router.get("/assistants", getAllAssistants);
 
 export default router;

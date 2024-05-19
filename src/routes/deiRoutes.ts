@@ -4,6 +4,6 @@ import { getDeis } from "../controllers/DeiController";
 
 const router = Router();
 
-router.get('/', getDeis);
+router.get("/", getDeis);
 
 export default router;

@@ -38,14 +38,14 @@ model Absence {
 model Dei {
   id            Int             @id @default(autoincrement())
   idNeed        Int
-  idBill        Int
   hourlyPrice   Float
   totalPrice    Float
   status        Boolean
   sashaStatus   Int
+  dueDate       DateTime
+  priority      Int
   purchaseOrder PurchaseOrder[]
   need          Need            @relation(fields: [idNeed], references: [id])
-  bill          Bill            @relation(fields: [idBill], references: [id])
 }
 
 model Subject {
@@ -70,6 +70,7 @@ model Category {
 
 model Promotion {
   id              Int       @id @default(autoincrement())
+  name            String
   startSchoolYear Int
   endSchoolYear   Int
   Subject         Subject[]
@@ -163,15 +164,14 @@ model School {
 
 model Bill {
   id          Int        @id @default(autoincrement())
-  contractId  Int?
-  quotationId Int?
-  file        String
-  total       Float?
+  contractId  Int
+  quotationId Int
+  total       Float
   status      Int
   validity    Boolean
+  file        String?
   contract    Contract?  @relation(fields: [contractId], references: [id])
   quotation   Quotation? @relation(fields: [quotationId], references: [id])
-  dei         Dei[]
 }
 
 model Contract {
@@ -254,7 +254,7 @@ model PurchaseOrder {
 }
 
 model Notification {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id @unique @default(autoincrement())
   userId    Int
   title     String
   text      String
