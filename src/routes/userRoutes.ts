@@ -6,10 +6,10 @@ import {keycloak} from "../index";
 
 const router = Router();
 
-router.get('/', getUsers)
+router.get("/", keycloak.protect(), getUsers);
 
 router.post(
-    '/register',
+    '/',
     [
         body('firstName').isString().isLength({ min: 2, max: 50 }),
         body('lastName').isString().isLength({ min: 2, max: 50 }),
@@ -21,7 +21,6 @@ router.post(
     registerUser
 )
 
-router.get("/", keycloak.protect(), getUsers);
 router.get("/assistants", keycloak.protect(), getAllAssistants);
 
 export default router;
