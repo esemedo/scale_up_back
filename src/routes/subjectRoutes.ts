@@ -6,8 +6,8 @@ import {
   getAllSubjects,
   getSubjectsByCategoryId,
   getSubjectsById,
-  updateSubject,
   importSubject,
+  updateSubject,
 } from "../controllers/SubjectController";
 import { handleValidationErrors } from "../middlewares/handleValidator";
 
@@ -15,7 +15,7 @@ const router = Router();
 
 router.get("/", getAllSubjects);
 
-router.post('/upload', importSubject)
+router.post("/upload", importSubject);
 
 router.post(
   "/",

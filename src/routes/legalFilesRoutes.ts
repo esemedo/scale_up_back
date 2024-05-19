@@ -4,6 +4,6 @@ import { getLegalFiles } from "../controllers/LegalFileController";
 
 const router = Router();
 
-router.get('/', getLegalFiles);
+router.get("/", getLegalFiles);
 
 export default router;
