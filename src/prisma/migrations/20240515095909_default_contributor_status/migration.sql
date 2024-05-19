@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Contributor" ALTER COLUMN "status" SET DEFAULT 0,
-ALTER COLUMN "image" DROP NOT NULL;
