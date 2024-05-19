@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { kcAdminClient, prisma } from 'index';
+import { prisma } from 'index';
 
 export const getCompany = async (req: Request, res: Response) => {
   const company = await prisma.company.findMany({
