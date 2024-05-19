@@ -168,20 +168,21 @@ export const importSubject = async (req, res) => {
     return;
   }
 
-  const errors = [];
-  for (let row of data) {
-    try {
-      await prisma.subject.create({
+  const promises = data.map((row) => {
+    return prisma.subject
+      .create({
         data: {
           name: row.name,
           level: row.level,
           categoryId: parseInt(categoryId),
         },
-      });
-    } catch (error) {
-      errors.push({ row, error });
-    }
-  }
+      })
+      .catch((error) => ({ row, error }));
+  });
+
+  const results = await Promise.all(promises);
+
+  const errors = results.filter((result) => result.error);
 
   if (errors.length > 0) {
     res.status(400).json({ message: "Some rows failed to import", errors });

@@ -2,10 +2,14 @@ dotenv.config();
 
 import KcAdminClient from "@keycloak/keycloak-admin-client";
 import { Credentials } from "@keycloak/keycloak-admin-client/lib/utils/auth";
+import { PrismaClient } from "@prisma/client";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import helmet from "helmet";
+import Keycloak from "keycloak-connect";
+import morgan from "morgan";
+import { createUserIfNotExistsMiddleware } from "./middlewares/createUserIfNotExistsMiddleware";
 import absenceRoutes from "./routes/absenceRoutes";
 import billRoutes from "./routes/billRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
@@ -20,7 +24,6 @@ import needsRoutes from "./routes/needsRoutes";
 import notificationSettingsRoutes from "./routes/notificationSettingsRoutes";
 import notifRoutes from "./routes/notifRoutes";
 import offersRoutes from "./routes/offersRoutes";
-// import { helloRoutes } from "./routes/helloRoutes";
 import { pdfRoutes } from "./routes/pdfRoutes";
 import promotionRoutes from "./routes/promotionRoutes";
 import purchaseOrderRoutes from "./routes/purchaseOrderRoutes";
@@ -29,12 +32,10 @@ import schoolRoutes from "./routes/schoolRoutes";
 import subjectRoutes from "./routes/subjectRoutes";
 import syllabusRoutes from "./routes/syllabusRoutes";
 import userRoutes from "./routes/userRoutes";
-dotenv.config();
 
-import { PrismaClient } from "@prisma/client";
-import Keycloak from "keycloak-connect";
-import morgan from "morgan";
-import { createUserIfNotExistsMiddleware } from "./middlewares/createUserIfNotExistsMiddleware";
+export const prisma = new PrismaClient();
+
+const app = express();
 
 const kcConfig = {
   clientId: process.env.KC_CLIENT_ID,
@@ -72,10 +73,6 @@ setInterval(() => kcAdminClient.auth(kcAdminClientCredentials), 58 * 1000);
 
 export const keycloak = new Keycloak({}, kcConfig);
 
-export const prisma = new PrismaClient();
-
-const app = express();
-
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
@@ -85,8 +82,9 @@ app.use(createUserIfNotExistsMiddleware);
 
 app.use("/api/needs", needsRoutes);
 app.use("/api/promotions", keycloak.protect(), promotionRoutes);
-app.use("/api/company", IntervenantRoutes);
+app.use("/api/company", IntervenantRoutes(keycloak));
 app.use("/api/subjects", subjectRoutes);
+
 app.use("/api/contributors", contributorRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/users", keycloak.protect(), userRoutes);
@@ -104,7 +102,6 @@ app.use("/api/bills", billRoutes);
 app.use("/api/notif", notifRoutes);
 app.use("/api/absence", absenceRoutes);
 app.use("/api/company", companyRoutes);
-// app.use("/api", helloRoutes);
 app.use("/api/subject", subjectRoutes);
 app.use("/api/category", categoryRoutes);
 app.use("/api/pdf", pdfRoutes);

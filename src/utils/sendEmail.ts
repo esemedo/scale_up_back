@@ -11,10 +11,14 @@ export async function sendEmailUtils(
     string | React.JSXElementConstructor<any>
   >
 ) {
+  if (!process.env.EMAIL_ADDRESS) {
+    throw new Error("EMAIL_ADDRESS is not defined in the .env file");
+  }
+
   const emailHtml = render(emailComponent);
 
   const { data, error } = await resend.emails.send({
-    from: "contact@exploitation.cloud",
+    from: process.env.EMAIL_ADDRESS,
     to: [receiver],
     subject: subject,
     html: emailHtml,
