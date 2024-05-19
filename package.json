@@ -36,7 +36,7 @@
     "papaparse": "^5.4.1",
     "pdfkit": "^0.15.0",
     "pdfmake": "^0.2.10",
-    "react-email": "^2.1.2",
+    "react-email": "2.1.2",
     "read-excel-file": "^5.8.1",
     "resend": "^3.2.0",
     "ws": "^8.16.0"
