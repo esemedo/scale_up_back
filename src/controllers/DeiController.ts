@@ -99,7 +99,7 @@ const updateDei = async (req: Request, res: Response) => {
               dueDate: updatedDei?.dueDate
             });
           const user = await getUserById(idIntervenant)
-          const email = (await getInfoUserByUuid(user.uuid)).email
+          const email = (await getInfoUserByUuid(user.uuid))?.email
           
           if(email){
             sendEmailUtils(email, "Bon de commande retourné", PurchaseOrderEmail({ idDei: updatedDei
