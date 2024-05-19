@@ -1,9 +1,10 @@
 import { Router } from "express";
 
-import { getPurchaseOrders } from "../controllers/PurchaseOrderController";
+import { getFilesPurchaseOrder, getPurchaseOrders } from "../controllers/PurchaseOrderController";
 
 const router = Router();
 
-router.get("/", getPurchaseOrders);
-
+router.get('/', getPurchaseOrders);
+router.get("/files/:id", getFilesPurchaseOrder)
+router.get("/files/:id", getFilesPurchaseOrder)
 export default router;

@@ -1,6 +1,5 @@
 import {
   Body,
-  Column,
   Container,
   Head,
   Heading,
@@ -11,7 +10,6 @@ import {
   Preview,
   Section,
   Text,
-  Row,
 } from "@react-email/components";
 import * as React from "react";
 import * as style from "./templateStyle";
@@ -23,29 +21,12 @@ const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "";
 
-const PropDefaults: StackOverflowTipsEmailProps = {
-  tips: [
-    {
-      id: 1,
-      description:
-        'To find a specific phrase, enter it in quotes: "local storage"',
-    },
-    {
-      id: 1,
-      description:
-        "To search within specific tag(s), enter them in square brackets: [javascript]",
-    },
-    {
-      id: 1,
-      description:
-        'Combine them to get even more precise results - [javascript] "local storage" searches for the phrase “local storage” in questions that have the [javascript] tag',
-    },
-  ],
-};
-
-export const StackOverflowTipsEmail = ({
-  tips = [],
-}: StackOverflowTipsEmailProps) => (
+export const RaycastMagicLinkEmail = ({
+  magicLink,
+}: RaycastMagicLinkEmailProps) => (
+export const RaycastMagicLinkEmail = ({
+  magicLink,
+}: RaycastMagicLinkEmailProps) => (
   <Html>
     <Head />
     <Preview>Stack overflow tips for searching</Preview>
@@ -83,27 +64,8 @@ export const StackOverflowTipsEmail = ({
             {` With more than 18 million questions, it's possible that someone has
             already provided a solution to the problem you're facing.{" "}`}
           </Text>
-
-          <Hr style={style.divider} />
-
-          <Heading as="h2" style={style.title}>
-            Use the search bar at the top of the page to find what you need
-          </Heading>
-          <Text style={style.paragraph}>
-            Here are a few simple search tips to get you started:
-          </Text>
-          <ul>
-            {tips.map((tip) => (
-              <li key={tip.id}>
-                <Text style={style.paragraph}>{tip.description}</Text>
-              </li>
-            ))}
-          </ul>
-
-          <Text style={style.paragraph}>
-            The more information you can put in the search bar, the more likely
-            you will be to either find the answer you need or feel confident
-            that no one else has asked the question before.
+          <Text style={paragraph}>
+            If you didn't request this, please ignore this email.
           </Text>
 
           <Hr style={style.divider} />
@@ -121,36 +83,26 @@ export const StackOverflowTipsEmail = ({
             </Link>
           </Section>
         </Section>
+        <Text style={paragraph}>
+          Best,
+          <br />- Raycast Team
+        </Text>
+        <Hr style={hr} />
+        <Img
+          src={`${baseUrl}/static/raycast-logo.png`}
+          width={32}
+          height={32}
+          style={{
+            WebkitFilter: "grayscale(100%)",
+            filter: "grayscale(100%)",
+            margin: "20px 0",
+          }}
+        />
+        <Text style={footer}>Raycast Technologies Inc.</Text>
+        <Text style={footer}>
+          2093 Philadelphia Pike #3222, Claymont, DE 19703
+        </Text>
       </Container>
-
-      <Section style={style.footer}>
-        <Text style={style.footerText}>
-          {`You're receiving this email because your Stack Overflow activity
-          triggered this tip or reminder.`}
-        </Text>
-
-        <Link href="/" style={style.footerLink}>
-          Unsubscribe from emails like this{" "}
-        </Link>
-        <Link href="/" style={style.footerLink}>
-          Edit email settings{" "}
-        </Link>
-        <Link href="/" style={style.footerLink}>
-          Contact us
-        </Link>
-        <Link href="/" style={style.footerLink}>
-          Privacy
-        </Link>
-
-        <Hr style={style.footerDivider} />
-
-        <Img width={111} src={`${baseUrl}/static/stack-overflow-logo-sm.png`} />
-        <Text style={style.footerAddress}>
-          <strong>Stack Overflow</strong>, 110 William Street, 28th Floor, New
-          York, NY 10038
-        </Text>
-        <Text style={style.footerHeart}>{"<3"}</Text>
-      </Section>
     </Body>
   </Html>
 );
