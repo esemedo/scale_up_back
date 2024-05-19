@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { body } from 'express-validator'
 import { getUsers, registerUser, getAllAssistants } from '../controllers/UserController'
 import { USER_ROLES } from '../utils/userConst'
-import {keycloak} from "../index";
+import {keycloak} from "utils/keycloakClients";
 
 const router = Router();
 

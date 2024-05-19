@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { kcAdminClient, prisma} from "index";
+import { prisma} from "index";
+import { kcAdminClient } from "utils/keycloakClients";
 import { body, matchedData, validationResult } from 'express-validator'
 import { SPEAKER_COMPANY_ROLE } from '../utils/userConst'
 
