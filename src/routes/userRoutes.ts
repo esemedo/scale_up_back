@@ -1,9 +1,8 @@
 import { Router } from 'express'
 import { body } from 'express-validator'
-import { getUsers, registerUser } from '../controllers/UserController'
+import { getUsers, registerUser, getAllAssistants } from '../controllers/UserController'
 import { USER_ROLES } from '../utils/userConst'
-
-import { getUsers, getAllAssistants } from "../controllers/UserController";
+import {keycloak} from "../index";
 
 const router = Router();
 
@@ -22,7 +21,7 @@ router.post(
     registerUser
 )
 
-router.get("/", getUsers);
-router.get("/assistants", getAllAssistants);
+router.get("/", keycloak.protect(), getUsers);
+router.get("/assistants", keycloak.protect(), getAllAssistants);
 
 export default router;

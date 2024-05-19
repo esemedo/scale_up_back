@@ -82,7 +82,7 @@ app.use("/api/subjects", subjectRoutes);
 
 app.use("/api/contributors", contributorRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/api/users", keycloak.protect(), userRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/dei", deiRoutes);
 app.use("/api/notification-settings", notificationSettingsRoutes);
 app.use("/api/dispensations", dispensationsRoutes);
