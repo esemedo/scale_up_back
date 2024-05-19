@@ -15,9 +15,9 @@ async function createAbsence(req: Request, res: Response) {
         status:0,
         dueDate: new Date()
       });
-      res.status(201).json({message: "Absence created !"});
+      res.status(201).json({message: "Absence crée !"});
     } catch (error) {
-      res.status(500).json({ error: 'Unable to create absence' });
+      res.status(500).json({ error: 'Impossible de créer une absence.'  });
     }
   }
 
@@ -36,9 +36,9 @@ async function updateSubstituteAbsence(req: Request, res: Response) {
         status:0,
         dueDate: new Date()
       });
-      res.status(200).json({message: "Absence updated !"});
+      res.status(200).json({message: "Absence mis à jour !"});
     } catch (error) {
-      res.status(500).json({ error: 'Unable to update absence' });
+      res.status(500).json({ error:'Impossible de mettre à jour l\'absence.'  });
     }
   }
 
@@ -48,9 +48,9 @@ async function deleteAbsence(req: Request, res: Response) {
       const parsedId = parseInt(id)
       
       await deleteAbsenceOfUser(parsedId)
-      res.status(200).json({message: "Absence deleted !"});
+      res.status(200).json({message: "Absence supprimée !"});
     } catch (error) {
-      res.status(500).json({ error: 'Unable to delete absence' });
+      res.status(500).json({ error: 'Impossible de supprimer l\'absence.' });
     }
   }
 async function getAbsences(req: Request, res: Response) {
@@ -58,7 +58,7 @@ async function getAbsences(req: Request, res: Response) {
       const absence =await getAbsencesOfUser(req.userId)
       res.status(201).json(absence);
     } catch (error) {
-      res.status(500).json({ error: 'Can\'t get all absence' });
+      res.status(500).json({ error: "Impossible de récupérer toutes les absences."  });
     }
   }
 
