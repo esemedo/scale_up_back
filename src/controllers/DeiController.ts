@@ -6,7 +6,9 @@ import { createPurchaseOrderAndUpdateDei } from "services/DeiServices";
 import { getInfoUserByUuid, getUserById } from "services/UserServices";
 import { sendEmailUtils } from "utils/sendEmail";
 import {PurchaseOrderEmail} from "../../emails/templateMailPurchaseOrder"
+import { mergeArraysWithoutDuplicat } from "utils/mergeArrays";
 const prisma = new PrismaClient();
+
 
 const getAllDEI = async (req: Request, res: Response) => {
     try {
@@ -49,11 +51,10 @@ const getAllDEI = async (req: Request, res: Response) => {
           where: whereClauseSubstitut, orderBy:[{dueDate: "asc"}],
           include:{purchaseOrder: true}
         });
-      
-        const allTasks = [...mainTasks, ...substituteTasks];
+        const allTasks = mergeArraysWithoutDuplicat(mainTasks, substituteTasks)
         res.json(allTasks);
     } catch (error) {
-        res.status(500).json({ error: 'Could not retrieve DEI entries' });
+        res.status(500).json({ error: 'Impossible de récupérer les tâches.' });
     }
 };
 
@@ -63,17 +64,17 @@ const updateStatusDEI = async (req: Request, res: Response) => {
         const {status} = req.body
         await prisma.dei.update({
             where: {
-              id: id,
+              id: parseInt(id),
             },
             data: {
               status: status,
             },
           })
           
-        res.json({message: "Task updated !"});
+        res.json({message: "La tâche a été mis à jour !"});
 
     } catch (error) {
-        res.status(500).json({ error: 'Could not update DEI status ' });
+        res.status(500).json({ error: 'Impossible de mettre à jour le statut de la tâche.' });
     }
 };
 
@@ -84,7 +85,6 @@ const updateDei = async (req: Request, res: Response) => {
       let data = {}
       if(sashaStatus) data['sashaStatus'] = parseInt(sashaStatus)
       if(priority) data['priority'] = parseInt(priority)
-      
       if(parseInt(sashaStatus) === 3 && req.file){
           const {updatedDei} = await createPurchaseOrderAndUpdateDei(id, req.file.filename,data )
           const idIntervenant = updatedDei?.contract?.signatoryId
@@ -92,7 +92,7 @@ const updateDei = async (req: Request, res: Response) => {
           await createNotif({
               userId: idIntervenant,
               title: "Bon de commande retourné", 
-              text: "Vous pouvez dès à présent consulter votre bon de commande. Le lien vous a été envoyé par mail.",
+              text: "Vous pouvez dès à présent consulter votre bon de commande. Le lien pour y accéder vous a été envoyé par mail.",
               category:1, 
               status:updatedDei.status,
               dueDate: updatedDei?.dueDate
@@ -127,9 +127,9 @@ const updateDei = async (req: Request, res: Response) => {
         }))
       return res.json({message: "Tâche envoyé au controleur de gestion !"});
       }
-      res.json({message: "Statut SACHA mis à jour !"});
+      res.json({message: "La tâche a été mis à jour !"});
   } catch (error) {
-      res.status(500).json({ error: 'Could not update SACHA status ' });
+      res.status(500).json({ error: 'Impossible de mettre à jour le statut de la tâche. ' });
   }
 };
 
