@@ -35,17 +35,19 @@ model Absence {
   substituteUserId Int?
 }
 
+
+
 model Dei {
   id Int @id @default(autoincrement())
   idNeed Int
-  idBill Int
   hourlyPrice Float
   totalPrice Float
   status Boolean
   sashaStatus Int
+  dueDate DateTime
+  priority Int
   purchaseOrder PurchaseOrder[]
   need Need @relation(fields: [idNeed], references: [id])
-  bill Bill @relation(fields: [idBill], references: [id])
 }
 
 model Subject {
@@ -68,6 +70,7 @@ model Category {
 
 model Promotion {
   id Int @id @default(autoincrement())
+  name String
   startSchoolYear Int
   endSchoolYear Int
   Subject Subject[]
@@ -76,7 +79,10 @@ model Promotion {
   manager User @relation(fields: [managerId], references: [id])
   assistantId Int?
   assistant User? @relation("assistant",fields: [assistantId], references: [id])
-} 
+}
+
+
+
 
 
 model Company {
@@ -165,7 +171,6 @@ model Bill {
   validity Boolean
   contract Contract? @relation(fields: [contractId], references: [id])
   quotation Quotation? @relation(fields: [quotationId], references: [id])
-  dei Dei[]
 }
 
 model Contract {
@@ -248,7 +253,7 @@ model PurchaseOrder{
 }
 
 model Notification {
-  id Int @id @default(autoincrement())
+  id Int @id @unique @default(autoincrement())
   userId Int
   title String
   text String
