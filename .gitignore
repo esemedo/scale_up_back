@@ -178,4 +178,5 @@ package-lock.json
 dist/
 
 #migrations
+/src/prisma/migrations/
 /src/prisma/migrations/*
